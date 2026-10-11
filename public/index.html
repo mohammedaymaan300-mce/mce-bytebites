@@ -6,22 +6,11 @@
     <title>BYTEBITES - Malnad College Canteen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        tailwind.config = { darkMode: 'class' }
-    </script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
     <style>
-        #splash-screen {
-            background: #fbf9f4;
-            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
-        }
-        .splash-hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        @keyframes pulse-logo {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
-        }
+        #splash-screen { background: #fbf9f4; transition: opacity 0.8s ease-out, visibility 0.8s ease-out; }
+        .splash-hidden { opacity: 0; visibility: hidden; }
+        @keyframes pulse-logo { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
         .animate-brand { animation: pulse-logo 2.5s infinite ease-in-out; }
     </style>
 </head>
@@ -35,7 +24,7 @@
                 <p class="text-xs font-bold tracking-[0.2em] text-neutral-600 dark:text-amber-400 uppercase">Malnad College of Engineering Presents</p>
                 <div class="relative w-44 h-44 mx-auto rounded-full bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-300 p-1 shadow-2xl flex items-center justify-center">
                     <div class="w-full h-full bg-[#0a1128] rounded-full flex flex-col items-center justify-center p-4 relative overflow-hidden border-2 border-amber-400/40">
-                        <i class="fa-solid fa-burger text-5xl text-amber-400 mb-2 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]"></i>
+                        <i class="fa-solid fa-burger text-5xl text-amber-400 mb-2"></i>
                         <span class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 font-serif">BYTEBITES</span>
                         <span class="text-[9px] uppercase tracking-widest text-amber-100/90 font-medium mt-0.5">co-powered by<br>Malnad College Canteen</span>
                     </div>
@@ -59,10 +48,10 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2.5">
-                <!-- Status Tracker Button -->
-                <button type="button" id="status-nav-btn" onclick="openStatusTracker()" class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs relative transition" style="display: none;">
-                    <i class="fa-solid fa-bell"></i>
-                    <span id="status-dot" class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" style="display:none;"></span>
+                <!-- Status Tracking Button -->
+                <button type="button" id="status-nav-btn" onclick="openStatusModal()" class="relative w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs transition" style="display: none;">
+                    <i class="fa-solid fa-bell animate-bounce"></i>
+                    <span id="status-dot" class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-neutral-900"></span>
                 </button>
                 <!-- Theme Toggle -->
                 <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
@@ -94,11 +83,11 @@
                 <form id="form-login" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold mb-1">USN / Email / Phone</label>
-                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold mb-1">Password</label>
-                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                     <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Secure Login</button>
                 </form>
@@ -141,11 +130,10 @@
                         <span id="badge-cart-count">0</span>
                     </button>
                 </div>
-
                 <div id="menu-grid" class="grid grid-cols-1 gap-3.5"></div>
             </div>
 
-            <!-- 3. CART & CHECKOUT SCREEN -->
+            <!-- 3. CART SCREEN -->
             <div id="view-cart" class="p-4 space-y-4" style="display: none;">
                 <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
                     <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-amber-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
@@ -153,14 +141,8 @@
                 </div>
                 <div id="cart-items-list" class="space-y-3"></div>
                 <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-3 border border-neutral-200/50 dark:border-neutral-700">
-                    <div class="flex justify-between text-sm">
-                        <span>Subtotal</span>
-                        <span id="cart-subtotal" class="font-bold">₹0</span>
-                    </div>
-                    <div class="flex justify-between text-sm border-t pt-2 dark:border-neutral-700 font-extrabold text-base">
-                        <span>Total Payable</span>
-                        <span id="cart-total" class="text-amber-500">₹0</span>
-                    </div>
+                    <div class="flex justify-between text-sm"><span>Subtotal</span><span id="cart-subtotal" class="font-bold">₹0</span></div>
+                    <div class="flex justify-between text-sm border-t pt-2 dark:border-neutral-700 font-extrabold text-base"><span>Total Payable</span><span id="cart-total" class="text-amber-500">₹0</span></div>
                     <div>
                         <label class="block text-xs font-semibold mb-1">Select Payment Method</label>
                         <select id="payment-mode" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
@@ -172,43 +154,30 @@
                 </div>
             </div>
 
-            <!-- 4. PROCESSING SCREEN -->
+            <!-- 4. 7-SECOND PROCESSING SCREEN -->
             <div id="view-processing" class="p-6 text-center space-y-6 my-auto" style="display: none;">
                 <div class="w-24 h-24 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                 </div>
                 <div class="space-y-2">
                     <h2 class="text-2xl font-black">Processing Order...</h2>
-                    <p class="text-xs text-neutral-400 max-w-xs mx-auto">Confirming order. You can cancel within <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds.</p>
+                    <p class="text-xs text-neutral-400 max-w-xs mx-auto">Confirming with kitchen. Cancel within <span id="countdown-timer" class="font-bold text-amber-500">7</span>s if needed.</p>
                 </div>
                 <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1.5" id="processing-summary"></div>
                 <button type="button" onclick="cancelProcessing()" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition">Cancel Order</button>
             </div>
 
-            <!-- 5. INVOICE SCREEN -->
+            <!-- 5. INVOICE DISPLAY SCREEN -->
             <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
                 <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <div>
                     <h2 class="text-xl font-bold">Order Confirmed!</h2>
-                    <p class="text-xs text-neutral-400">Order ID: <span id="inv-order-id" class="font-bold text-amber-500"></span></p>
+                    <p class="text-xs text-neutral-400">Downloading Official MCE Invoice...</p>
                 </div>
-
-                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs flex items-center justify-center space-x-2">
-                    <i class="fa-solid fa-file-arrow-down animate-bounce text-base"></i>
-                    <span>Official Invoice Downloaded Automatically!</span>
-                </div>
-
-                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700" id="invoice-details-box"></div>
-
-                <div class="space-y-2">
-                    <button type="button" onclick="downloadFormattedInvoice(pendingOrder)" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Re-Download Invoice</span>
-                    </button>
-                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
-                </div>
+                <div id="invoice-render-box" class="scale-95 origin-top"></div>
+                <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
             </div>
 
         </main>
@@ -225,15 +194,14 @@
             </button>
         </div>
 
-        <!-- Live Order Status Tracker Modal -->
+        <!-- Live Order Status Modal -->
         <div id="status-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
-            <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
+            <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
-                    <h3 class="font-bold text-base"><i class="fa-solid fa-fire-burner text-amber-500 mr-2"></i> Active Order Progress</h3>
-                    <button type="button" onclick="closeStatusTracker()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
+                    <h3 class="font-bold text-base"><i class="fa-solid fa-fire text-amber-500 mr-2"></i> Live Kitchen Status</h3>
+                    <button type="button" onclick="closeStatusModal()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-
-                <div id="active-status-container" class="space-y-4"></div>
+                <div id="active-order-status-card" class="space-y-4"></div>
             </div>
         </div>
 
@@ -244,14 +212,16 @@
                     <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings</h3>
                     <button type="button" onclick="closeSettings()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-
                 <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-1 text-xs">
                     <p class="font-bold text-sm" id="set-profile-name">-</p>
                     <p class="text-neutral-400" id="set-profile-meta">-</p>
                     <p class="text-neutral-400" id="set-profile-contact">-</p>
                 </div>
-
-                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 dark:bg-red-600/20 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400">Order History</h4>
+                    <div id="settings-order-history" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+                </div>
+                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
             </div>
         </div>
 
@@ -6371,22 +6341,19 @@
 
         const menu = [
             { id: 1, name: "The Ultimate ByteBite Burger", price: 350, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&auto=format&fit=crop&q=80" },
-            { id: 2, name: "Crispy Peri-Peri Fries", price: 120, img: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=400&auto=format&fit=crop&q=80" },
+            { id: 2, name: "Crispy Peri-Peri Fries", price: 120, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&auto=format&fit=crop&q=80" },
             { id: 3, name: "Classic Cold Coffee", price: 90, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&auto=format&fit=crop&q=80" },
-            { id: 4, name: "Extra Cheese Slice", price: 30, img: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=400&auto=format&fit=crop&q=80" }
+            { id: 4, name: "Extra Cheese Slice", price: 30, img: "https://images.unsplash.com/photo-1552767059-ce182ead8c1b?w=400&auto=format&fit=crop&q=80" }
         ];
 
         let cartMap = {};
         let activeUser = null;
         let pendingOrder = null;
         let countdownInterval = null;
-        let statusPollInterval = null;
+        let pollInterval = null;
 
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.classList.add('splash-hidden');
-            }, 5000);
+            setTimeout(() => { document.getElementById('splash-screen').classList.add('splash-hidden'); }, 5000);
 
             const saved = localStorage.getItem('mce_permanent_user');
             if (saved) {
@@ -6408,23 +6375,16 @@
                     document.getElementById('af-branch').innerText = found.branch;
                     document.getElementById('af-sec').innerText = found.sec;
                     box.style.display = 'block';
-                } else {
-                    box.style.display = 'none';
-                }
+                } else { box.style.display = 'none'; }
             };
 
             document.getElementById('form-signup').onsubmit = (e) => {
                 e.preventDefault();
                 const usn = document.getElementById('su-usn').value.trim().toUpperCase();
                 const found = students.find(s => s.usn.toUpperCase() === usn);
-                if (!found) return alert("USN not found in official records!");
+                if (!found) return alert("USN not found in Malnad official records!");
 
-                const newUser = {
-                    ...found,
-                    phone: document.getElementById('su-phone').value,
-                    email: document.getElementById('su-email').value,
-                    pass: document.getElementById('su-pass').value
-                };
+                const newUser = { ...found, phone: document.getElementById('su-phone').value, email: document.getElementById('su-email').value, pass: document.getElementById('su-pass').value };
                 localStorage.setItem('usr_' + usn, JSON.stringify(newUser));
                 activeUser = newUser;
                 localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
@@ -6435,26 +6395,19 @@
                 e.preventDefault();
                 const id = document.getElementById('login-id').value.trim().toUpperCase();
                 const pass = document.getElementById('login-pass').value;
-
                 let matched = null;
                 for (let i = 0; i < localStorage.length; i++) {
                     let key = localStorage.key(i);
                     if (key.startsWith('usr_')) {
                         let u = JSON.parse(localStorage.getItem(key));
-                        if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
-                            matched = u;
-                            break;
-                        }
+                        if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) { matched = u; break; }
                     }
                 }
-
                 if (matched) {
                     activeUser = matched;
                     localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
                     startAppSession();
-                } else {
-                    alert("Invalid credentials!");
-                }
+                } else { alert("Invalid credentials!"); }
             };
         });
 
@@ -6475,8 +6428,6 @@
         function switchAuth(type) {
             document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
             document.getElementById('form-signup').style.display = type === 'signup' ? 'block' : 'none';
-            document.getElementById('tab-login').className = type === 'login' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
-            document.getElementById('tab-signup').className = type === 'signup' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
         }
 
         function startAppSession() {
@@ -6485,17 +6436,14 @@
             document.getElementById('status-nav-btn').style.display = 'flex';
             navigate('menu');
             renderMenu();
-
-            clearInterval(statusPollInterval);
-            statusPollInterval = setInterval(checkLiveOrderStatuses, 3000);
-            checkLiveOrderStatuses();
+            startKitchenPolling();
         }
 
         function logoutUser() {
             activeUser = null;
             localStorage.removeItem('mce_permanent_user');
+            clearInterval(pollInterval);
             closeSettings();
-            clearInterval(statusPollInterval);
             document.getElementById('floating-cart-bar').style.display = 'none';
             document.getElementById('settings-nav-btn').style.display = 'none';
             document.getElementById('status-nav-btn').style.display = 'none';
@@ -6506,14 +6454,8 @@
         function navigate(viewName) {
             ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById('view-' + viewName).style.display = 'block';
-            
-            if (viewName === 'menu') {
-                renderMenu();
-                checkCartBar();
-            } else if (viewName === 'cart') {
-                renderCartView();
-                document.getElementById('floating-cart-bar').style.display = 'none';
-            }
+            if (viewName === 'menu') { renderMenu(); checkCartBar(); }
+            else if (viewName === 'cart') { renderCartView(); document.getElementById('floating-cart-bar').style.display = 'none'; }
         }
 
         function renderMenu() {
@@ -6546,30 +6488,30 @@
             checkCartBar();
         }
 
-        function getCartGroupedItems() {
+        function getCartItemsArray() {
             let list = [];
             for (let id in cartMap) {
                 let m = menu.find(x => x.id == id);
-                if (m) list.push({ ...m, qty: cartMap[id] });
+                if (m) {
+                    for (let i = 0; i < cartMap[id]; i++) list.push({ name: m.name, price: m.price });
+                }
             }
             return list;
         }
 
         function checkCartBar() {
-            const list = getCartGroupedItems();
+            const list = getCartItemsArray();
             const bar = document.getElementById('floating-cart-bar');
             if (list.length > 0) {
                 bar.style.display = 'flex';
-                let total = list.reduce((s, i) => s + (i.price * i.qty), 0);
+                let total = list.reduce((s, i) => s + i.price, 0);
                 document.getElementById('bottom-cart-total').innerText = '₹' + total;
-                document.getElementById('badge-cart-count').innerText = list.reduce((s, i) => s + i.qty, 0);
-            } else {
-                bar.style.display = 'none';
-            }
+                document.getElementById('badge-cart-count').innerText = list.length;
+            } else { bar.style.display = 'none'; }
         }
 
         function renderCartView() {
-            const list = getCartGroupedItems();
+            const list = getCartItemsArray();
             const container = document.getElementById('cart-items-list');
             if (list.length === 0) {
                 container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-6">Your cart is empty.</p>`;
@@ -6577,48 +6519,39 @@
                 document.getElementById('cart-total').innerText = '₹0';
                 return;
             }
-
-            let subtotal = list.reduce((s, i) => s + (i.price * i.qty), 0);
-            container.innerHTML = list.map(item => `
+            let subtotal = list.reduce((s, i) => s + i.price, 0);
+            container.innerHTML = list.map((item) => `
                 <div class="flex justify-between items-center bg-neutral-50 dark:bg-neutral-800 p-3 rounded-xl text-xs">
-                    <div>
-                        <p class="font-bold">${item.name}</p>
-                        <p class="text-neutral-400">Qty: ${item.qty} x ₹${item.price}</p>
-                    </div>
-                    <span class="font-bold text-amber-500">₹${item.price * item.qty}</span>
+                    <span>${item.name}</span>
+                    <span class="font-bold text-amber-500">₹${item.price}</span>
                 </div>
             `).join('');
-
             document.getElementById('cart-subtotal').innerText = '₹' + subtotal;
             document.getElementById('cart-total').innerText = '₹' + subtotal;
         }
 
         function startCheckoutProcess() {
-            const list = getCartGroupedItems();
+            const list = getCartItemsArray();
             if (list.length === 0) return alert("Cart is empty!");
 
             pendingOrder = {
-                id: 'BB-' + Math.floor(1000 + Math.random() * 9000),
+                id: 'BB-' + Math.floor(1000 + Math.random() * 9000) + '-01',
                 studentName: activeUser.name,
                 usn: activeUser.usn,
-                branch: activeUser.branch,
                 sec: activeUser.sec,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: list,
-                total: list.reduce((s, i) => s + (i.price * i.qty), 0),
+                total: list.reduce((s, i) => s + i.price, 0),
                 payment: document.getElementById('payment-mode').value,
-                statusStage: 1
+                statusStage: 0 // 0 = Placed, 1 = Preparing, 2 = Ready
             };
 
             navigate('processing');
-            
             let secondsLeft = 7;
             document.getElementById('countdown-timer').innerText = secondsLeft;
-            
             document.getElementById('processing-summary').innerHTML = `
-                <p><strong>Order ID:</strong> ${pendingOrder.id}</p>
-                <p><strong>Total Amount:</strong> ₹${pendingOrder.total}</p>
-                <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
+                <p><strong>Order No:</strong> ${pendingOrder.id}</p>
+                <p><strong>Total:</strong> ₹${pendingOrder.total}</p>
             `;
 
             clearInterval(countdownInterval);
@@ -6636,7 +6569,7 @@
             clearInterval(countdownInterval);
             pendingOrder = null;
             navigate('cart');
-            alert("Order cancelled successfully.");
+            alert("Order cancelled.");
         }
 
         async function finalizeAndPushOrder() {
@@ -6646,176 +6579,133 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(pendingOrder)
                 });
-            } catch (e) {
-                console.error("Local sync fallback");
-            }
+            } catch (e) { console.error("Sync error", e); }
 
-            // Automatic Invoice Download Trigger
-            downloadFormattedInvoice(pendingOrder);
-
-            document.getElementById('inv-order-id').innerText = pendingOrder.id;
-            document.getElementById('invoice-details-box').innerHTML = `
-                <p><strong>Name:</strong> ${pendingOrder.studentName}</p>
-                <p><strong>USN:</strong> ${pendingOrder.usn} (Sec ${pendingOrder.sec})</p>
-                <p><strong>Time:</strong> ${pendingOrder.time}</p>
-                <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
-                <div class="border-t pt-2 mt-2 space-y-1">
-                    ${pendingOrder.items.map(i => `<div class="flex justify-between"><span>${i.name} (x${i.qty})</span><span>₹${i.price * i.qty}</span></div>`).join('')}
-                </div>
-                <div class="border-t pt-2 font-bold flex justify-between text-amber-500 text-sm">
-                    <span>Grand Total:</span>
-                    <span>₹${pendingOrder.total}</span>
-                </div>
-            `;
-
+            renderInvoiceBox(pendingOrder);
+            autoDownloadInvoice(pendingOrder);
             cartMap = {};
             navigate('invoice');
-            checkLiveOrderStatuses();
         }
 
-        function downloadFormattedInvoice(ord) {
-            if (!ord) return;
-            const subtotal = ord.total;
-            const cgst = (subtotal * 0.025).toFixed(2);
-            const sgst = (subtotal * 0.025).toFixed(2);
-            const grandTotal = (subtotal + parseFloat(cgst) + parseFloat(sgst)).toFixed(2);
+        function renderInvoiceBox(ord) {
+            const subtotal = ord.items.reduce((s, i) => s + i.price, 0);
+            const cgst = subtotal * 0.025;
+            const sgst = subtotal * 0.025;
+            const grandTotal = subtotal + cgst + sgst;
 
-            const itemsRows = ord.items.map(i => `
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${i.name}</td>
-                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: center;">${i.qty}</td>
-                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: right;">${i.price.toFixed(2)}</td>
-                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: right;">${(i.price * i.qty).toFixed(2)}</td>
-                </tr>
-            `).join('');
+            // Group item quantities
+            const grouped = {};
+            ord.items.forEach(i => {
+                if(!grouped[i.name]) grouped[i.name] = { qty: 0, price: i.price };
+                grouped[i.name].qty++;
+            });
 
-            const htmlContent = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>BYTEBITES Invoice - ${ord.id}</title>
-    <style>
-        body { font-family: 'Times New Roman', serif; background: #fdfbf7; padding: 30px; color: #1e293b; }
-        .card { max-width: 600px; margin: 0 auto; background: #fff8f0; border: 12px double #d97706; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .title { text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 2px; color: #0f172a; margin-bottom: 5px; }
-        .subtitle { text-align: center; font-size: 14px; color: #d97706; margin-bottom: 20px; }
-        .logo-box { text-align: center; margin-bottom: 15px; }
-        .bill-title { text-align: center; font-size: 22px; font-weight: bold; margin: 15px 0; border-top: 2px solid #d97706; border-bottom: 2px solid #d97706; padding: 5px 0; }
-        .info-table { width: 100%; margin-bottom: 20px; font-size: 14px; }
-        .items-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
-        .items-table th { background: #fef3c7; padding: 10px; text-align: left; border-bottom: 2px solid #d97706; }
-        .totals-box { text-align: right; font-size: 14px; line-height: 1.8; }
-        .grand-total { font-size: 18px; font-weight: bold; color: #b45309; margin-top: 10px; border-top: 2px solid #d97706; padding-top: 5px; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <div class="title">MALNAD COLLEGE OF ENGINEERING</div>
-        <div class="subtitle">PRESENTS</div>
-        <div class="logo-box">
-            <h1 style="font-size: 32px; color: #b45309; margin: 0;">BYTEBITES</h1>
-        </div>
-        <div class="bill-title">INVOICE / BILL</div>
-        <table class="info-table">
-            <tr><td><strong>Name:</strong> ${ord.studentName}</td></tr>
-            <tr><td><strong>Order No:</strong> ${ord.id}</td></tr>
-            <tr><td><strong>USN Number:</strong> ${ord.usn}</td></tr>
-            <tr><td><strong>Section:</strong> ${ord.sec} (${ord.branch})</td></tr>
-        </table>
-        <table class="items-table">
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th style="text-align: center;">Qty</th>
-                    <th style="text-align: right;">Price (INR)</th>
-                    <th style="text-align: right;">Amount (INR)</th>
-                </tr>
-            </thead>
-            <tbody>${itemsRows}</tbody>
-        </table>
-        <div class="totals-box">
-            <div>Subtotal: ${subtotal.toFixed(2)} INR</div>
-            <div>CGST (2.5%): ${cgst} INR</div>
-            <div>SGST (2.5%): ${sgst} INR</div>
-            <div class="grand-total">Grand Total: ${grandTotal} INR</div>
-        </div>
-    </div>
-</body>
-</html>`;
+            let itemRows = '';
+            for(let name in grouped) {
+                const item = grouped[name];
+                itemRows += `
+                <tr class="border-b border-amber-900/10">
+                    <td class="py-1 text-left font-semibold">${name}</td>
+                    <td class="py-1 text-center">${item.qty}</td>
+                    <td class="py-1 text-right">${item.price.toFixed(2)}</td>
+                    <td class="py-1 text-right font-bold">${(item.qty * item.price).toFixed(2)}</td>
+                </tr>`;
+            }
 
-            const blob = new Blob([htmlContent], { type: 'text/html' });
+            document.getElementById('invoice-render-box').innerHTML = `
+            <div class="bg-[#fbf9f4] text-neutral-900 p-5 rounded-2xl border-4 border-amber-800/30 shadow-2xl font-serif text-xs space-y-3">
+                <div class="text-center space-y-1">
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-amber-900">MALNAD COLLEGE OF ENGINEERING PRESENTS</p>
+                    <div class="w-16 h-16 bg-[#0a1128] rounded-full mx-auto flex items-center justify-center border border-amber-400">
+                        <i class="fa-solid fa-burger text-amber-400 text-2xl"></i>
+                    </div>
+                    <h2 class="text-xl font-black tracking-wider text-amber-900">BYTEBITES</h2>
+                    <p class="text-xs font-bold border-y border-amber-900/30 py-1 tracking-widest text-amber-800">INVOICE / BILL</p>
+                </div>
+                <div class="text-left text-[11px] space-y-0.5">
+                    <p><strong>Name:</strong> ${ord.studentName}</p>
+                    <p><strong>Order No:</strong> ${ord.id}</p>
+                    <p><strong>USN Number:</strong> ${ord.usn}</p>
+                    <p><strong>Section:</strong> ${ord.sec}</p>
+                </div>
+                <table class="w-full text-[10px]">
+                    <thead>
+                        <tr class="border-b-2 border-amber-900/40 text-amber-900">
+                            <th class="text-left py-1">Item Name</th>
+                            <th class="text-center py-1">Qty</th>
+                            <th class="text-right py-1">Price (INR)</th>
+                            <th class="text-right py-1">Amount (INR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemRows}</tbody>
+                </table>
+                <div class="border-t border-amber-900/40 pt-2 text-right text-[11px] space-y-1">
+                    <div class="flex justify-between"><span>Subtotal:</span><span>${subtotal.toFixed(2)} INR</span></div>
+                    <div class="flex justify-between text-neutral-600"><span>CGST (2.5%):</span><span>${cgst.toFixed(2)} INR</span></div>
+                    <div class="flex justify-between text-neutral-600"><span>SGST (2.5%):</span><span>${sgst.toFixed(2)} INR</span></div>
+                    <div class="flex justify-between font-extrabold text-sm text-amber-950 border-t border-amber-900/40 pt-1">
+                        <span>Grand Total:</span>
+                        <span>${grandTotal.toFixed(2)} INR</span>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        function autoDownloadInvoice(ord) {
+            const invoiceHTML = document.getElementById('invoice-render-box').innerHTML;
+            const fullDoc = `<!DOCTYPE html><html><head><title>Invoice_${ord.id}</title><script src="https://cdn.tailwindcss.com"></script></head><body class="p-8 flex justify-center bg-gray-200">${invoiceHTML}</body></html>`;
+            const blob = new Blob([fullDoc], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `BYTEBITES_Invoice_${ord.id}.html`;
+            a.download = `BYTEBITES_INVOICE_${ord.id}.html`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
         }
 
-        async function checkLiveOrderStatuses() {
-            if (!activeUser) return;
-            try {
-                const res = await fetch('/api/orders');
-                const allOrders = await res.json();
-                const myOrders = allOrders.filter(o => o.usn === activeUser.usn);
-
-                const dot = document.getElementById('status-dot');
-                const hasActive = myOrders.some(o => o.statusStage === 1 || o.statusStage === 2);
-                dot.style.display = hasActive ? 'block' : 'none';
-
-                const container = document.getElementById('active-status-container');
-                if (myOrders.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-4">No recent active orders.</p>`;
-                    return;
-                }
-
-                container.innerHTML = myOrders.map(o => {
-                    let statusBadge = '';
-                    if (o.statusStage === 1) {
-                        statusBadge = `<span class="px-3 py-1 bg-amber-500/10 text-amber-500 font-bold rounded-lg text-xs flex items-center space-x-1"><i class="fa-solid fa-clock"></i><span>Order Received</span></span>`;
-                    } else if (o.statusStage === 2) {
-                        statusBadge = `<span class="px-3 py-1 bg-blue-500/10 text-blue-500 font-bold rounded-lg text-xs flex items-center space-x-1 animate-pulse"><i class="fa-solid fa-fire-burner"></i><span>Preparing Order...</span></span>`;
-                    } else if (o.statusStage === 3) {
-                        statusBadge = `<span class="px-3 py-1 bg-green-500/10 text-green-500 font-bold rounded-lg text-xs flex items-center space-x-1"><i class="fa-solid fa-circle-check"></i><span>Ready for Pickup!</span></span>`;
+        function startKitchenPolling() {
+            clearInterval(pollInterval);
+            pollInterval = setInterval(async () => {
+                if(!activeUser) return;
+                try {
+                    const res = await fetch('/api/orders');
+                    const orders = await res.json();
+                    const myOrders = orders.filter(o => o.usn === activeUser.usn);
+                    if(myOrders.length > 0) {
+                        const latest = myOrders[0];
+                        updateStatusCardUI(latest);
                     }
-
-                    return `
-                    <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl space-y-3 border border-neutral-200/50 dark:border-neutral-700">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-bold text-sm text-amber-500">${o.id}</p>
-                                <p class="text-[10px] text-neutral-400">${o.time} • ₹${o.total}</p>
-                            </div>
-                            ${statusBadge}
-                        </div>
-                        <div class="border-t pt-2 dark:border-neutral-700 text-xs text-neutral-400">
-                            ${o.items.map(i => `<div>• ${i.name} (x${i.qty})</div>`).join('')}
-                        </div>
-                    </div>`;
-                }).join('');
-            } catch (e) {
-                console.error("Error fetching live status updates", e);
-            }
+                } catch(e) {}
+            }, 3000);
         }
 
-        function openStatusTracker() {
-            checkLiveOrderStatuses();
-            document.getElementById('status-modal').style.display = 'flex';
+        function updateStatusCardUI(ord) {
+            const box = document.getElementById('active-order-status-card');
+            let stageText = "Order Placed";
+            let color = "text-blue-500";
+            if (ord.statusStage === 1) { stageText = "Preparing in Kitchen 🔥"; color = "text-amber-500 animate-pulse"; }
+            else if (ord.statusStage === 2) { stageText = "Ready for Pickup! 🎉"; color = "text-green-500 font-black"; }
+
+            box.innerHTML = `
+                <div class="p-4 bg-neutral-100 dark:bg-neutral-800 rounded-2xl space-y-2">
+                    <div class="flex justify-between text-xs">
+                        <span class="font-bold">${ord.id}</span>
+                        <span class="${color} font-extrabold">${stageText}</span>
+                    </div>
+                    <p class="text-[11px] text-neutral-400">Total: ₹${ord.total} | ${ord.items.length} items</p>
+                </div>`;
         }
 
-        function closeStatusTracker() {
-            document.getElementById('status-modal').style.display = 'none';
-        }
-
+        function openStatusModal() { document.getElementById('status-modal').style.display = 'flex'; }
+        function closeStatusModal() { document.getElementById('status-modal').style.display = 'none'; }
         function openSettings() {
             document.getElementById('set-profile-name').innerText = activeUser.name;
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
             document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
             document.getElementById('settings-modal').style.display = 'flex';
         }
-
-        function closeSettings() {
-            document.getElementById('settings-modal').style.display = 'none';
-        }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
