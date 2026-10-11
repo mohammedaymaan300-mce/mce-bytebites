@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -11,11 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        gold: {
-                            400: '#f1c40f',
-                            500: '#d4af37',
-                            600: '#aa7c11',
-                        }
+                        gold: { 400: '#f1c40f', 500: '#d4af37', 600: '#b8860b' },
+                        royal: '#0B132B'
                     }
                 }
             }
@@ -23,283 +20,249 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        #splash-screen {
-            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
-        }
-        .splash-hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        @keyframes float-badge {
-            0%, 100% { transform: translateY(0); filter: drop-shadow(0 15px 25px rgba(212, 175, 55, 0.25)); }
-            50% { transform: translateY(-8px); filter: drop-shadow(0 25px 35px rgba(212, 175, 55, 0.45)); }
-        }
-        .poster-badge {
-            animation: float-badge 3s ease-in-out infinite;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
+        .dark .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
+        .gold-border { border: 2px solid #d4af37; }
+        .gold-gradient { background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%); }
+        .gold-text { background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #b38728 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @keyframes fadeOut { 0% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        .animate-splash { animation: fadeOut 5s forwards; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-neutral-950 text-gray-900 dark:text-gray-100 font-sans min-h-screen flex justify-center items-center select-none antialiased">
+<body class="bg-gray-100 dark:bg-slate-950 text-gray-900 dark:text-gray-100 min-h-screen flex justify-center items-center">
 
-    <!-- Mobile Viewport Wrapper -->
-    <div class="w-full max-w-md min-h-screen bg-white dark:bg-neutral-900 shadow-2xl flex flex-col relative overflow-hidden">
+    <!-- Mobile Screen Wrapper Container -->
+    <div class="w-full max-w-md h-screen md:h-[92vh] md:rounded-3xl bg-white dark:bg-slate-900 shadow-2xl overflow-hidden relative flex flex-col border border-gray-200 dark:border-slate-800">
 
-        <!-- Splash Screen Intro Overlay (Matches Uploaded Poster Design) -->
-        <div id="splash-screen" class="fixed inset-0 z-50 bg-[#0b0c10] flex flex-col items-center justify-between p-8 text-center text-white">
-            <div class="pt-8 space-y-1">
-                <p class="text-xs uppercase tracking-[0.25em] text-amber-200/80 font-serif">MALNAD COLLEGE OF ENGINEERING</p>
-                <p class="text-xs uppercase tracking-[0.35em] text-amber-400 font-extrabold font-serif">PRESENTS</p>
+        <!-- 1. Luxurious 5-Second Splash Screen Overlay -->
+        <div id="splash-screen" class="fixed inset-0 z-50 bg-[#0a0f1d] text-white flex flex-col items-center justify-between p-8 text-center animate-splash max-w-md mx-auto">
+            <div class="pt-6 space-y-1">
+                <p class="text-xs uppercase tracking-[0.25em] font-serif text-amber-300/80">MALNAD COLLEGE OF ENGINEERING</p>
+                <p class="text-[10px] uppercase tracking-[0.4em] font-light text-amber-200/60">PRESENTS</p>
             </div>
 
-            <!-- Emblem Badge -->
-            <div class="relative w-56 h-56 rounded-full border-4 border-amber-500/60 bg-gradient-to-b from-slate-900 to-black flex flex-col items-center justify-center p-4 shadow-2xl poster-badge">
-                <div class="text-6xl text-amber-400 mb-2">
-                    <i class="fa-solid fa-burger"></i>
+            <!-- Graphic Burger Crest -->
+            <div class="relative my-auto">
+                <div class="w-48 h-48 rounded-full border-2 border-amber-400/40 flex items-center justify-center p-3 relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
+                    <div class="w-full h-full rounded-full border border-amber-500/30 flex flex-col items-center justify-center bg-[#070b14]">
+                        <i class="fa-solid fa-burger text-6xl text-amber-400 drop-shadow-[0_4px_10px_rgba(212,175,55,0.5)]"></i>
+                    </div>
                 </div>
-                <h1 class="text-3xl font-black tracking-wider text-amber-400 font-serif border-t border-b border-amber-500/40 py-1 w-full">BYTEBITES</h1>
-                <p class="text-[9px] uppercase tracking-wider text-amber-200/90 mt-2">co-powered by</p>
-                <p class="text-[10px] font-bold uppercase tracking-widest text-amber-400">MALNAD COLLEGE CANTEEN</p>
+                <div class="mt-6 space-y-0.5">
+                    <h1 class="text-4xl font-black tracking-wider gold-text uppercase">BYTEBITES</h1>
+                    <p class="text-[10px] text-amber-200/80 font-medium tracking-wide">co-powered by MALNAD COLLEGE CANTEEN</p>
+                </div>
             </div>
 
-            <!-- Loader Progress -->
-            <div class="pb-8 w-full space-y-3">
-                <div class="w-32 h-1 bg-amber-950 rounded-full mx-auto overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-amber-500 to-yellow-300 animate-pulse w-full"></div>
-                </div>
-                <p class="text-xs text-amber-200/60 font-mono">Initializing Gourmet Portal...</p>
+            <div class="pb-6 flex items-center space-x-2 text-amber-400 text-xs">
+                <i class="fa-solid fa-circle-notch animate-spin"></i>
+                <span class="tracking-widest uppercase text-[10px]">Loading Gourmet Suite...</span>
             </div>
         </div>
 
-        <!-- Global Header -->
-        <header class="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-b border-gray-200 dark:border-neutral-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-            <div class="flex flex-col cursor-pointer" onclick="navigateTo('menu')">
-                <h1 class="text-xl font-black tracking-tight text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-burger text-lg"></i> BYTEBITES
-                </h1>
-                <span class="text-[9px] text-gray-500 dark:text-neutral-400 tracking-wider font-semibold uppercase -mt-1">
-                    co-powered by <strong class="text-amber-600 dark:text-amber-400">MALNAD COLLEGE CANTEEN</strong>
-                </span>
+        <!-- Header Bar (Always Visible) -->
+        <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 px-4 py-3 flex justify-between items-center sticky top-0 z-30">
+            <div>
+                <h1 class="text-lg font-black tracking-tight text-orange-600 dark:text-amber-400 leading-tight">BYTEBITES</h1>
+                <p class="text-[9px] font-semibold text-gray-500 dark:text-gray-400 tracking-tight">co-powered by MALNAD COLLEGE CANTEEN</p>
             </div>
-
-            <div class="flex items-center space-x-2">
-                <!-- Moon/Sun Theme Toggle -->
-                <button type="button" onclick="toggleTheme()" class="p-2 rounded-full text-amber-600 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-neutral-800 transition" title="Toggle Dark/Light Mode">
-                    <i id="theme-icon" class="fa-solid fa-sun text-lg"></i>
+            
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle Button -->
+                <button type="button" onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-amber-400 hover:opacity-80 text-base">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
                 </button>
                 
-                <!-- Cart Icon (Logged-in) -->
-                <button id="header-cart-btn" type="button" onclick="navigateTo('cart')" class="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 relative transition" style="display: none;">
-                    <i class="fa-solid fa-bag-shopping text-lg"></i>
-                    <span id="cart-badge" class="absolute top-0 right-0 bg-amber-500 text-black font-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white dark:border-neutral-900" style="display: none;">0</span>
+                <!-- Cart Header Icon -->
+                <button type="button" onclick="openCartPage()" class="relative p-2 text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-cart-shopping text-base"></i>
+                    <span id="header-cart-badge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                 </button>
 
-                <!-- Settings Gear Icon (Logged-in) -->
-                <button id="header-settings-btn" type="button" onclick="openSettingsModal()" class="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 transition" style="display: none;">
-                    <i class="fa-solid fa-gear text-lg"></i>
+                <!-- Settings Gear Icon -->
+                <button type="button" onclick="toggleSettings()" class="p-2 text-gray-700 dark:text-gray-200">
+                    <i class="fa-solid fa-gear text-base"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Main Body Area -->
-        <main class="flex-1 overflow-y-auto pb-24">
+        <!-- Main Scrollable App Canvas -->
+        <div class="flex-1 overflow-y-auto relative pb-20">
 
-            <!-- Auth Container (Login / Signup) -->
-            <div id="auth-container" class="p-6 space-y-6">
-                <div class="text-center space-y-2 pt-4">
-                    <div class="w-16 h-16 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-center justify-center mx-auto text-amber-500 text-3xl">
+            <!-- Auth Section -->
+            <div id="view-auth" class="p-6 space-y-6 my-auto min-h-[80vh] flex flex-col justify-center">
+                <div class="text-center space-y-1">
+                    <div class="w-16 h-16 bg-orange-500/10 dark:bg-amber-400/10 text-orange-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-orange-500/20">
                         <i class="fa-solid fa-burger"></i>
                     </div>
-                    <h2 class="text-2xl font-bold tracking-tight">Welcome Student</h2>
-                    <p class="text-xs text-gray-500 dark:text-neutral-400">Sign in to access Malnad College Canteen</p>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-white pt-2">Student Access</h2>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Sign in once for permanent access</p>
                 </div>
 
-                <div class="flex bg-gray-100 dark:bg-neutral-800 p-1 rounded-xl">
-                    <button type="button" id="tab-login-btn" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow text-amber-600 dark:text-amber-400">Login</button>
-                    <button type="button" id="tab-signup-btn" onclick="switchAuthTab('signup')" class="flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 dark:text-neutral-400">Register</button>
+                <div id="auth-tabs" class="flex bg-gray-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
+                    <button type="button" id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm">Login</button>
+                    <button type="button" id="tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400">Sign Up</button>
                 </div>
 
                 <!-- Login Form -->
-                <form id="login-form" class="space-y-4">
+                <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">USN / Email / Phone</label>
-                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">USN / Email / Phone</label>
+                        <input type="text" id="login-id" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">Password</label>
-                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Password</label>
+                        <input type="password" id="login-pass" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 outline-none">
                     </div>
-                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-sm rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition">Login to Portal</button>
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:opacity-90 transition">Login to Portal</button>
                 </form>
 
                 <!-- Signup Form -->
-                <form id="signup-form" class="space-y-4" style="display: none;">
+                <form id="form-signup" onsubmit="handleSignup(event)" class="space-y-3 hidden">
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">College USN</label>
-                        <input type="text" id="signup-usn" placeholder="e.g. MCE26CS058K13" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm uppercase focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">College USN</label>
+                        <input type="text" id="signup-usn" placeholder="e.g., MCE26CS058K13" oninput="autofillStudentDetails()" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
                     </div>
-                    <div id="autofill-box" class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs space-y-1" style="display: none;">
-                        <p><strong>Name:</strong> <span id="af-name" class="text-amber-600 dark:text-amber-400">-</span></p>
-                        <p><strong>Branch / Sec:</strong> <span id="af-meta" class="text-amber-600 dark:text-amber-400">-</span></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">Phone Number</label>
-                        <input type="tel" id="signup-phone" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    <div id="autofill-card" class="bg-orange-50 dark:bg-slate-800/60 p-3 rounded-xl text-xs space-y-1 hidden border border-orange-200 dark:border-slate-700">
+                        <p class="font-bold text-orange-800 dark:text-amber-400" id="af-name"></p>
+                        <p class="text-gray-600 dark:text-gray-300" id="af-meta"></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">Email Address</label>
-                        <input type="email" id="signup-email" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Phone Number</label>
+                        <input type="tel" id="signup-phone" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 dark:text-neutral-400 mb-1">Create Password</label>
-                        <input type="password" id="signup-pass" required class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Email</label>
+                        <input type="email" id="signup-email" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
                     </div>
-                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold text-sm rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition">Register & Continue</button>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Create Password</label>
+                        <input type="password" id="signup-pass" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:opacity-90 transition">Register & Enter Directly</button>
                 </form>
             </div>
 
-            <!-- Menu Screen -->
-            <div id="view-menu" class="p-4 space-y-4" style="display: none;">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-black text-lg tracking-tight">Gourmet Canteen Menu</h3>
-                    <span class="text-xs text-amber-600 dark:text-amber-400 font-bold bg-amber-500/10 px-2.5 py-1 rounded-full">Fresh Today</span>
+            <!-- Menu Interface Page -->
+            <div id="view-menu" class="p-4 space-y-4 hidden">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-base font-bold text-gray-800 dark:text-white">Gourmet Canteen Menu</h2>
+                    <span class="text-xs bg-orange-100 dark:bg-slate-800 text-orange-600 dark:text-amber-400 font-bold px-2.5 py-1 rounded-full">Live Kitchen</span>
                 </div>
-                <div id="menu-cards-list" class="space-y-3"></div>
+
+                <div id="menu-grid" class="space-y-3"></div>
             </div>
 
-            <!-- Cart Screen -->
-            <div id="view-cart" class="p-4 space-y-4" style="display: none;">
-                <div class="flex items-center justify-between border-b dark:border-neutral-800 pb-3">
-                    <h3 class="font-black text-lg tracking-tight"><i class="fa-solid fa-bag-shopping text-amber-500"></i> Your Selected Items</h3>
-                    <button type="button" onclick="navigateTo('menu')" class="text-xs text-amber-500 font-bold">Add More</button>
-                </div>
-                <div id="cart-list-items" class="space-y-3"></div>
-                
-                <!-- Payment Method -->
-                <div class="bg-gray-50 dark:bg-neutral-800/60 p-4 rounded-2xl border border-gray-200 dark:border-neutral-800 space-y-3">
-                    <label class="block text-xs font-bold uppercase text-gray-500 dark:text-neutral-400">Payment Option</label>
-                    <select id="payment-choice" class="w-full p-3 rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
-                        <option value="Online UPI / QR Code">Online UPI / QR Code</option>
-                        <option value="Cash at Counter">Cash at Counter</option>
-                    </select>
+            <!-- Dedicated Cart View Page -->
+            <div id="view-cart" class="p-4 space-y-4 hidden">
+                <div class="flex items-center space-x-3 border-b dark:border-slate-800 pb-3">
+                    <button type="button" onclick="showMenuPage()" class="p-2 text-gray-600 dark:text-gray-300"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 class="text-lg font-bold">Your Selection Cart</h2>
                 </div>
 
-                <div class="border-t dark:border-neutral-800 pt-3 space-y-2">
+                <div id="cart-item-list" class="space-y-3"></div>
+
+                <div class="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
                     <div class="flex justify-between text-sm">
-                        <span class="text-gray-500">Subtotal</span>
-                        <span id="cart-subtotal" class="font-bold">₹0</span>
+                        <span class="text-gray-500 dark:text-gray-400">Total Items:</span>
+                        <span id="cart-count-summary" class="font-bold">0</span>
                     </div>
-                    <div class="flex justify-between text-lg font-black">
-                        <span>Total Payable</span>
-                        <span id="cart-grand-total" class="text-amber-600 dark:text-amber-400">₹0</span>
+                    <div class="flex justify-between text-base font-bold border-t dark:border-slate-700 pt-2">
+                        <span>Total Payable:</span>
+                        <span id="cart-price-summary" class="text-orange-600 dark:text-amber-400 text-lg">₹0</span>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Payment Method</label>
+                        <select id="payment-mode" class="w-full p-2.5 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-xl text-sm font-medium">
+                            <option value="Online UPI / QR">Online UPI / QR Code</option>
+                            <option value="Cash at Counter">Cash at Counter</option>
+                        </select>
                     </div>
                 </div>
 
-                <button type="button" onclick="initiateOrderProcess()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-black text-base rounded-2xl shadow-xl hover:brightness-110 active:scale-[0.98] transition">
-                    Confirm Order & Pay
-                </button>
+                <button type="button" onclick="startPaymentFlow()" class="w-full py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl text-sm shadow-xl transition">Confirm & Proceed to Pay</button>
             </div>
 
-            <!-- Order History Screen -->
-            <div id="view-history" class="p-4 space-y-4" style="display: none;">
-                <div class="flex items-center justify-between border-b dark:border-neutral-800 pb-3">
-                    <h3 class="font-black text-lg tracking-tight"><i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Order History & Status</h3>
-                    <button type="button" onclick="navigateTo('menu')" class="text-xs text-amber-500 font-bold">Back to Menu</button>
+            <!-- 7-Second Payment Processing & Cancellation View Page -->
+            <div id="view-processing" class="p-6 text-center space-y-6 my-auto min-h-[70vh] flex flex-col justify-center hidden">
+                <div class="w-20 h-20 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold">Confirming Order with Kitchen...</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Hold tight! You can cancel within the timeframe.</p>
+                    <div class="text-2xl font-black text-orange-600 dark:text-amber-400" id="timer-display">7s</div>
                 </div>
-                <div id="history-orders-list" class="space-y-4"></div>
+                <button type="button" onclick="cancelOrderProcess()" class="w-full py-3 bg-red-500/10 text-red-600 dark:text-red-400 font-bold rounded-xl border border-red-500/30 text-sm">Cancel Order</button>
             </div>
 
-        </main>
+            <!-- 5-Second Invoice Downloading Screen -->
+            <div id="view-invoice" class="p-6 text-center space-y-6 my-auto min-h-[70vh] flex flex-col justify-center hidden">
+                <div class="text-5xl text-amber-400"><i class="fa-solid fa-file-invoice animate-bounce"></i></div>
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold">Generating Official Invoice...</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Downloading your receipt to device & submitting to kitchen panel.</p>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden max-w-xs mx-auto">
+                    <div id="invoice-progress" class="bg-amber-400 h-full w-0 transition-all duration-1000"></div>
+                </div>
+            </div>
 
-        <!-- Floating Bottom Sticky Bar ("Go to Cart") -->
-        <div id="bottom-cart-bar" class="fixed bottom-0 max-w-md w-full bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-gray-200 dark:border-neutral-800 p-3 z-30 flex items-center justify-between shadow-2xl" style="display: none;">
+            <!-- Order Status & History View Page -->
+            <div id="view-orders" class="p-4 space-y-4 hidden">
+                <div class="flex items-center space-x-3 border-b dark:border-slate-800 pb-3">
+                    <button type="button" onclick="showMenuPage()" class="p-2 text-gray-600 dark:text-gray-300"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 class="text-lg font-bold">Order History & Status</h2>
+                </div>
+                <div id="history-container" class="space-y-3"></div>
+            </div>
+        </div>
+
+        <!-- Floating Sticky "Go to Cart" Footer Bar -->
+        <div id="sticky-cart-bar" class="absolute bottom-0 inset-x-0 bg-gradient-to-r from-orange-600 to-amber-500 text-white p-3 px-4 flex justify-between items-center shadow-2xl z-20 hidden">
             <div>
-                <p id="bottom-cart-count" class="text-xs text-gray-500 dark:text-neutral-400 font-semibold">0 items selected</p>
-                <p id="bottom-cart-total" class="text-lg font-black text-amber-600 dark:text-amber-400">₹0</p>
+                <p id="sticky-cart-count" class="text-xs font-bold uppercase tracking-wider">0 Items Added</p>
+                <p id="sticky-cart-total" class="text-sm font-black">₹0</p>
             </div>
-            <button type="button" onclick="navigateTo('cart')" class="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-black text-sm rounded-xl shadow-lg flex items-center gap-2 hover:brightness-110 active:scale-95 transition">
-                <span>Go to Cart</span>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
+            <button type="button" onclick="openCartPage()" class="py-2 px-4 bg-white text-orange-600 font-bold rounded-xl text-xs shadow-md">Go to Cart <i class="fa-solid fa-chevron-right ml-1"></i></button>
         </div>
 
-    </div>
+        <!-- Settings Drawer Overlay -->
+        <div id="settings-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden" onclick="toggleSettings()">
+            <div class="absolute right-0 top-0 bottom-0 w-4/5 max-w-xs bg-white dark:bg-slate-900 p-6 space-y-6 shadow-2xl flex flex-col justify-between" onclick="event.stopPropagation()">
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center border-b dark:border-slate-800 pb-4">
+                        <h3 class="font-bold text-lg"><i class="fa-solid fa-sliders"></i> Settings</h3>
+                        <button type="button" onclick="toggleSettings()" class="text-gray-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
 
-    <!-- 7-Second Payment / Confirmation Processing Modal -->
-    <div id="modal-confirm-window" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 w-full max-w-xs text-center space-y-5 shadow-2xl">
-            <div class="relative w-20 h-20 mx-auto flex items-center justify-center">
-                <div class="absolute inset-0 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin"></div>
-                <span id="countdown-num" class="text-2xl font-black text-amber-500">7</span>
-            </div>
-            <div class="space-y-1">
-                <h3 class="text-lg font-bold">Confirming Order</h3>
-                <p class="text-xs text-gray-500 dark:text-neutral-400">Communicating with Malnad Canteen kitchen...</p>
-            </div>
-            <button type="button" onclick="cancelOrderProcess()" class="w-full py-2.5 bg-red-500/10 text-red-500 border border-red-500/30 font-bold text-xs rounded-xl hover:bg-red-500 hover:text-white transition">
-                Cancel Order
-            </button>
-        </div>
-    </div>
+                    <!-- Profile Details -->
+                    <div class="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl space-y-2 border dark:border-slate-700">
+                        <p class="text-xs text-gray-400 font-semibold uppercase">Logged Student</p>
+                        <p id="drawer-name" class="font-bold text-sm text-gray-800 dark:text-white">-</p>
+                        <p id="drawer-usn" class="text-xs text-orange-600 dark:text-amber-400 font-bold">-</p>
+                        <p id="drawer-meta" class="text-xs text-gray-500 dark:text-gray-400">-</p>
+                    </div>
 
-    <!-- 5-Second Invoice Downloading & Kitchen Dispatch Modal -->
-    <div id="modal-download-window" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 w-full max-w-xs text-center space-y-4 shadow-2xl">
-            <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-3xl animate-bounce">
-                <i class="fa-solid fa-file-arrow-down"></i>
-            </div>
-            <div class="space-y-1">
-                <h3 class="text-lg font-bold">Order Confirmed!</h3>
-                <p class="text-xs text-gray-500 dark:text-neutral-400">Downloading official receipt & sending to kitchen staff...</p>
-            </div>
-            <div class="w-full bg-gray-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
-                <div id="download-progress-bar" class="bg-green-500 h-full w-0 transition-all duration-300"></div>
-            </div>
-        </div>
-    </div>
+                    <div class="space-y-2">
+                        <button type="button" onclick="toggleSettings(); showOrdersPage();" class="w-full text-left p-3 rounded-xl bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 font-bold text-xs flex items-center justify-between">
+                            <span><i class="fa-solid fa-clock-rotate-left mr-2"></i> Order History</span>
+                            <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                        </button>
 
-    <!-- Settings Gear Modal -->
-    <div id="settings-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 w-full max-w-xs space-y-5 shadow-2xl relative">
-            <button type="button" onclick="closeSettingsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="text-center space-y-1">
-                <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-                    <i class="fa-solid fa-user-graduate"></i>
+                        <button type="button" onclick="toggleTheme()" class="w-full text-left p-3 rounded-xl bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 font-bold text-xs flex items-center justify-between">
+                            <span><i class="fa-solid fa-circle-half-stroke mr-2"></i> Toggle Theme Mode</span>
+                            <i class="fa-solid fa-moon text-xs text-gray-400"></i>
+                        </button>
+                    </div>
                 </div>
-                <h3 id="profile-name" class="font-bold text-base">Student Name</h3>
-                <p id="profile-usn" class="text-xs text-amber-600 dark:text-amber-400 font-mono">USN: -</p>
-            </div>
 
-            <div class="bg-gray-50 dark:bg-neutral-800/50 p-3 rounded-2xl space-y-2 text-xs">
-                <div class="flex justify-between">
-                    <span class="text-gray-500">Branch & Sec:</span>
-                    <span id="profile-branch-sec" class="font-bold">-</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-500">Phone:</span>
-                    <span id="profile-phone" class="font-bold">-</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-500">Email:</span>
-                    <span id="profile-email" class="font-bold">-</span>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <button type="button" onclick="closeSettingsModal(); navigateTo('history');" class="w-full py-2.5 bg-gray-100 dark:bg-neutral-800 text-xs font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-gray-200 dark:hover:bg-neutral-700 transition">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Order History
-                </button>
-                <button type="button" onclick="logoutStudent()" class="w-full py-2.5 bg-red-500/10 text-red-500 font-bold text-xs rounded-xl flex items-center justify-center gap-2 hover:bg-red-500 hover:text-white transition">
-                    <i class="fa-solid fa-power-off"></i> Sign Out
-                </button>
+                <button type="button" onclick="handleLogout()" class="w-full py-3 bg-red-600 text-white font-bold text-xs rounded-xl shadow-lg">Sign Out</button>
             </div>
         </div>
     </div>
 
     <script>
-        const studentsDb = [
+        const students = [
   {
     "usn": "MCE26EC034K20",
     "name": "ABHISHEK D V",
@@ -5893,7 +5856,7 @@
     "branch": "AI&ML"
   },
   {
-    "usn": "MCE26C1003M03",
+    "usn": "MCE26CI003M03",
     "name": "AYAN AHMED",
     "sec": "S",
     "branch": "AI&ML"
@@ -6410,7 +6373,7 @@
   }
 ];
 
-        const menuData = [
+        const menu = [
             { id: 1, name: "Masala Dosa", price: 50, img: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&auto=format&fit=crop&q=80" },
             { id: 2, name: "Idli Vada Combo", price: 40, img: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&auto=format&fit=crop&q=80" },
             { id: 3, name: "Veg Fried Rice", price: 70, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop&q=80" },
@@ -6418,203 +6381,144 @@
         ];
 
         let cartMap = {};
-        let activeStudent = null;
-        let myOrders = [];
-        let confirmationTimer = null;
-        let countdownSeconds = 7;
+        let currentUser = null;
+        let processTimer = null;
+        let timerSeconds = 7;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Hide Splash Overlay after 2 seconds
-            setTimeout(() => {
-                document.getElementById('splash-screen').classList.add('splash-hidden');
-            }, 2000);
-
-            // Session check
-            const savedSession = sessionStorage.getItem('mce_student_session');
-            if (savedSession) {
-                activeStudent = JSON.parse(savedSession);
-                enterAppSession();
+            // Theme setup
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = "fa-solid fa-sun";
             }
 
-            // Autofill listener
-            const signupUsn = document.getElementById('signup-usn');
-            signupUsn.addEventListener('input', () => {
-                const val = signupUsn.value.trim().toUpperCase();
-                const found = studentsDb.find(s => s.usn.toUpperCase() === val);
-                const box = document.getElementById('autofill-box');
-                if (found) {
-                    document.getElementById('af-name').innerText = found.name;
-                    document.getElementById('af-meta').innerText = `${found.branch} - Sec ${found.sec}`;
-                    box.style.display = 'block';
-                } else {
-                    box.style.display = 'none';
-                }
-            });
-
-            // Login submit
-            document.getElementById('login-form').onsubmit = (e) => {
-                e.preventDefault();
-                const id = document.getElementById('login-id').value.trim().toUpperCase();
-                const pass = document.getElementById('login-pass').value;
-
-                let user = null;
-                for (let i = 0; i < localStorage.length; i++) {
-                    let key = localStorage.key(i);
-                    if (key.startsWith('user_')) {
-                        let u = JSON.parse(localStorage.getItem(key));
-                        if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
-                            user = u;
-                            break;
-                        }
-                    }
-                }
-
-                if (user) {
-                    activeStudent = user;
-                    sessionStorage.setItem('mce_student_session', JSON.stringify(activeStudent));
-                    enterAppSession();
-                } else {
-                    alert("Invalid login credentials!");
-                }
-            };
-
-            // Signup submit (Direct login logic)
-            document.getElementById('signup-form').onsubmit = (e) => {
-                e.preventDefault();
-                const usn = signupUsn.value.trim().toUpperCase();
-                const found = studentsDb.find(s => s.usn.toUpperCase() === usn);
-                if (!found) return alert("USN not registered in official college records!");
-
-                if (localStorage.getItem('user_' + usn)) {
-                    alert("User account already exists! Logging you in...");
-                }
-
-                const newUser = {
-                    ...found,
-                    phone: document.getElementById('signup-phone').value,
-                    email: document.getElementById('signup-email').value,
-                    pass: document.getElementById('signup-pass').value
-                };
-
-                localStorage.setItem('user_' + usn, JSON.stringify(newUser));
-                activeStudent = newUser;
-                sessionStorage.setItem('mce_student_session', JSON.stringify(activeStudent));
-                
-                // Directly go to interface
-                enterAppSession();
-            };
+            // Permanent Login Session Check
+            const permUser = localStorage.getItem('mce_permanent_student');
+            if (permUser) {
+                currentUser = JSON.parse(permUser);
+                enterPortal();
+            } else {
+                document.getElementById('view-auth').classList.remove('hidden');
+            }
         });
 
-        // Theme Toggle
         function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                icon.className = "fa-solid fa-moon text-lg";
-            } else {
-                html.classList.add('dark');
-                icon.className = "fa-solid fa-sun text-lg";
-            }
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
         }
 
         function switchAuthTab(tab) {
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const btnLogin = document.getElementById('tab-login-btn');
-            const btnSignup = document.getElementById('tab-signup-btn');
+            const loginForm = document.getElementById('form-login');
+            const signupForm = document.getElementById('form-signup');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
 
             if (tab === 'login') {
-                loginForm.style.display = 'block';
-                signupForm.style.display = 'none';
-                btnLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow text-amber-600 dark:text-amber-400";
-                btnSignup.className = "flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 dark:text-neutral-400";
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm";
+                tabSignup.className = "flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400";
             } else {
-                loginForm.style.display = 'none';
-                signupForm.style.display = 'block';
-                btnSignup.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow text-amber-600 dark:text-amber-400";
-                btnLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 dark:text-neutral-400";
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabSignup.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm";
+                tabLogin.className = "flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400";
             }
         }
 
-        function enterAppSession() {
-            document.getElementById('auth-container').style.display = 'none';
-            document.getElementById('header-cart-btn').style.display = 'block';
-            document.getElementById('header-settings-btn').style.display = 'block';
-            
-            // Populate settings
-            document.getElementById('profile-name').innerText = activeStudent.name;
-            document.getElementById('profile-usn').innerText = `USN: ${activeStudent.usn}`;
-            document.getElementById('profile-branch-sec').innerText = `${activeStudent.branch} - Sec ${activeStudent.sec}`;
-            document.getElementById('profile-phone').innerText = activeStudent.phone;
-            document.getElementById('profile-email').innerText = activeStudent.email;
+        function autofillStudentDetails() {
+            const usn = document.getElementById('signup-usn').value.trim().toUpperCase();
+            const found = students.find(s => s.usn === usn);
+            const card = document.getElementById('autofill-card');
 
-            loadHistoryOrders();
-            renderMenuCards();
-            navigateTo('menu');
-        }
-
-        function logoutStudent() {
-            activeStudent = null;
-            sessionStorage.removeItem('mce_student_session');
-            closeSettingsModal();
-            document.getElementById('header-cart-btn').style.display = 'none';
-            document.getElementById('header-settings-btn').style.display = 'none';
-            document.getElementById('bottom-cart-bar').style.display = 'none';
-            document.getElementById('view-menu').style.display = 'none';
-            document.getElementById('view-cart').style.display = 'none';
-            document.getElementById('view-history').style.display = 'none';
-            document.getElementById('auth-container').style.display = 'block';
-        }
-
-        function openSettingsModal() {
-            document.getElementById('settings-modal').style.display = 'flex';
-        }
-
-        function closeSettingsModal() {
-            document.getElementById('settings-modal').style.display = 'none';
-        }
-
-        function navigateTo(view) {
-            document.getElementById('view-menu').style.display = 'none';
-            document.getElementById('view-cart').style.display = 'none';
-            document.getElementById('view-history').style.display = 'none';
-
-            if (view === 'menu') {
-                document.getElementById('view-menu').style.display = 'block';
-                updateCartUI();
-            } else if (view === 'cart') {
-                document.getElementById('view-cart').style.display = 'block';
-                document.getElementById('bottom-cart-bar').style.display = 'none';
-                renderCartList();
-            } else if (view === 'history') {
-                document.getElementById('view-history').style.display = 'block';
-                document.getElementById('bottom-cart-bar').style.display = 'none';
-                renderHistory();
+            if (found) {
+                document.getElementById('af-name').innerText = found.name;
+                document.getElementById('af-meta').innerText = `${found.branch} - Sec ${found.sec}`;
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
             }
         }
 
-        function renderMenuCards() {
-            const container = document.getElementById('menu-cards-list');
-            container.innerHTML = menuData.map(item => {
+        function handleSignup(e) {
+            e.preventDefault();
+            const usn = document.getElementById('signup-usn').value.trim().toUpperCase();
+            const found = students.find(s => s.usn === usn);
+
+            if (!found) return alert("USN not registered in official college records!");
+
+            const userData = {
+                ...found,
+                phone: document.getElementById('signup-phone').value,
+                email: document.getElementById('signup-email').value,
+                pass: document.getElementById('signup-pass').value
+            };
+
+            localStorage.setItem('user_' + usn, JSON.stringify(userData));
+            localStorage.setItem('mce_permanent_student', JSON.stringify(userData));
+            currentUser = userData;
+            enterPortal();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('login-id').value.trim().toUpperCase();
+            const pass = document.getElementById('login-pass').value;
+
+            let foundUser = null;
+            for (let i = 0; i < localStorage.length; i++) {
+                let key = localStorage.key(i);
+                if (key.startsWith('user_')) {
+                    let u = JSON.parse(localStorage.getItem(key));
+                    if ((u.usn === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
+                        foundUser = u;
+                        break;
+                    }
+                }
+            }
+
+            if (foundUser) {
+                currentUser = foundUser;
+                localStorage.setItem('mce_permanent_student', JSON.stringify(currentUser));
+                enterPortal();
+            } else {
+                alert("Invalid Credentials!");
+            }
+        }
+
+        function enterPortal() {
+            document.getElementById('view-auth').classList.add('hidden');
+            document.getElementById('drawer-name').innerText = currentUser.name;
+            document.getElementById('drawer-usn').innerText = currentUser.usn;
+            document.getElementById('drawer-meta').innerText = `${currentUser.branch} - Sec ${currentUser.sec}`;
+            showMenuPage();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('mce_permanent_student');
+            location.reload();
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = menu.map(item => {
                 const qty = cartMap[item.id] || 0;
                 return `
-                <div class="bg-white dark:bg-neutral-800/80 border border-gray-100 dark:border-neutral-800 rounded-2xl p-3 flex items-center justify-between shadow-sm">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-sm border dark:border-slate-700 flex items-center space-x-3">
                     <img src="${item.img}" class="w-20 h-20 rounded-xl object-cover">
-                    <div class="flex-1 px-3">
-                        <h4 class="font-bold text-sm">${item.name}</h4>
-                        <p class="text-amber-600 dark:text-amber-400 font-extrabold text-sm">₹${item.price}</p>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm text-gray-800 dark:text-white">${item.name}</h4>
+                        <p class="text-xs font-black text-orange-600 dark:text-amber-400 mt-1">₹${item.price}</p>
                     </div>
                     <div>
                         ${qty === 0 ? `
-                            <button type="button" onclick="increaseQty(${item.id})" class="px-4 py-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 font-bold text-xs rounded-xl hover:bg-amber-500 hover:text-black transition">
-                                + ADD
-                            </button>
+                            <button type="button" onclick="increaseQty(${item.id})" class="px-3 py-1.5 bg-orange-500/10 text-orange-600 dark:text-amber-400 font-bold text-xs rounded-xl border border-orange-500/20">+ Add</button>
                         ` : `
-                            <div class="flex items-center bg-amber-500 text-black font-bold rounded-xl p-1">
-                                <button type="button" onclick="decreaseQty(${item.id})" class="w-7 h-7 flex items-center justify-center bg-amber-600 text-black rounded-lg">-</button>
-                                <span class="px-2.5 text-xs font-black">${qty}</span>
-                                <button type="button" onclick="increaseQty(${item.id})" class="w-7 h-7 flex items-center justify-center bg-amber-600 text-black rounded-lg">+</button>
+                            <div class="flex items-center bg-orange-600 text-white rounded-xl">
+                                <button type="button" onclick="decreaseQty(${item.id})" class="px-2.5 py-1 font-bold">-</button>
+                                <span class="px-2 text-xs font-bold">${qty}</span>
+                                <button type="button" onclick="increaseQty(${item.id})" class="px-2.5 py-1 font-bold">+</button>
                             </div>
                         `}
                     </div>
@@ -6622,277 +6526,250 @@
             }).join('');
         }
 
-        function increaseQty(id) {
-            cartMap[id] = (cartMap[id] || 0) + 1;
-            updateCartUI();
-        }
+        function increaseQty(id) { cartMap[id] = (cartMap[id] || 0) + 1; updateCartState(); }
+        function decreaseQty(id) { if (cartMap[id]) { cartMap[id]--; if (cartMap[id] <= 0) delete cartMap[id]; } updateCartState(); }
 
-        function decreaseQty(id) {
-            if (cartMap[id]) {
-                cartMap[id]--;
-                if (cartMap[id] <= 0) delete cartMap[id];
-            }
-            updateCartUI();
-        }
+        function updateCartState() {
+            renderMenu();
+            let totalQty = 0;
+            let totalPrice = 0;
 
-        function getCartItemsArray() {
-            let items = [];
             for (let id in cartMap) {
                 let qty = cartMap[id];
-                let itemObj = menuData.find(m => m.id == id);
-                if (itemObj) {
-                    for (let i = 0; i < qty; i++) {
-                        items.push({ name: itemObj.name, price: itemObj.price });
-                    }
+                let item = menu.find(m => m.id == id);
+                if (item) {
+                    totalQty += qty;
+                    totalPrice += item.price * qty;
                 }
             }
-            return items;
+
+            const badge = document.getElementById('header-cart-badge');
+            const stickyBar = document.getElementById('sticky-cart-bar');
+
+            if (totalQty > 0) {
+                badge.innerText = totalQty;
+                badge.classList.remove('hidden');
+                document.getElementById('sticky-cart-count').innerText = `${totalQty} Items Added`;
+                document.getElementById('sticky-cart-total').innerText = `₹${totalPrice}`;
+                stickyBar.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+                stickyBar.classList.add('hidden');
+            }
         }
 
-        function updateCartUI() {
-            renderMenuCards();
-            const items = getCartItemsArray();
-            const totalCount = items.length;
-            const totalPrice = items.reduce((sum, i) => sum + i.price, 0);
+        function showMenuPage() {
+            hideAllViews();
+            document.getElementById('view-menu').classList.remove('hidden');
+            renderMenu();
+            updateCartState();
+        }
 
-            // Badge
-            const badge = document.getElementById('cart-badge');
-            if (totalCount > 0) {
-                badge.innerText = totalCount;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-
-            // Bottom Sticky Bar
-            const bottomBar = document.getElementById('bottom-cart-bar');
-            if (totalCount > 0 && document.getElementById('view-menu').style.display === 'block') {
-                document.getElementById('bottom-cart-count').innerText = `${totalCount} item${totalCount > 1 ? 's' : ''} selected`;
-                document.getElementById('bottom-cart-total').innerText = `₹${totalPrice}`;
-                bottomBar.style.display = 'flex';
-            } else {
-                bottomBar.style.display = 'none';
-            }
+        function openCartPage() {
+            hideAllViews();
+            document.getElementById('sticky-cart-bar').classList.add('hidden');
+            document.getElementById('view-cart').classList.remove('hidden');
+            renderCartList();
         }
 
         function renderCartList() {
-            const container = document.getElementById('cart-list-items');
+            const list = document.getElementById('cart-item-list');
+            let items = [];
             let total = 0;
-            let html = '';
 
             for (let id in cartMap) {
                 let qty = cartMap[id];
-                let item = menuData.find(m => m.id == id);
+                let item = menu.find(m => m.id == id);
                 if (item && qty > 0) {
-                    let subtotal = item.price * qty;
-                    total += subtotal;
-                    html += `
-                    <div class="flex items-center justify-between bg-gray-50 dark:bg-neutral-800/50 p-3 rounded-2xl border border-gray-100 dark:border-neutral-800">
-                        <div>
-                            <p class="font-bold text-sm">${item.name}</p>
-                            <p class="text-xs text-gray-500">₹${item.price} × ${qty}</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="font-bold text-amber-600 dark:text-amber-400 text-sm">₹${subtotal}</span>
-                            <div class="flex items-center bg-gray-200 dark:bg-neutral-700 rounded-lg">
-                                <button type="button" onclick="decreaseQty(${item.id}); renderCartList();" class="px-2 py-1 font-bold text-xs">-</button>
-                                <span class="px-2 text-xs font-bold">${qty}</span>
-                                <button type="button" onclick="increaseQty(${item.id}); renderCartList();" class="px-2 py-1 font-bold text-xs">+</button>
+                    let sub = item.price * qty;
+                    total += sub;
+                    items.push(`
+                        <div class="flex justify-between items-center bg-gray-50 dark:bg-slate-800 p-3 rounded-xl border dark:border-slate-700">
+                            <div>
+                                <p class="font-bold text-sm">${item.name}</p>
+                                <p class="text-xs text-gray-500">₹${item.price} × ${qty}</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="font-bold text-orange-600 dark:text-amber-400 text-sm">₹${sub}</span>
+                                <div class="flex items-center bg-gray-200 dark:bg-slate-700 rounded-lg">
+                                    <button type="button" onclick="decreaseQty(${item.id}); renderCartList();" class="px-2 py-0.5 font-bold">-</button>
+                                    <span class="px-2 text-xs font-bold">${qty}</span>
+                                    <button type="button" onclick="increaseQty(${item.id}); renderCartList();" class="px-2 py-0.5 font-bold">+</button>
+                                </div>
                             </div>
                         </div>
-                    </div>`;
+                    `);
                 }
             }
 
-            if (html === '') {
-                container.innerHTML = `<p class="text-gray-400 text-center py-6 text-sm">Your cart is empty.</p>`;
-            } else {
-                container.innerHTML = html;
-            }
-
-            document.getElementById('cart-subtotal').innerText = `₹${total}`;
-            document.getElementById('cart-grand-total').innerText = `₹${total}`;
+            list.innerHTML = items.length ? items.join('') : `<p class="text-gray-400 text-center py-6 text-xs">Cart is empty</p>`;
+            document.getElementById('cart-count-summary').innerText = Object.values(cartMap).reduce((a,b)=>a+b,0);
+            document.getElementById('cart-price-summary').innerText = `₹${total}`;
         }
 
-        // 7-Second Payment Process
-        function initiateOrderProcess() {
-            const items = getCartItemsArray();
-            if (items.length === 0) return alert("Your cart is empty!");
+        function startPaymentFlow() {
+            if (Object.keys(cartMap).length === 0) return alert("Your cart is empty!");
+            hideAllViews();
+            document.getElementById('view-processing').classList.remove('hidden');
 
-            countdownSeconds = 7;
-            document.getElementById('countdown-num').innerText = countdownSeconds;
-            document.getElementById('modal-confirm-window').style.display = 'flex';
+            timerSeconds = 7;
+            document.getElementById('timer-display').innerText = timerSeconds + "s";
 
-            confirmationTimer = setInterval(() => {
-                countdownSeconds--;
-                document.getElementById('countdown-num').innerText = countdownSeconds;
-
-                if (countdownSeconds <= 0) {
-                    clearInterval(confirmationTimer);
-                    document.getElementById('modal-confirm-window').style.display = 'none';
-                    executeFinalOrderPlacement();
+            processTimer = setInterval(() => {
+                timerSeconds--;
+                document.getElementById('timer-display').innerText = timerSeconds + "s";
+                if (timerSeconds <= 0) {
+                    clearInterval(processTimer);
+                    startInvoiceDownloadFlow();
                 }
             }, 1000);
         }
 
         function cancelOrderProcess() {
-            if (confirmationTimer) clearInterval(confirmationTimer);
-            document.getElementById('modal-confirm-window').style.display = 'none';
-            alert("Order cancelled!");
+            clearInterval(processTimer);
+            openCartPage();
         }
 
-        // 5-Second Download & Kitchen Dispatch
-        async function executeFinalOrderPlacement() {
-            const cartList = getCartItemsArray();
-            const totalBill = cartList.reduce((sum, item) => sum + item.price, 0);
+        function startInvoiceDownloadFlow() {
+            hideAllViews();
+            document.getElementById('view-invoice').classList.remove('hidden');
+
+            const bar = document.getElementById('invoice-progress');
+            bar.style.width = '100%';
+
+            setTimeout(() => {
+                downloadInvoiceFile();
+                postOrderToKitchen();
+            }, 5000);
+        }
+
+        function downloadInvoiceFile() {
+            const orderId = 'ORD' + Math.floor(1000 + Math.random() * 9000);
+            let items = [];
+            let total = 0;
+
+            for (let id in cartMap) {
+                let qty = cartMap[id];
+                let item = menu.find(m => m.id == id);
+                if (item) {
+                    items.push(`${item.name} x ${qty} = ₹${item.price * qty}`);
+                    total += item.price * qty;
+                }
+            }
+
+            const invoiceContent = `
+========================================
+       BYTEBITES - OFFICIAL INVOICE
+ co-powered by MALNAD COLLEGE CANTEEN
+========================================
+Order ID: ${orderId}
+Student: ${currentUser.name}
+USN: ${currentUser.usn}
+Branch/Sec: ${currentUser.branch} - ${currentUser.sec}
+Date: ${new Date().toLocaleString()}
+----------------------------------------
+Items Purchased:
+${items.join('\n')}
+----------------------------------------
+TOTAL PAID: ₹${total}
+Status: SENT TO KITCHEN DASHBOARD
+========================================
+            `;
+
+            const blob = new Blob([invoiceContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${orderId}_Invoice.txt`;
+            link.click();
+        }
+
+        async function postOrderToKitchen() {
+            let itemList = [];
+            let total = 0;
+
+            for (let id in cartMap) {
+                let qty = cartMap[id];
+                let item = menu.find(m => m.id == id);
+                if (item) {
+                    for (let i = 0; i < qty; i++) itemList.push({ name: item.name, price: item.price });
+                    total += item.price * qty;
+                }
+            }
 
             const newOrder = {
                 id: 'ORD' + Math.floor(1000 + Math.random() * 9000),
-                studentName: activeStudent.name,
-                usn: activeStudent.usn,
-                branch: activeStudent.branch,
-                sec: activeStudent.sec,
+                studentName: currentUser.name,
+                usn: currentUser.usn,
+                branch: currentUser.branch,
+                sec: currentUser.sec,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: cartList,
-                total: totalBill,
-                payment: document.getElementById('payment-choice').value,
+                items: itemList,
+                total: total,
+                payment: document.getElementById('payment-mode').value,
                 statusStage: 1
             };
 
-            // Display Download window
-            const dlWindow = document.getElementById('modal-download-window');
-            const progressBar = document.getElementById('download-progress-bar');
-            dlWindow.style.display = 'flex';
-            progressBar.style.width = '0%';
-
-            setTimeout(() => progressBar.style.width = '40%', 1000);
-            setTimeout(() => progressBar.style.width = '80%', 3000);
-
             try {
-                const response = await fetch('/api/orders', {
+                await fetch('/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newOrder)
                 });
-
-                if (response.ok) {
-                    myOrders.unshift(newOrder);
-                    saveHistoryOrders();
-                    
-                    setTimeout(() => {
-                        progressBar.style.width = '100%';
-                        triggerInvoiceDownload(newOrder);
-                        
-                        setTimeout(() => {
-                            dlWindow.style.display = 'none';
-                            cartMap = {};
-                            updateCartUI();
-                            navigateTo('history');
-                        }, 1000);
-
-                    }, 4000);
-                }
-            } catch (err) {
-                dlWindow.style.display = 'none';
-                alert("Failed to reach kitchen server!");
+            } catch (e) {
+                console.error("Local offline fallback");
             }
+
+            cartMap = {};
+            showOrdersPage();
         }
 
-        function triggerInvoiceDownload(order) {
-            const content = `======================================
-     MALNAD COLLEGE CANTEEN - BYTEBITES
-             OFFICIAL RECEIPT
-======================================
-Order ID     : ${order.id}
-Date & Time  : ${new Date().toLocaleDateString()} ${order.time}
-Student Name : ${order.studentName}
-USN          : ${order.usn} (${order.branch} - Sec ${order.sec})
-Payment      : ${order.payment}
---------------------------------------
-ITEMS PURCHASED:
-${order.items.map(i => `- ${i.name.padEnd(20)} ₹${i.price}`).join('\n')}
---------------------------------------
-TOTAL PAID   : ₹${order.total}
-======================================
-Thank you for dining with MCE Canteen!`;
-
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `ByteBites_Invoice_${order.id}.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        function showOrdersPage() {
+            hideAllViews();
+            document.getElementById('view-orders').classList.remove('hidden');
+            fetchMyOrders();
         }
 
-        function saveHistoryOrders() {
-            if (activeStudent) localStorage.setItem('history_' + activeStudent.usn, JSON.stringify(myOrders));
-        }
-
-        function loadHistoryOrders() {
-            if (activeStudent) {
-                const saved = localStorage.getItem('history_' + activeStudent.usn);
-                myOrders = saved ? JSON.parse(saved) : [];
-            }
-        }
-
-        async function pollOrderStatus() {
-            if (!activeStudent) return;
+        async function fetchMyOrders() {
+            const container = document.getElementById('history-container');
             try {
                 const res = await fetch('/api/orders');
                 const all = await res.json();
-                myOrders = all.filter(o => o.usn === activeStudent.usn);
-                saveHistoryOrders();
-                if (document.getElementById('view-history').style.display === 'block') {
-                    renderHistory();
+                const myOrders = all.filter(o => o.usn === currentUser.usn);
+
+                if (myOrders.length === 0) {
+                    container.innerHTML = `<p class="text-gray-400 text-center py-6 text-xs">No active or previous orders found.</p>`;
+                    return;
                 }
-            } catch (e) {}
-        }
 
-        function renderHistory() {
-            const container = document.getElementById('history-orders-list');
-            if (myOrders.length === 0) {
-                container.innerHTML = `<p class="text-gray-400 text-center py-8 text-sm">No active or previous orders found.</p>`;
-                return;
+                container.innerHTML = myOrders.map(o => `
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border dark:border-slate-700 space-y-2">
+                        <div class="flex justify-between items-center text-xs font-bold border-b dark:border-slate-700 pb-2">
+                            <span class="text-orange-600 dark:text-amber-400">${o.id}</span>
+                            <span class="text-gray-500">${o.time}</span>
+                        </div>
+                        <div class="text-xs space-y-1">
+                            ${o.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
+                        </div>
+                        <div class="flex justify-between font-bold text-sm border-t dark:border-slate-700 pt-2">
+                            <span>Total</span>
+                            <span class="text-orange-600 dark:text-amber-400">₹${o.total}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                container.innerHTML = `<p class="text-gray-400 text-center py-6 text-xs">Order history loaded locally.</p>`;
             }
-
-            container.innerHTML = myOrders.map(order => {
-                const stage = order.statusStage || 1;
-                return `
-                <div class="bg-white dark:bg-neutral-800/80 p-4 rounded-2xl border border-gray-100 dark:border-neutral-800 space-y-3 shadow-sm">
-                    <div class="flex justify-between items-center border-b dark:border-neutral-700 pb-2">
-                        <span class="font-black text-amber-600 dark:text-amber-400 text-base">${order.id}</span>
-                        <span class="text-xs font-bold px-2.5 py-1 bg-gray-100 dark:bg-neutral-700 rounded-full">${order.payment}</span>
-                    </div>
-
-                    <div class="space-y-1">
-                        <div class="flex justify-between text-[11px] font-bold">
-                            <span class="${stage >= 1 ? 'text-green-500' : 'text-gray-400'}">Placed</span>
-                            <span class="${stage >= 2 ? 'text-amber-500' : 'text-gray-400'}">Preparing</span>
-                            <span class="${stage >= 3 ? 'text-green-500' : 'text-gray-400'}">Ready</span>
-                        </div>
-                        <div class="w-full bg-gray-200 dark:bg-neutral-700 h-2 rounded-full overflow-hidden">
-                            <div class="bg-gradient-to-r from-amber-500 to-green-500 h-full transition-all duration-500" style="width: ${stage === 1 ? '33%' : stage === 2 ? '66%' : '100%'}"></div>
-                        </div>
-                    </div>
-
-                    <div class="text-xs space-y-1 text-gray-500 dark:text-neutral-400 pt-1">
-                        ${order.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
-                    </div>
-
-                    <div class="border-t dark:border-neutral-700 pt-2 flex justify-between font-black text-sm">
-                        <span>Total Paid</span>
-                        <span class="text-amber-600 dark:text-amber-400">₹${order.total}</span>
-                    </div>
-
-                    <button type="button" onclick='triggerInvoiceDownload(${JSON.stringify(order)})' class="w-full py-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-xl flex items-center justify-center gap-2 border border-amber-500/30">
-                        <i class="fa-solid fa-download"></i> Download Receipt
-                    </button>
-                </div>`;
-            }).join('');
         }
 
-        setInterval(pollOrderStatus, 3000);
+        function hideAllViews() {
+            ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-orders'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function toggleSettings() {
+            document.getElementById('settings-drawer').classList.toggle('hidden');
+        }
     </script>
 </body>
 </html>
