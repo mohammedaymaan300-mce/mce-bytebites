@@ -48,16 +48,13 @@
                 </div>
             </div>
             <div class="flex items-center space-x-2.5">
-                <!-- Status Tracking Button -->
                 <button type="button" id="status-nav-btn" onclick="openStatusModal()" class="relative w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs transition" style="display: none;">
                     <i class="fa-solid fa-bell animate-bounce"></i>
                     <span id="status-dot" class="absolute top-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-neutral-900"></span>
                 </button>
-                <!-- Theme Toggle -->
                 <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
                     <i id="theme-icon" class="fa-solid fa-moon"></i>
                 </button>
-                <!-- Settings Button -->
                 <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-xs transition" style="display: none;">
                     <i class="fa-solid fa-gear"></i>
                 </button>
@@ -6428,6 +6425,8 @@
         function switchAuth(type) {
             document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
             document.getElementById('form-signup').style.display = type === 'signup' ? 'block' : 'none';
+            document.getElementById('tab-login').className = type === 'login' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
+            document.getElementById('tab-signup').className = type === 'signup' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
         }
 
         function startAppSession() {
@@ -6543,7 +6542,7 @@
                 items: list,
                 total: list.reduce((s, i) => s + i.price, 0),
                 payment: document.getElementById('payment-mode').value,
-                statusStage: 0 // 0 = Placed, 1 = Preparing, 2 = Ready
+                statusStage: 0
             };
 
             navigate('processing');
@@ -6593,7 +6592,6 @@
             const sgst = subtotal * 0.025;
             const grandTotal = subtotal + cgst + sgst;
 
-            // Group item quantities
             const grouped = {};
             ord.items.forEach(i => {
                 if(!grouped[i.name]) grouped[i.name] = { qty: 0, price: i.price };
@@ -6703,6 +6701,23 @@
             document.getElementById('set-profile-name').innerText = activeUser.name;
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
             document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
+
+            let history = JSON.parse(localStorage.getItem('hist_' + activeUser.usn) || '[]');
+            const hContainer = document.getElementById('settings-order-history');
+            if (history.length === 0) {
+                hContainer.innerHTML = `<p class="text-neutral-400">No past orders.</p>`;
+            } else {
+                hContainer.innerHTML = history.map(o => `
+                    <div class="bg-neutral-100 dark:bg-neutral-800 p-2.5 rounded-xl flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-amber-500">${o.id} <span class="text-neutral-400 font-normal">(${o.time})</span></p>
+                            <p class="text-[10px] text-neutral-400">${o.items.length} items • ₹${o.total}</p>
+                        </div>
+                        <span class="px-2 py-0.5 bg-green-500/10 text-green-500 font-bold rounded text-[10px]">Confirmed</span>
+                    </div>
+                `).join('');
+            }
+
             document.getElementById('settings-modal').style.display = 'flex';
         }
         function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
