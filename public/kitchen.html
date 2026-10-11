@@ -40,9 +40,9 @@
                 <h1 class="text-2xl font-black text-amber-600">MCE Kitchen Dashboard</h1>
                 <p class="text-xs text-neutral-500">Staff ID: <span id="display-staff-id" class="font-bold text-neutral-800"></span></p>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-end">
                 <div class="flex bg-neutral-200 p-1 rounded-xl">
-                    <button id="tab-active" onclick="switchKitchenTab('active')" class="px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm">Active Queue</button>
+                    <button id="tab-active" onclick="switchKitchenTab('active')" class="px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-neutral-900">Active Queue</button>
                     <button id="tab-delivered" onclick="switchKitchenTab('delivered')" class="px-4 py-2 text-xs font-bold rounded-lg text-neutral-600">Delivered History</button>
                 </div>
                 <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2 transition">
@@ -52,6 +52,14 @@
                 <button onclick="staffLogout()" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-600 text-xs font-bold rounded-xl transition">Logout</button>
             </div>
         </header>
+
+        <!-- Search Bar Section -->
+        <div class="relative w-full">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-400">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </div>
+            <input type="text" id="search-input" onkeyup="filterOrders()" placeholder="Search by Order ID, Student Name, or USN..." class="w-full pl-10 pr-4 py-3 rounded-2xl border border-neutral-300 bg-white text-sm shadow-sm focus:ring-2 focus:ring-amber-500 outline-none text-neutral-800 placeholder-neutral-400">
+        </div>
 
         <!-- Metrics & Summary Bar -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -81,6 +89,7 @@
         const staffPassword = "MCEBB@1960";
         let pollInterval = null;
         let currentTab = 'active';
+        let globalOrdersCache = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             const loggedIn = localStorage.getItem('kitchen_logged_in');
@@ -128,18 +137,25 @@
             currentTab = tab;
             document.getElementById('tab-active').className = tab === 'active' ? 'px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-neutral-900' : 'px-4 py-2 text-xs font-bold rounded-lg text-neutral-600';
             document.getElementById('tab-delivered').className = tab === 'delivered' ? 'px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-neutral-900' : 'px-4 py-2 text-xs font-bold rounded-lg text-neutral-600';
-            fetchOrders();
+            renderKitchenDashboard(globalOrdersCache);
         }
 
         async function fetchOrders() {
             try {
                 const res = await fetch('/api/orders');
                 const orders = await res.json();
+                globalOrdersCache = orders;
                 renderKitchenDashboard(orders);
             } catch (e) { console.error("Error fetching orders", e); }
         }
 
+        function filterOrders() {
+            renderKitchenDashboard(globalOrdersCache);
+        }
+
         function renderKitchenDashboard(orders) {
+            const query = (document.getElementById('search-input')?.value || '').trim().toLowerCase();
+
             const activeOrders = orders.filter(o => o.statusStage !== 3);
             const deliveredOrders = orders.filter(o => o.statusStage === 3);
 
@@ -151,11 +167,21 @@
             const totalIncome = orders.reduce((sum, ord) => sum + (ord.total || 0), 0);
             document.getElementById('metric-income').innerText = '₹' + totalIncome;
 
-            const displayList = currentTab === 'active' ? activeOrders : deliveredOrders;
+            let displayList = currentTab === 'active' ? activeOrders : deliveredOrders;
+
+            // Apply Search Query Filter
+            if (query !== '') {
+                displayList = displayList.filter(o => 
+                    (o.id || '').toLowerCase().includes(query) ||
+                    (o.studentName || '').toLowerCase().includes(query) ||
+                    (o.usn || '').toLowerCase().includes(query)
+                );
+            }
+
             const container = document.getElementById('kitchen-orders-list');
 
             if (displayList.length === 0) {
-                container.innerHTML = `<p class="col-span-full text-center py-12 text-neutral-400 text-sm font-medium">No ${currentTab} orders in queue.</p>`;
+                container.innerHTML = `<p class="col-span-full text-center py-12 text-neutral-400 text-sm font-medium">${query ? 'No matching orders found.' : 'No ' + currentTab + ' orders in queue.'}</p>`;
                 return;
             }
 
@@ -163,7 +189,6 @@
                 const stage = ord.statusStage || 0;
                 const isUpi = (ord.payment || '').toLowerCase().includes('upi') || (ord.payment || '').toLowerCase().includes('qr');
                 
-                // Box background styling based on payment method
                 const cardBg = isUpi ? 'bg-neutral-950 text-white border-neutral-800' : 'bg-white text-neutral-900 border-neutral-200';
                 const subText = isUpi ? 'text-neutral-400' : 'text-neutral-500';
                 const itemText = isUpi ? 'text-neutral-200' : 'text-neutral-800';
