@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#fbf9f4] text-neutral-900 font-sans min-h-screen p-4 sm:p-8">
+<body class="bg-[#f3f4f6] text-neutral-900 font-sans min-h-screen p-4 sm:p-8">
 
     <!-- Staff Login Gate Overlay -->
     <div id="login-overlay" class="fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
@@ -41,7 +41,7 @@
                 <p class="text-xs text-neutral-500">Staff ID: <span id="display-staff-id" class="font-bold text-neutral-800"></span></p>
             </div>
             <div class="flex items-center space-x-3">
-                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2 transition">
+                <button onclick="fetchOrders()" class="px-4 py-2 bg-white hover:bg-neutral-100 border border-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2 transition shadow-sm">
                     <i class="fa-solid fa-rotate"></i>
                     <span>Refresh</span>
                 </button>
@@ -69,6 +69,7 @@
             </div>
         </div>
 
+        <!-- Orders Grid -->
         <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
 
@@ -128,7 +129,7 @@
         }
 
         function renderKitchenDashboard(orders) {
-            // Update Metrics
+            // Update Summary Bar
             document.getElementById('metric-total-orders').innerText = orders.length;
             document.getElementById('metric-preparing').innerText = orders.filter(o => o.statusStage === 1).length;
             document.getElementById('metric-ready').innerText = orders.filter(o => o.statusStage === 2).length;
@@ -144,39 +145,51 @@
 
             container.innerHTML = orders.map(ord => {
                 const stage = ord.statusStage || 0;
+                const isCash = (ord.payment || '').toLowerCase().includes('cash');
+
+                // Green frame for Cash payment, White frame for Online UPI / QR payment
+                const cardFrameClass = isCash
+                    ? 'bg-green-50/30 border-4 border-green-500 shadow-lg'
+                    : 'bg-white border-2 border-neutral-200 shadow-md';
+
                 return `
-                <div class="bg-white border border-neutral-200 rounded-2xl p-5 space-y-3 shadow-md">
-                    <div class="flex justify-between items-start border-b border-neutral-100 pb-3">
+                <div class="${cardFrameClass} rounded-3xl p-5 space-y-4 transition-all">
+                    <!-- Top Header Row -->
+                    <div class="flex justify-between items-start border-b border-neutral-200/60 pb-3">
                         <div>
-                            <span class="text-sm font-black text-neutral-950 underline decoration-amber-500">${ord.id}</span>
-                            <h3 class="font-extrabold text-sm text-neutral-800 mt-0.5">${ord.studentName}</h3>
-                            <p class="text-[11px] text-neutral-500 font-medium">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
+                            <!-- Broad Bolder Order ID -->
+                            <h2 class="text-lg font-black tracking-tight text-neutral-950">${ord.id}</h2>
+                            <h3 class="font-extrabold text-sm text-neutral-900 mt-0.5">${ord.studentName}</h3>
+                            <p class="text-[11px] text-neutral-500 font-semibold">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
                         </div>
-                        <span class="text-xs font-bold px-3 py-1 rounded-xl ${stage === 2 ? 'bg-green-100 text-green-700' : stage === 1 ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-700'}">
+                        <span class="text-xs font-extrabold px-3 py-1 rounded-xl shadow-sm ${stage === 2 ? 'bg-green-100 text-green-800' : stage === 1 ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}">
                             ${stage === 2 ? 'Ready' : stage === 1 ? 'Preparing' : 'Received'}
                         </span>
                     </div>
 
+                    <!-- Items List -->
                     <div class="space-y-1.5 text-xs">
-                        ${ord.items.map(i => `<div class="flex justify-between text-neutral-700 font-medium"><span>• ${i.name}</span><span class="font-bold">₹${i.price}</span></div>`).join('')}
+                        ${ord.items.map(i => `<div class="flex justify-between text-neutral-800 font-semibold"><span>• ${i.name}</span><span class="font-black text-neutral-950">₹${i.price}</span></div>`).join('')}
                     </div>
 
-                    <div class="pt-3 border-t border-neutral-100 flex justify-between items-center">
+                    <!-- Payment Mode & Highlighted Money Total -->
+                    <div class="pt-3 border-t border-neutral-200/60 flex justify-between items-center">
                         <div>
-                            <p class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Payment Mode & Total</p>
-                            <p class="text-sm font-bold text-neutral-700">${ord.payment || 'Online UPI'}</p>
+                            <p class="text-[10px] text-neutral-400 font-black uppercase tracking-wider">PAYMENT MODE & TOTAL</p>
+                            <p class="text-xs font-black text-neutral-800 mt-0.5">${ord.payment || 'Online UPI / QR'}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Amount</p>
-                            <p class="text-lg font-black text-amber-600">₹${ord.total}</p>
+                            <p class="text-[10px] text-neutral-400 font-black uppercase tracking-wider">AMOUNT</p>
+                            <p class="text-xl font-black text-amber-600 drop-shadow-sm">₹${ord.total}</p>
                         </div>
                     </div>
 
-                    <div class="flex space-x-2 pt-2">
-                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-extrabold text-xs rounded-xl transition shadow">
+                    <!-- Action Buttons -->
+                    <div class="flex space-x-2 pt-1">
+                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs rounded-xl transition shadow-md">
                             Mark Preparing
                         </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2.5 bg-green-600 hover:bg-green-500 text-white font-extrabold text-xs rounded-xl transition shadow">
+                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-black text-xs rounded-xl transition shadow-md">
                             Mark Ready
                         </button>
                     </div>
