@@ -7,30 +7,104 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-neutral-950 text-white font-sans min-h-screen p-4 sm:p-8">
+<body class="bg-neutral-950 text-white font-sans min-h-screen p-4 sm:p-8 flex items-center justify-center">
 
-    <div class="max-w-4xl mx-auto space-y-6">
+    <!-- Staff Login Gate Overlay -->
+    <div id="login-overlay" class="fixed inset-0 bg-neutral-950 z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-3xl w-full max-w-sm space-y-5 shadow-2xl">
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mx-auto text-xl mb-2">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <h2 class="text-lg font-black text-amber-500">Kitchen Staff Login</h2>
+                <p class="text-xs text-neutral-400">Authorized Personnel Only</p>
+            </div>
+            <form id="staff-login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1 text-neutral-300">Staff ID (e.g. MCEBB001)</label>
+                    <input type="text" id="staff-id" required class="w-full p-3 rounded-xl border border-neutral-800 bg-neutral-950 text-sm focus:ring-2 focus:ring-amber-500 outline-none uppercase">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1 text-neutral-300">Password</label>
+                    <input type="password" id="staff-pass" required class="w-full p-3 rounded-xl border border-neutral-800 bg-neutral-950 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition text-sm">Secure Staff Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kitchen Dashboard Container -->
+    <div id="dashboard-container" class="w-full max-w-4xl mx-auto space-y-6" style="display: none;">
         <header class="flex justify-between items-center border-b border-neutral-800 pb-4">
             <div>
                 <h1 class="text-2xl font-black text-amber-500">MCE Kitchen Dashboard</h1>
-                <p class="text-xs text-neutral-400">Live order queue & management</p>
+                <p class="text-xs text-neutral-400">Staff ID: <span id="display-staff-id" class="text-amber-400 font-bold"></span></p>
             </div>
-            <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-xs font-bold rounded-xl flex items-center space-x-2">
-                <i class="fa-solid fa-rotate"></i>
-                <span>Refresh Queue</span>
-            </button>
+            <div class="flex items-center space-x-3">
+                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Refresh</span>
+                </button>
+                <button onclick="staffLogout()" class="px-4 py-2 bg-red-600/10 hover:bg-red-600/20 text-red-500 text-xs font-bold rounded-xl">Logout</button>
+            </div>
         </header>
 
         <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
 
     <script>
+        const validStaffIDs = ["MCEBB001", "MCEBB002", "MCEBB003", "MCEBB004"];
+        const staffPassword = "MCEBB@1960";
+        let pollInterval = null;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const loggedIn = localStorage.getItem('kitchen_logged_in');
+            const currentStaff = localStorage.getItem('current_staff_id');
+
+            if (loggedIn === 'true' && validStaffIDs.includes(currentStaff)) {
+                showDashboard(currentStaff);
+            } else {
+                document.getElementById('login-overlay').style.display = 'flex';
+            }
+
+            document.getElementById('staff-login-form').onsubmit = (e) => {
+                e.preventDefault();
+                const idInput = document.getElementById('staff-id').value.trim().toUpperCase();
+                const passInput = document.getElementById('staff-pass').value.trim();
+
+                if (validStaffIDs.includes(idInput) && passInput === staffPassword) {
+                    localStorage.setItem('kitchen_logged_in', 'true');
+                    localStorage.setItem('current_staff_id', idInput);
+                    showDashboard(idInput);
+                } else {
+                    alert("Invalid Staff ID or Password!");
+                }
+            };
+        });
+
+        function showDashboard(staffId) {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('dashboard-container').style.display = 'block';
+            document.getElementById('display-staff-id').innerText = staffId;
+            fetchOrders();
+            clearInterval(pollInterval);
+            pollInterval = setInterval(fetchOrders, 4000);
+        }
+
+        function staffLogout() {
+            localStorage.removeItem('kitchen_logged_in');
+            localStorage.removeItem('current_staff_id');
+            clearInterval(pollInterval);
+            document.getElementById('dashboard-container').style.display = 'none';
+            document.getElementById('login-overlay').style.display = 'flex';
+        }
+
         async function fetchOrders() {
             try {
                 const res = await fetch('/api/orders');
                 const orders = await res.json();
                 renderKitchenCards(orders);
-            } catch (e) { console.error("Error fetching kitchen queue", e); }
+            } catch (e) { console.error("Error fetching orders", e); }
         }
 
         function renderKitchenCards(orders) {
@@ -43,12 +117,12 @@
             container.innerHTML = orders.map(ord => {
                 const stage = ord.statusStage || 0;
                 return `
-                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-3">
+                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-3 shadow-xl">
                     <div class="flex justify-between items-start border-b border-neutral-800 pb-2">
                         <div>
                             <span class="text-xs font-bold text-amber-500">${ord.id}</span>
                             <h3 class="font-bold text-sm">${ord.studentName}</h3>
-                            <p class="text-[10px] text-neutral-400">${ord.usn} • Sec ${ord.sec}</p>
+                            <p class="text-[10px] text-neutral-400">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
                         </div>
                         <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${stage === 2 ? 'bg-green-500/10 text-green-500' : stage === 1 ? 'bg-amber-500/10 text-amber-500' : 'bg-blue-500/10 text-blue-500'}">
                             ${stage === 2 ? 'Ready' : stage === 1 ? 'Preparing' : 'Received'}
@@ -60,10 +134,10 @@
                     </div>
 
                     <div class="flex space-x-2 pt-2 border-t border-neutral-800">
-                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition">
+                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition shadow">
                             Mark Preparing
                         </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white font-bold text-xs rounded-xl transition">
+                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white font-bold text-xs rounded-xl transition shadow">
                             Mark Ready
                         </button>
                     </div>
@@ -81,9 +155,6 @@
                 if (res.ok) fetchOrders();
             } catch (e) { alert("Failed to update status"); }
         }
-
-        fetchOrders();
-        setInterval(fetchOrders, 4000);
     </script>
 </body>
 </html>
