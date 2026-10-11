@@ -1,35 +1,37 @@
 const express = require('express');
+const path = require('path');
 const app = express();
-const PORT = 3000;
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
+// In-memory array (or connect to a lightweight file/database if needed)
 let orders = [];
 
-app.post('/api/orders', (req, res) => {
-    const newOrder = req.body;
-    orders.unshift(newOrder);
-    console.log(`>>> ORDER RECEIVED: ID ${newOrder.id} - ₹${newOrder.total}`);
-    res.json({ success: true, order: newOrder });
-});
-
+// GET orders for kitchen & students
 app.get('/api/orders', (req, res) => {
     res.json(orders);
 });
 
-app.post('/api/orders/status', (req, res) => {
-    const { id, statusStage } = req.body;
+// POST new order from student cart checkout
+app.post('/api/orders', (req, res) => {
+    const newOrder = req.body;
+    orders.unshift(newOrder); // Add to beginning of array
+    res.status(201).json({ success: true, order: newOrder });
+});
+
+// Kitchen update status endpoint
+app.post('/api/orders/:id/status', (req, res) => {
+    const { id } = req.params;
+    const { statusStage } = req.body;
     const order = orders.find(o => o.id === id);
     if (order) {
         order.statusStage = statusStage;
-        console.log(`>>> ORDER ${id} STATUS UPDATED -> Stage ${statusStage}`);
-        res.json({ success: true });
+        res.json({ success: true, order });
     } else {
-        res.status(404).json({ success: false });
+        res.status(404).json({ error: "Order not found" });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`MCE ByteBites Production Server is LIVE on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`MCE ByteBites Server running on port ${PORT}`));
