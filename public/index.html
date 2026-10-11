@@ -6671,8 +6671,7 @@
                     const orders = await res.json();
                     const myOrders = orders.filter(o => o.usn === activeUser.usn);
                     if(myOrders.length > 0) {
-                        const latest = myOrders[0];
-                        updateStatusCardUI(latest);
+                        updateStatusCardUI(myOrders[0]);
                     }
                 } catch(e) {}
             }, 3000);
@@ -6697,6 +6696,7 @@
 
         function openStatusModal() { document.getElementById('status-modal').style.display = 'flex'; }
         function closeStatusModal() { document.getElementById('status-modal').style.display = 'none'; }
+        
         function openSettings() {
             document.getElementById('set-profile-name').innerText = activeUser.name;
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
