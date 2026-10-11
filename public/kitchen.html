@@ -7,47 +7,67 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-neutral-950 text-white font-sans min-h-screen p-4 sm:p-8 flex items-center justify-center">
+<body class="bg-[#fbf9f4] text-neutral-900 font-sans min-h-screen p-4 sm:p-8">
 
     <!-- Staff Login Gate Overlay -->
-    <div id="login-overlay" class="fixed inset-0 bg-neutral-950 z-50 flex items-center justify-center p-4" style="display: none;">
-        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-3xl w-full max-w-sm space-y-5 shadow-2xl">
+    <div id="login-overlay" class="fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white border border-neutral-200 p-6 rounded-3xl w-full max-w-sm space-y-5 shadow-2xl">
             <div class="text-center space-y-1">
-                <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mx-auto text-xl mb-2">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-xl mb-2">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
-                <h2 class="text-lg font-black text-amber-500">Kitchen Staff Login</h2>
-                <p class="text-xs text-neutral-400">Authorized Personnel Only</p>
+                <h2 class="text-lg font-black text-neutral-900">Kitchen Staff Login</h2>
+                <p class="text-xs text-neutral-500">Authorized Personnel Only</p>
             </div>
             <form id="staff-login-form" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold mb-1 text-neutral-300">Staff ID (e.g. MCEBB001)</label>
-                    <input type="text" id="staff-id" required class="w-full p-3 rounded-xl border border-neutral-800 bg-neutral-950 text-sm focus:ring-2 focus:ring-amber-500 outline-none uppercase">
+                    <label class="block text-xs font-semibold mb-1 text-neutral-700">Staff ID (e.g. MCEBB001)</label>
+                    <input type="text" id="staff-id" required class="w-full p-3 rounded-xl border border-neutral-300 bg-neutral-50 text-sm focus:ring-2 focus:ring-amber-500 outline-none uppercase font-bold">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold mb-1 text-neutral-300">Password</label>
-                    <input type="password" id="staff-pass" required class="w-full p-3 rounded-xl border border-neutral-800 bg-neutral-950 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                    <label class="block text-xs font-semibold mb-1 text-neutral-700">Password</label>
+                    <input type="password" id="staff-pass" required class="w-full p-3 rounded-xl border border-neutral-300 bg-neutral-50 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                 </div>
-                <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition text-sm">Secure Staff Login</button>
+                <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-extrabold rounded-xl shadow-lg hover:bg-amber-400 transition text-sm">Secure Staff Login</button>
             </form>
         </div>
     </div>
 
     <!-- Kitchen Dashboard Container -->
-    <div id="dashboard-container" class="w-full max-w-4xl mx-auto space-y-6" style="display: none;">
-        <header class="flex justify-between items-center border-b border-neutral-800 pb-4">
+    <div id="dashboard-container" class="w-full max-w-5xl mx-auto space-y-6" style="display: none;">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-neutral-300 pb-4 gap-4">
             <div>
-                <h1 class="text-2xl font-black text-amber-500">MCE Kitchen Dashboard</h1>
-                <p class="text-xs text-neutral-400">Staff ID: <span id="display-staff-id" class="text-amber-400 font-bold"></span></p>
+                <h1 class="text-2xl font-black text-amber-600">MCE Kitchen Dashboard</h1>
+                <p class="text-xs text-neutral-500">Staff ID: <span id="display-staff-id" class="font-bold text-neutral-800"></span></p>
             </div>
             <div class="flex items-center space-x-3">
-                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2">
+                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2 transition">
                     <i class="fa-solid fa-rotate"></i>
                     <span>Refresh</span>
                 </button>
-                <button onclick="staffLogout()" class="px-4 py-2 bg-red-600/10 hover:bg-red-600/20 text-red-500 text-xs font-bold rounded-xl">Logout</button>
+                <button onclick="staffLogout()" class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-600 text-xs font-bold rounded-xl transition">Logout</button>
             </div>
         </header>
+
+        <!-- Metrics & Summary Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm">
+                <p class="text-[11px] text-neutral-500 font-medium">Total Orders</p>
+                <p id="metric-total-orders" class="text-xl font-black text-neutral-900">0</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm">
+                <p class="text-[11px] text-neutral-500 font-medium">Preparing</p>
+                <p id="metric-preparing" class="text-xl font-black text-amber-600">0</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm">
+                <p class="text-[11px] text-neutral-500 font-medium">Ready</p>
+                <p id="metric-ready" class="text-xl font-black text-green-600">0</p>
+            </div>
+            <div class="bg-amber-500 text-neutral-950 p-4 rounded-2xl shadow-md">
+                <p class="text-[11px] font-bold opacity-90">Total Income</p>
+                <p id="metric-income" class="text-xl font-black">₹0</p>
+            </div>
+        </div>
 
         <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
@@ -103,41 +123,60 @@
             try {
                 const res = await fetch('/api/orders');
                 const orders = await res.json();
-                renderKitchenCards(orders);
+                renderKitchenDashboard(orders);
             } catch (e) { console.error("Error fetching orders", e); }
         }
 
-        function renderKitchenCards(orders) {
+        function renderKitchenDashboard(orders) {
+            // Update Metrics
+            document.getElementById('metric-total-orders').innerText = orders.length;
+            document.getElementById('metric-preparing').innerText = orders.filter(o => o.statusStage === 1).length;
+            document.getElementById('metric-ready').innerText = orders.filter(o => o.statusStage === 2).length;
+            
+            const totalIncome = orders.reduce((sum, ord) => sum + (ord.total || 0), 0);
+            document.getElementById('metric-income').innerText = '₹' + totalIncome;
+
             const container = document.getElementById('kitchen-orders-list');
             if (orders.length === 0) {
-                container.innerHTML = `<p class="col-span-full text-center py-12 text-neutral-500 text-sm">No incoming orders in queue.</p>`;
+                container.innerHTML = `<p class="col-span-full text-center py-12 text-neutral-400 text-sm font-medium">No incoming orders in queue.</p>`;
                 return;
             }
 
             container.innerHTML = orders.map(ord => {
                 const stage = ord.statusStage || 0;
                 return `
-                <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-3 shadow-xl">
-                    <div class="flex justify-between items-start border-b border-neutral-800 pb-2">
+                <div class="bg-white border border-neutral-200 rounded-2xl p-5 space-y-3 shadow-md">
+                    <div class="flex justify-between items-start border-b border-neutral-100 pb-3">
                         <div>
-                            <span class="text-xs font-bold text-amber-500">${ord.id}</span>
-                            <h3 class="font-bold text-sm">${ord.studentName}</h3>
-                            <p class="text-[10px] text-neutral-400">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
+                            <span class="text-sm font-black text-neutral-950 underline decoration-amber-500">${ord.id}</span>
+                            <h3 class="font-extrabold text-sm text-neutral-800 mt-0.5">${ord.studentName}</h3>
+                            <p class="text-[11px] text-neutral-500 font-medium">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
                         </div>
-                        <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${stage === 2 ? 'bg-green-500/10 text-green-500' : stage === 1 ? 'bg-amber-500/10 text-amber-500' : 'bg-blue-500/10 text-blue-500'}">
+                        <span class="text-xs font-bold px-3 py-1 rounded-xl ${stage === 2 ? 'bg-green-100 text-green-700' : stage === 1 ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-700'}">
                             ${stage === 2 ? 'Ready' : stage === 1 ? 'Preparing' : 'Received'}
                         </span>
                     </div>
 
-                    <div class="space-y-1 text-xs">
-                        ${ord.items.map(i => `<div class="flex justify-between text-neutral-300"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
+                    <div class="space-y-1.5 text-xs">
+                        ${ord.items.map(i => `<div class="flex justify-between text-neutral-700 font-medium"><span>• ${i.name}</span><span class="font-bold">₹${i.price}</span></div>`).join('')}
                     </div>
 
-                    <div class="flex space-x-2 pt-2 border-t border-neutral-800">
-                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition shadow">
+                    <div class="pt-3 border-t border-neutral-100 flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Payment Mode & Total</p>
+                            <p class="text-sm font-bold text-neutral-700">${ord.payment || 'Online UPI'}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider">Amount</p>
+                            <p class="text-lg font-black text-amber-600">₹${ord.total}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2 pt-2">
+                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-extrabold text-xs rounded-xl transition shadow">
                             Mark Preparing
                         </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white font-bold text-xs rounded-xl transition shadow">
+                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2.5 bg-green-600 hover:bg-green-500 text-white font-extrabold text-xs rounded-xl transition shadow">
                             Mark Ready
                         </button>
                     </div>
