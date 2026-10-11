@@ -14,10 +14,7 @@
             background: #fbf9f4;
             transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
         }
-        .splash-hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+        .splash-hidden { opacity: 0; visibility: hidden; }
         @keyframes pulse-logo {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.04); }
@@ -27,10 +24,9 @@
 </head>
 <body class="bg-gray-100 dark:bg-neutral-950 font-sans min-h-screen flex justify-center items-center text-neutral-800 dark:text-neutral-100 transition-colors duration-300">
 
-    <!-- Mobile Frame Wrapper -->
     <div class="w-full max-w-md min-h-screen sm:min-h-[850px] sm:rounded-3xl sm:shadow-2xl bg-white dark:bg-neutral-900 flex flex-col relative overflow-hidden border border-neutral-200 dark:border-neutral-800">
 
-        <!-- Splash Screen (Exact Image Match) -->
+        <!-- Splash Screen -->
         <div id="splash-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center bg-[#fbf9f4] dark:bg-neutral-900">
             <div class="space-y-6 animate-brand max-w-xs">
                 <p class="text-xs font-bold tracking-[0.2em] text-neutral-600 dark:text-amber-400 uppercase">Malnad College of Engineering Presents</p>
@@ -48,7 +44,7 @@
             </div>
         </div>
 
-        <!-- Global Header -->
+        <!-- Header -->
         <header class="px-5 py-4 border-b border-neutral-100 dark:border-neutral-800 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md z-30">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="navigate('menu')">
                 <div class="w-8 h-8 rounded-lg bg-amber-500 text-neutral-950 flex items-center justify-center font-black">
@@ -60,49 +56,41 @@
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <!-- Theme Toggle -->
                 <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
                     <i id="theme-icon" class="fa-solid fa-moon"></i>
                 </button>
-                <!-- Settings Button -->
                 <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-xs transition" style="display: none;">
                     <i class="fa-solid fa-gear"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Main Dynamic View Container -->
+        <!-- Main Views -->
         <main class="flex-1 overflow-y-auto pb-28">
 
-            <!-- 1. AUTH SCREEN -->
+            <!-- Auth View -->
             <div id="view-auth" class="p-6 space-y-6">
                 <div class="text-center space-y-1 mt-4">
                     <h2 class="text-xl font-bold">Student Portal Login</h2>
                     <p class="text-xs text-neutral-400">Access Malnad Canteen Services</p>
                 </div>
-
                 <div class="flex bg-neutral-100 dark:bg-neutral-800 p-1 rounded-xl">
                     <button type="button" id="tab-login" onclick="switchAuth('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm">Login</button>
                     <button type="button" id="tab-signup" onclick="switchAuth('signup')" class="flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500">Sign Up</button>
                 </div>
 
-                <!-- Login Form -->
                 <form id="form-login" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold mb-1">USN / Email / Phone</label>
-                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold mb-1">Password</label>
-                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
-                    <div class="text-right">
-                        <button type="button" onclick="showForgot()" class="text-xs text-amber-600 font-semibold hover:underline">Forgot Password?</button>
-                    </div>
-                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Secure Login</button>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Secure Login</button>
                 </form>
 
-                <!-- Signup Form -->
                 <form id="form-signup" class="space-y-4" style="display: none;">
                     <div>
                         <label class="block text-xs font-semibold mb-1">College USN</label>
@@ -124,25 +112,11 @@
                         <label class="block text-xs font-semibold mb-1">Create Password</label>
                         <input type="password" id="su-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Register & Login</button>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Register & Login</button>
                 </form>
-
-                <!-- Forgot Password Flow -->
-                <div id="form-forgot" class="space-y-4" style="display: none;">
-                    <h3 class="font-bold text-sm">Account Recovery</h3>
-                    <input type="text" id="fg-target" placeholder="Enter USN, Email or Phone" class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
-                    <button type="button" onclick="sendOtp()" class="w-full py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm">Send Verification OTP</button>
-                    <div id="otp-box" class="space-y-3" style="display: none;">
-                        <p class="text-xs text-green-500 font-semibold">Simulated OTP Code: <span id="otp-demo" class="font-bold underline"></span></p>
-                        <input type="text" id="fg-otp" placeholder="Enter 4-digit OTP" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
-                        <input type="password" id="fg-newpass" placeholder="New Password" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
-                        <button type="button" onclick="resetPassword()" class="w-full py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm">Update Password</button>
-                    </div>
-                    <button type="button" onclick="switchAuth('login')" class="w-full text-xs text-neutral-400 underline text-center">Back to Login</button>
-                </div>
             </div>
 
-            <!-- 2. MENU SCREEN -->
+            <!-- Menu View -->
             <div id="view-menu" class="p-4 space-y-4" style="display: none;">
                 <div class="flex justify-between items-center bg-gradient-to-r from-amber-500 to-orange-500 p-4 rounded-2xl text-neutral-950">
                     <div>
@@ -154,11 +128,10 @@
                         <span id="badge-cart-count">0</span>
                     </button>
                 </div>
-
                 <div id="menu-grid" class="grid grid-cols-1 gap-3.5"></div>
             </div>
 
-            <!-- 3. CART & CHECKOUT SCREEN -->
+            <!-- Cart View -->
             <div id="view-cart" class="p-4 space-y-4" style="display: none;">
                 <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
                     <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-amber-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
@@ -185,79 +158,66 @@
                 </div>
             </div>
 
-            <!-- 4. PROCESSING / 7-SECOND CONFIRMATION SCREEN -->
+            <!-- 7-Second Processing View -->
             <div id="view-processing" class="p-6 text-center space-y-6 my-auto" style="display: none;">
-                <div class="w-24 h-24 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
+                <div class="w-24 h-24 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                 </div>
                 <div class="space-y-2">
                     <h2 class="text-2xl font-black">Processing Order...</h2>
-                    <p class="text-xs text-neutral-400 max-w-xs mx-auto">Review your selection. You can cancel within the next <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds before kitchen dispatch.</p>
+                    <p class="text-xs text-neutral-400">Confirming payment. Cancel within <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds if needed.</p>
                 </div>
-                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1.5" id="processing-summary"></div>
+                <div id="processing-summary" class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1"></div>
                 <button type="button" onclick="cancelProcessing()" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition">Cancel Order</button>
             </div>
 
-            <!-- 5. INVOICE & SUCCESS SCREEN -->
+            <!-- Invoice / Status View -->
             <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
                 <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold">Order Confirmed & Saved!</h2>
+                    <h2 class="text-xl font-bold">Order Placed & Invoice Downloaded!</h2>
                     <p class="text-xs text-neutral-400">Order ID: <span id="inv-order-id" class="font-bold text-amber-500"></span></p>
-                    <p class="text-[11px] text-green-600 mt-1 font-semibold"><i class="fa-solid fa-download mr-1"></i> Invoice automatically downloaded to your device!</p>
                 </div>
-
-                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700" id="invoice-details-box"></div>
-
-                <div class="space-y-2">
-                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Back to Menu</button>
-                </div>
+                <div id="invoice-details-box" class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700"></div>
+                <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
             </div>
 
         </main>
 
-        <!-- Floating Bottom Cart & Live Status Bar -->
-        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-3 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
-            <div onclick="openSettings()" class="cursor-pointer">
-                <p class="text-[10px] text-neutral-400 font-medium">Live Order Status</p>
-                <p id="bottom-live-status" class="font-bold text-amber-500 text-xs flex items-center space-x-1">
-                    <i class="fa-solid fa-circle-notch animate-spin text-[10px]"></i>
-                    <span>Check tracker in settings</span>
-                </p>
+        <!-- Floating Cart & Live Tracking Bars -->
+        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
+            <div>
+                <p class="text-[10px] text-neutral-400 font-medium">Cart Total</p>
+                <p id="bottom-cart-total" class="font-black text-amber-500 text-base">₹0</p>
             </div>
-            <button type="button" onclick="navigate('cart')" class="px-5 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-xs shadow-lg shadow-amber-500/20 hover:bg-amber-400 flex items-center space-x-1.5">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span id="bottom-cart-label">Go to Cart (₹0)</span>
-            </button>
+            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-sm shadow-lg hover:bg-amber-400">Go to Cart</button>
         </div>
 
-        <!-- Settings Modal Drawer (Includes Live Order Status Tracker) -->
+        <div id="floating-order-status-bar" class="absolute bottom-0 inset-x-0 p-3 bg-neutral-950 text-white border-t border-amber-500/30 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
+            <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 rounded-full bg-amber-500 animate-ping"></div>
+                <div>
+                    <p class="text-[10px] text-neutral-400 font-bold">ACTIVE ORDER STATUS</p>
+                    <p id="tracker-status-text" class="text-xs font-bold text-amber-400">Order Received by Kitchen</p>
+                </div>
+            </div>
+            <span id="tracker-order-id" class="text-[10px] bg-neutral-800 px-2 py-1 rounded text-neutral-300 font-mono"></span>
+        </div>
+
+        <!-- Settings Modal -->
         <div id="settings-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
             <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
-                    <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings & Status</h3>
+                    <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings</h3>
                     <button type="button" onclick="closeSettings()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
-
-                <!-- Profile Summary -->
                 <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-1 text-xs">
                     <p class="font-bold text-sm" id="set-profile-name">-</p>
                     <p class="text-neutral-400" id="set-profile-meta">-</p>
-                    <p class="text-neutral-400" id="set-profile-contact">-</p>
                 </div>
-
-                <!-- Real-Time Order Status Tracker -->
-                <div class="space-y-2">
-                    <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 flex justify-between items-center">
-                        <span>Live Kitchen Tracker</span>
-                        <span class="text-[10px] text-amber-500 animate-pulse font-normal"><i class="fa-solid fa-rotate"></i> Auto-syncing</span>
-                    </h4>
-                    <div id="settings-order-history" class="space-y-2 max-h-56 overflow-y-auto text-xs"></div>
-                </div>
-
-                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 dark:bg-red-600/20 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
+                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 font-bold rounded-xl text-sm">Sign Out</button>
             </div>
         </div>
 
@@ -6376,41 +6336,32 @@
 ];
 
         const menu = [
-            { id: 1, name: "Masala Dosa", price: 50, img: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&auto=format&fit=crop&q=80" },
-            { id: 2, name: "Idli Vada Combo", price: 40, img: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&auto=format&fit=crop&q=80" },
-            { id: 3, name: "Veg Fried Rice", price: 70, img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&auto=format&fit=crop&q=80" },
-            { id: 4, name: "Cold Coffee", price: 40, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&auto=format&fit=crop&q=80" }
+            { id: 1, name: "The Ultimate ByteBite Burger", price: 350, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&auto=format&fit=crop&q=80" },
+            { id: 2, name: "Crispy Peri-Peri Fries", price: 120, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&auto=format&fit=crop&q=80" },
+            { id: 3, name: "Classic Cold Coffee", price: 90, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&auto=format&fit=crop&q=80" },
+            { id: 4, name: "Extra Cheese Slice", price: 30, img: "https://images.unsplash.com/photo-1552767059-ce182ead8c1b?w=400&auto=format&fit=crop&q=80" }
         ];
 
         let cartMap = {};
         let activeUser = null;
         let pendingOrder = null;
         let countdownInterval = null;
-        let generatedOtpCode = null;
-        let recoveryKey = null;
-        let serverOrdersCache = [];
+        let activeOrderPoll = null;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Splash Screen Timer (5 Seconds)
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.classList.add('splash-hidden');
-            }, 5000);
+            setTimeout(() => { document.getElementById('splash-screen').classList.add('splash-hidden'); }, 5000);
 
-            // Persistent Session Check
             const saved = localStorage.getItem('mce_permanent_user');
             if (saved) {
                 activeUser = JSON.parse(saved);
                 startAppSession();
             }
 
-            // Dark Mode Init
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').className = "fa-solid fa-sun";
             }
 
-            // Signup USN Auto-fill
             document.getElementById('su-usn').oninput = (e) => {
                 const val = e.target.value.trim().toUpperCase();
                 const found = students.find(s => s.usn.toUpperCase() === val);
@@ -6420,23 +6371,14 @@
                     document.getElementById('af-branch').innerText = found.branch;
                     document.getElementById('af-sec').innerText = found.sec;
                     box.style.display = 'block';
-                } else {
-                    box.style.display = 'none';
-                }
+                } else { box.style.display = 'none'; }
             };
 
-            // Signup Submit Handler
             document.getElementById('form-signup').onsubmit = (e) => {
                 e.preventDefault();
                 const usn = document.getElementById('su-usn').value.trim().toUpperCase();
                 const found = students.find(s => s.usn.toUpperCase() === usn);
-                if (!found) return alert("USN not found in Malnad official records!");
-
-                if (localStorage.getItem('usr_' + usn)) {
-                    alert("Account already exists! Please login.");
-                    switchAuth('login');
-                    return;
-                }
+                if (!found) return alert("USN not found in official records!");
 
                 const newUser = {
                     ...found,
@@ -6445,13 +6387,11 @@
                     pass: document.getElementById('su-pass').value
                 };
                 localStorage.setItem('usr_' + usn, JSON.stringify(newUser));
-                
                 activeUser = newUser;
                 localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
                 startAppSession();
             };
 
-            // Login Submit Handler
             document.getElementById('form-login').onsubmit = (e) => {
                 e.preventDefault();
                 const id = document.getElementById('login-id').value.trim().toUpperCase();
@@ -6463,8 +6403,7 @@
                     if (key.startsWith('usr_')) {
                         let u = JSON.parse(localStorage.getItem(key));
                         if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
-                            matched = u;
-                            break;
+                            matched = u; break;
                         }
                     }
                 }
@@ -6473,45 +6412,9 @@
                     activeUser = matched;
                     localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
                     startAppSession();
-                } else {
-                    alert("Invalid credentials!");
-                }
+                } else { alert("Invalid credentials!"); }
             };
-
-            // Poll server orders for real-time kitchen tracking sync
-            setInterval(fetchServerOrders, 3000);
         });
-
-        async function fetchServerOrders() {
-            try {
-                const res = await fetch('/api/orders');
-                serverOrdersCache = await res.json();
-                updateLiveStatusBar();
-            } catch (e) {
-                console.error("Sync error", e);
-            }
-        }
-
-        function updateLiveStatusBar() {
-            if (!activeUser) return;
-            const myOrders = serverOrdersCache.filter(o => o.usn === activeUser.usn);
-            if (myOrders.length === 0) return;
-
-            const latest = myOrders[0];
-            const statusEl = document.getElementById('bottom-live-status');
-            
-            let badgeText = "Order Placed";
-            let badgeColor = "text-amber-500";
-            if (latest.statusStage === 2) {
-                badgeText = "Preparing 👨‍🍳";
-                badgeColor = "text-blue-500";
-            } else if (latest.statusStage >= 3) {
-                badgeText = "Ready for Pickup! 🔔";
-                badgeColor = "text-green-500 font-black animate-pulse";
-            }
-            statusEl.className = `font-bold text-xs flex items-center space-x-1 ${badgeColor}`;
-            statusEl.innerHTML = `<i class="fa-solid fa-circle text-[8px]"></i><span>${latest.id}: ${badgeText}</span>`;
-        }
 
         function toggleDarkMode() {
             const html = document.documentElement;
@@ -6530,46 +6433,6 @@
         function switchAuth(type) {
             document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
             document.getElementById('form-signup').style.display = type === 'signup' ? 'block' : 'none';
-            document.getElementById('form-forgot').style.display = 'none';
-            document.getElementById('tab-login').className = type === 'login' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
-            document.getElementById('tab-signup').className = type === 'signup' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
-        }
-
-        function showForgot() {
-            document.getElementById('form-login').style.display = 'none';
-            document.getElementById('form-signup').style.display = 'none';
-            document.getElementById('form-forgot').style.display = 'block';
-        }
-
-        function sendOtp() {
-            const target = document.getElementById('fg-target').value.trim().toUpperCase();
-            let keyMatch = null;
-            for (let i = 0; i < localStorage.length; i++) {
-                let k = localStorage.key(i);
-                if (k.startsWith('usr_')) {
-                    let u = JSON.parse(localStorage.getItem(k));
-                    if (u.usn.toUpperCase() === target || u.email.toUpperCase() === target || u.phone === target) {
-                        keyMatch = k;
-                        break;
-                    }
-                }
-            }
-            if (!keyMatch) return alert("Account not found.");
-            recoveryKey = keyMatch;
-            generatedOtpCode = Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('otp-demo').innerText = generatedOtpCode;
-            document.getElementById('otp-box').style.display = 'block';
-        }
-
-        function resetPassword() {
-            const otp = document.getElementById('fg-otp').value.trim();
-            const newp = document.getElementById('fg-newpass').value;
-            if (otp != generatedOtpCode) return alert("Invalid OTP");
-            let u = JSON.parse(localStorage.getItem(recoveryKey));
-            u.pass = newp;
-            localStorage.setItem(recoveryKey, JSON.stringify(u));
-            alert("Password successfully updated!");
-            switchAuth('login');
         }
 
         function startAppSession() {
@@ -6577,14 +6440,16 @@
             document.getElementById('settings-nav-btn').style.display = 'flex';
             navigate('menu');
             renderMenu();
-            fetchServerOrders();
+            startLiveOrderPolling();
         }
 
         function logoutUser() {
             activeUser = null;
             localStorage.removeItem('mce_permanent_user');
             closeSettings();
+            clearInterval(activeOrderPoll);
             document.getElementById('floating-cart-bar').style.display = 'none';
+            document.getElementById('floating-order-status-bar').style.display = 'none';
             document.getElementById('settings-nav-btn').style.display = 'none';
             document.getElementById('view-auth').style.display = 'block';
             ['view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
@@ -6593,14 +6458,8 @@
         function navigate(viewName) {
             ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById('view-' + viewName).style.display = 'block';
-            
-            if (viewName === 'menu') {
-                renderMenu();
-                checkCartBar();
-            } else if (viewName === 'cart') {
-                renderCartView();
-                document.getElementById('floating-cart-bar').style.display = 'none';
-            }
+            if (viewName === 'menu') { renderMenu(); checkCartBar(); }
+            else if (viewName === 'cart') { renderCartView(); document.getElementById('floating-cart-bar').style.display = 'none'; }
         }
 
         function renderMenu() {
@@ -6613,7 +6472,7 @@
                         <h4 class="font-bold text-sm">${item.name}</h4>
                         <p class="text-amber-500 font-extrabold text-sm">₹${item.price}</p>
                         ${qty === 0 ? `
-                            <button type="button" onclick="modifyQty(${item.id}, 1)" class="px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-lg hover:bg-amber-500 hover:text-white transition">Add to Cart</button>
+                            <button type="button" onclick="modifyQty(${item.id}, 1)" class="px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-lg">Add to Cart</button>
                         ` : `
                             <div class="flex items-center space-x-2 bg-amber-500 text-neutral-950 rounded-lg p-1 w-fit">
                                 <button type="button" onclick="modifyQty(${item.id}, -1)" class="w-6 h-6 font-bold flex items-center justify-center bg-amber-600 text-white rounded">-</button>
@@ -6629,8 +6488,7 @@
         function modifyQty(id, delta) {
             cartMap[id] = (cartMap[id] || 0) + delta;
             if (cartMap[id] <= 0) delete cartMap[id];
-            renderMenu();
-            checkCartBar();
+            renderMenu(); checkCartBar();
         }
 
         function getCartItemsArray() {
@@ -6638,7 +6496,8 @@
             for (let id in cartMap) {
                 let m = menu.find(x => x.id == id);
                 if (m) {
-                    for (let i = 0; i < cartMap[id]; i++) list.push({ name: m.name, price: m.price });
+                    let qty = cartMap[id];
+                    list.push({ name: m.name, qty: qty, price: m.price, amount: m.price * qty });
                 }
             }
             return list;
@@ -6649,12 +6508,10 @@
             const bar = document.getElementById('floating-cart-bar');
             if (list.length > 0) {
                 bar.style.display = 'flex';
-                let total = list.reduce((s, i) => s + i.price, 0);
-                document.getElementById('bottom-cart-label').innerText = `Go to Cart (₹${total})`;
+                let total = list.reduce((s, i) => s + i.amount, 0);
+                document.getElementById('bottom-cart-total').innerText = '₹' + total;
                 document.getElementById('badge-cart-count').innerText = list.length;
-            } else {
-                bar.style.display = 'none';
-            }
+            } else { bar.style.display = 'none'; }
         }
 
         function renderCartView() {
@@ -6666,15 +6523,13 @@
                 document.getElementById('cart-total').innerText = '₹0';
                 return;
             }
-
-            let subtotal = list.reduce((s, i) => s + i.price, 0);
-            container.innerHTML = list.map((item, idx) => `
+            let subtotal = list.reduce((s, i) => s + i.amount, 0);
+            container.innerHTML = list.map(item => `
                 <div class="flex justify-between items-center bg-neutral-50 dark:bg-neutral-800 p-3 rounded-xl text-xs">
-                    <span>${item.name}</span>
-                    <span class="font-bold text-amber-500">₹${item.price}</span>
+                    <span>${item.name} (x${item.qty})</span>
+                    <span class="font-bold text-amber-500">₹${item.amount}</span>
                 </div>
             `).join('');
-
             document.getElementById('cart-subtotal').innerText = '₹' + subtotal;
             document.getElementById('cart-total').innerText = '₹' + subtotal;
         }
@@ -6683,27 +6538,33 @@
             const list = getCartItemsArray();
             if (list.length === 0) return alert("Cart is empty!");
 
+            const subtotal = list.reduce((s, i) => s + i.amount, 0);
+            const cgst = parseFloat((subtotal * 0.025).toFixed(2));
+            const sgst = parseFloat((subtotal * 0.025).toFixed(2));
+            const grandTotal = parseFloat((subtotal + cgst + sgst).toFixed(2));
+
             pendingOrder = {
-                id: 'ORD' + Math.floor(1000 + Math.random() * 9000),
+                id: 'BB-' + Math.floor(1000 + Math.random() * 9000) + '-01',
                 studentName: activeUser.name,
                 usn: activeUser.usn,
-                branch: activeUser.branch,
                 sec: activeUser.sec,
+                branch: activeUser.branch,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: list,
-                total: list.reduce((s, i) => s + i.price, 0),
+                subtotal: subtotal,
+                cgst: cgst,
+                sgst: sgst,
+                total: grandTotal,
                 payment: document.getElementById('payment-mode').value,
-                statusStage: 1 // 1: Placed, 2: Preparing, 3: Ready
+                statusStage: 1
             };
 
             navigate('processing');
-            
             let secondsLeft = 7;
             document.getElementById('countdown-timer').innerText = secondsLeft;
-            
             document.getElementById('processing-summary').innerHTML = `
-                <p><strong>Order ID:</strong> ${pendingOrder.id}</p>
-                <p><strong>Total Amount:</strong> ₹${pendingOrder.total}</p>
+                <p><strong>Order No:</strong> ${pendingOrder.id}</p>
+                <p><strong>Grand Total:</strong> ₹${pendingOrder.total}</p>
                 <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
             `;
 
@@ -6722,7 +6583,7 @@
             clearInterval(countdownInterval);
             pendingOrder = null;
             navigate('cart');
-            alert("Order cancelled successfully.");
+            alert("Order cancelled.");
         }
 
         async function finalizeAndPushOrder() {
@@ -6732,85 +6593,127 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(pendingOrder)
                 });
-            } catch (e) {
-                console.error("Server sync error");
-            }
+            } catch (e) { console.error("Sync error", e); }
 
-            // Render Invoice View
-            document.getElementById('inv-order-id').innerText = pendingOrder.id;
-            document.getElementById('invoice-details-box').innerHTML = `
-                <p><strong>Student:</strong> ${activeUser.name} (${activeUser.usn})</p>
-                <p><strong>Branch/Sec:</strong> ${activeUser.branch} - ${activeUser.sec}</p>
-                <p><strong>Time:</strong> ${pendingOrder.time}</p>
-                <p><strong>Payment Mode:</strong> ${pendingOrder.payment}</p>
-                <div class="border-t pt-2 mt-2 space-y-1">
-                    ${pendingOrder.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
-                </div>
-                <div class="border-t pt-2 font-bold flex justify-between text-amber-500 text-sm">
-                    <span>Total Paid:</span>
-                    <span>₹${pendingOrder.total}</span>
-                </div>
-            `;
-
-            // Automatic Invoice File Download
-            triggerAutomaticDownload();
+            // Automatic Exact Template Invoice Download
+            downloadBrandedInvoice(pendingOrder);
 
             cartMap = {};
             navigate('invoice');
-            fetchServerOrders();
+            startLiveOrderPolling();
         }
 
-        function triggerAutomaticDownload() {
-            if (!pendingOrder) return;
-            const content = `--- MCE BYTEBITES OFFICIAL INVOICE ---\nOrder ID: ${pendingOrder.id}\nStudent: ${activeUser.name} (${activeUser.usn})\nBranch: ${activeUser.branch}-${activeUser.sec}\nTime: ${pendingOrder.time}\nPayment: ${pendingOrder.payment}\nTotal: ₹${pendingOrder.total}\n---------------------------------------\nItems:\n` + pendingOrder.items.map(i => `- ${i.name}: ₹${i.price}`).join('\n');
-            const blob = new Blob([content], { type: 'text/plain' });
+        function downloadBrandedInvoice(ord) {
+            const invoiceHTML = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body { font-family: 'Georgia', serif; background-color: #f7f5f0; padding: 20px; }
+                    .invoice-card { max-width: 500px; margin: auto; background: #fff; border: 2px solid #c5a059; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+                    .header { text-align: center; border-bottom: 2px solid #111; padding-bottom: 15px; }
+                    .header h2 { font-size: 14px; letter-spacing: 2px; margin: 0; color: #111; text-transform: uppercase; }
+                    .brand { font-size: 28px; font-weight: 900; color: #b8860b; margin: 10px 0 5px; font-family: sans-serif; }
+                    .subbrand { font-size: 10px; text-transform: uppercase; color: #555; font-family: sans-serif; }
+                    .title { text-align: center; font-size: 18px; font-weight: bold; margin: 15px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 5px 0; }
+                    .meta p { margin: 3px 0; font-size: 13px; color: #222; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+                    th, td { text-align: left; padding: 8px 4px; border-bottom: 1px solid #eee; }
+                    th { font-family: sans-serif; font-size: 11px; text-transform: uppercase; border-bottom: 2px solid #111; }
+                    .totals { width: 100%; margin-top: 15px; font-size: 12px; text-align: right; }
+                    .totals td { padding: 4px 0; }
+                    .grand { font-size: 16px; font-weight: bold; color: #b8860b; border-top: 2px solid #111; padding-top: 6px; }
+                </style>
+            </head>
+            <body>
+                <div class="invoice-card">
+                    <div class="header">
+                        <h2>MALNAD COLLEGE OF ENGINEERING PRESENTS</h2>
+                        <div class="brand">BYTEBITES</div>
+                        <div class="subbrand">co-powered by MALNAD COLLEGE CANTEEN</div>
+                    </div>
+                    <div class="title">INVOICE / BILL</div>
+                    <div class="meta">
+                        <p><strong>Name:</strong> ${ord.studentName}</p>
+                        <p><strong>Order No:</strong> ${ord.id}</p>
+                        <p><strong>USN Number:</strong> ${ord.usn}</p>
+                        <p><strong>Section:</strong> ${ord.sec}</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Price (INR)</th>
+                                <th>Amount (INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${ord.items.map(i => `
+                                <tr>
+                                    <td>${i.name}</td>
+                                    <td>${i.qty}</td>
+                                    <td>${i.price.toFixed(2)}</td>
+                                    <td>${i.amount.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <table class="totals">
+                        <tr><td>Subtotal:</td><td>${ord.subtotal.toFixed(2)} INR</td></tr>
+                        <tr><td>CGST (2.5%):</td><td>${ord.cgst.toFixed(2)} INR</td></tr>
+                        <tr><td>SGST (2.5%):</td><td>${ord.sgst.toFixed(2)} INR</td></tr>
+                        <tr class="grand"><td>Grand Total:</td><td>${ord.total.toFixed(2)} INR</td></tr>
+                    </table>
+                </div>
+            </body>
+            </html>
+            `;
+
+            const blob = new Blob([invoiceHTML], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${pendingOrder.id}_Invoice.txt`;
+            a.download = `${ord.id}_Invoice.html`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        }
+
+        function startLiveOrderPolling() {
+            if (activeOrderPoll) clearInterval(activeOrderPoll);
+            activeOrderPoll = setInterval(checkActiveOrderStatus, 3000);
+            checkActiveOrderStatus();
+        }
+
+        async function checkActiveOrderStatus() {
+            if (!activeUser) return;
+            try {
+                const res = await fetch('/api/orders');
+                const orders = await res.json();
+                const myActive = orders.find(o => o.usn.toUpperCase() === activeUser.usn.toUpperCase() && o.statusStage < 3);
+                
+                const bar = document.getElementById('floating-order-status-bar');
+                if (myActive) {
+                    bar.style.display = 'flex';
+                    document.getElementById('tracker-order-id').innerText = myActive.id;
+                    const txt = document.getElementById('tracker-status-text');
+                    if (myActive.statusStage === 1) txt.innerText = "Order Received by Kitchen";
+                    else if (myActive.statusStage === 2) txt.innerText = "🍳 Order Preparing in Kitchen...";
+                    else if (myActive.statusStage === 3) txt.innerText = "🎉 Order READY FOR PICKUP!";
+                } else {
+                    bar.style.display = 'none';
+                }
+            } catch (e) { console.error("Poll error", e); }
         }
 
         function openSettings() {
             document.getElementById('set-profile-name').innerText = activeUser.name;
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
-            document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
-
-            const myOrders = serverOrdersCache.filter(o => o.usn === activeUser.usn);
-            const hContainer = document.getElementById('settings-order-history');
-            
-            if (myOrders.length === 0) {
-                hContainer.innerHTML = `<p class="text-neutral-400 text-center py-4">No active orders found.</p>`;
-            } else {
-                hContainer.innerHTML = myOrders.map(o => {
-                    let statusLabel = '<span class="px-2 py-0.5 bg-amber-500/10 text-amber-500 font-bold rounded text-[10px]">Order Placed</span>';
-                    if (o.statusStage === 2) {
-                        statusLabel = '<span class="px-2 py-0.5 bg-blue-500/10 text-blue-500 font-bold rounded text-[10px]">Preparing 👨‍🍳</span>';
-                    } else if (o.statusStage >= 3) {
-                        statusLabel = '<span class="px-2 py-0.5 bg-green-500/20 text-green-500 font-extrabold rounded text-[10px] animate-pulse">Ready for Pickup! 🔔</span>';
-                    }
-                    return `
-                    <div class="bg-neutral-100 dark:bg-neutral-800 p-3 rounded-xl space-y-2">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-bold text-amber-500">${o.id} <span class="text-neutral-400 font-normal text-[10px]">(${o.time})</span></p>
-                                <p class="text-[10px] text-neutral-400">${o.items.length} items • ₹${o.total}</p>
-                            </div>
-                            <div>${statusLabel}</div>
-                        </div>
-                    </div>`;
-                }).join('');
-            }
-
             document.getElementById('settings-modal').style.display = 'flex';
         }
 
-        function closeSettings() {
-            document.getElementById('settings-modal').style.display = 'none';
-        }
+        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
