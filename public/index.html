@@ -2,263 +2,262 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BYTEBITES - Malnad College Canteen</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        gold: { 400: '#f1c40f', 500: '#d4af37', 600: '#b8860b' },
-                        royal: '#0B132B'
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class' }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
-        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); }
-        .dark .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
-        .gold-border { border: 2px solid #d4af37; }
-        .gold-gradient { background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%); }
-        .gold-text { background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #b38728 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        @keyframes fadeOut { 0% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-        .animate-splash { animation: fadeOut 5s forwards; }
+        #splash-screen {
+            background: #fbf9f4;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        .splash-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+        .animate-brand { animation: pulse-logo 2.5s infinite ease-in-out; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-slate-950 text-gray-900 dark:text-gray-100 min-h-screen flex justify-center items-center">
+<body class="bg-gray-100 dark:bg-neutral-950 font-sans min-h-screen flex justify-center items-center text-neutral-800 dark:text-neutral-100 transition-colors duration-300">
 
-    <!-- Mobile Screen Wrapper Container -->
-    <div class="w-full max-w-md h-screen md:h-[92vh] md:rounded-3xl bg-white dark:bg-slate-900 shadow-2xl overflow-hidden relative flex flex-col border border-gray-200 dark:border-slate-800">
+    <!-- Mobile Frame Wrapper -->
+    <div class="w-full max-w-md min-h-screen sm:min-h-[850px] sm:rounded-3xl sm:shadow-2xl bg-white dark:bg-neutral-900 flex flex-col relative overflow-hidden border border-neutral-200 dark:border-neutral-800">
 
-        <!-- 1. Luxurious 5-Second Splash Screen Overlay -->
-        <div id="splash-screen" class="fixed inset-0 z-50 bg-[#0a0f1d] text-white flex flex-col items-center justify-between p-8 text-center animate-splash max-w-md mx-auto">
-            <div class="pt-6 space-y-1">
-                <p class="text-xs uppercase tracking-[0.25em] font-serif text-amber-300/80">MALNAD COLLEGE OF ENGINEERING</p>
-                <p class="text-[10px] uppercase tracking-[0.4em] font-light text-amber-200/60">PRESENTS</p>
-            </div>
-
-            <!-- Graphic Burger Crest -->
-            <div class="relative my-auto">
-                <div class="w-48 h-48 rounded-full border-2 border-amber-400/40 flex items-center justify-center p-3 relative shadow-[0_0_50px_rgba(212,175,55,0.2)]">
-                    <div class="w-full h-full rounded-full border border-amber-500/30 flex flex-col items-center justify-center bg-[#070b14]">
-                        <i class="fa-solid fa-burger text-6xl text-amber-400 drop-shadow-[0_4px_10px_rgba(212,175,55,0.5)]"></i>
+        <!-- Splash Screen (Exact Image Match) -->
+        <div id="splash-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center bg-[#fbf9f4] dark:bg-neutral-900">
+            <div class="space-y-6 animate-brand max-w-xs">
+                <p class="text-xs font-bold tracking-[0.2em] text-neutral-600 dark:text-amber-400 uppercase">Malnad College of Engineering Presents</p>
+                <div class="relative w-44 h-44 mx-auto rounded-full bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-300 p-1 shadow-2xl flex items-center justify-center">
+                    <div class="w-full h-full bg-[#0a1128] rounded-full flex flex-col items-center justify-center p-4 relative overflow-hidden border-2 border-amber-400/40">
+                        <i class="fa-solid fa-burger text-5xl text-amber-400 mb-2 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]"></i>
+                        <span class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 font-serif">BYTEBITES</span>
+                        <span class="text-[9px] uppercase tracking-widest text-amber-100/90 font-medium mt-0.5">co-powered by<br>Malnad College Canteen</span>
                     </div>
                 </div>
-                <div class="mt-6 space-y-0.5">
-                    <h1 class="text-4xl font-black tracking-wider gold-text uppercase">BYTEBITES</h1>
-                    <p class="text-[10px] text-amber-200/80 font-medium tracking-wide">co-powered by MALNAD COLLEGE CANTEEN</p>
-                </div>
             </div>
-
-            <div class="pb-6 flex items-center space-x-2 text-amber-400 text-xs">
-                <i class="fa-solid fa-circle-notch animate-spin"></i>
-                <span class="tracking-widest uppercase text-[10px]">Loading Gourmet Suite...</span>
+            <div class="absolute bottom-10 flex items-center space-x-2 text-xs text-neutral-500 font-medium">
+                <i class="fa-solid fa-circle-notch animate-spin text-amber-600"></i>
+                <span>Loading secure dining portal...</span>
             </div>
         </div>
 
-        <!-- Header Bar (Always Visible) -->
-        <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 px-4 py-3 flex justify-between items-center sticky top-0 z-30">
-            <div>
-                <h1 class="text-lg font-black tracking-tight text-orange-600 dark:text-amber-400 leading-tight">BYTEBITES</h1>
-                <p class="text-[9px] font-semibold text-gray-500 dark:text-gray-400 tracking-tight">co-powered by MALNAD COLLEGE CANTEEN</p>
+        <!-- Global Header -->
+        <header class="px-5 py-4 border-b border-neutral-100 dark:border-neutral-800 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md z-30">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="navigate('menu')">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 text-neutral-950 flex items-center justify-center font-black">
+                    <i class="fa-solid fa-burger text-sm"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-black tracking-tight leading-none text-amber-600 dark:text-amber-400">BYTEBITES</h1>
+                    <span class="text-[8px] text-neutral-400 tracking-wider">co-powered by Malnad College Canteen</span>
+                </div>
             </div>
-            
             <div class="flex items-center space-x-3">
-                <!-- Theme Toggle Button -->
-                <button type="button" onclick="toggleTheme()" class="p-2 text-gray-600 dark:text-amber-400 hover:opacity-80 text-base">
+                <!-- Theme Toggle -->
+                <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
                     <i id="theme-icon" class="fa-solid fa-moon"></i>
                 </button>
-                
-                <!-- Cart Header Icon -->
-                <button type="button" onclick="openCartPage()" class="relative p-2 text-gray-700 dark:text-gray-200">
-                    <i class="fa-solid fa-cart-shopping text-base"></i>
-                    <span id="header-cart-badge" class="absolute -top-1 -right-1 bg-orange-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
-                </button>
-
-                <!-- Settings Gear Icon -->
-                <button type="button" onclick="toggleSettings()" class="p-2 text-gray-700 dark:text-gray-200">
-                    <i class="fa-solid fa-gear text-base"></i>
+                <!-- Settings Button -->
+                <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-xs transition" style="display: none;">
+                    <i class="fa-solid fa-gear"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Main Scrollable App Canvas -->
-        <div class="flex-1 overflow-y-auto relative pb-20">
+        <!-- Main Dynamic View Container -->
+        <main class="flex-1 overflow-y-auto pb-24">
 
-            <!-- Auth Section -->
-            <div id="view-auth" class="p-6 space-y-6 my-auto min-h-[80vh] flex flex-col justify-center">
-                <div class="text-center space-y-1">
-                    <div class="w-16 h-16 bg-orange-500/10 dark:bg-amber-400/10 text-orange-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-2xl border border-orange-500/20">
-                        <i class="fa-solid fa-burger"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-800 dark:text-white pt-2">Student Access</h2>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Sign in once for permanent access</p>
+            <!-- 1. AUTH SCREEN -->
+            <div id="view-auth" class="p-6 space-y-6">
+                <div class="text-center space-y-1 mt-4">
+                    <h2 class="text-xl font-bold">Student Portal Login</h2>
+                    <p class="text-xs text-neutral-400">Access Malnad Canteen Services</p>
                 </div>
 
-                <div id="auth-tabs" class="flex bg-gray-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
-                    <button type="button" id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm">Login</button>
-                    <button type="button" id="tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400">Sign Up</button>
+                <div class="flex bg-neutral-100 dark:bg-neutral-800 p-1 rounded-xl">
+                    <button type="button" id="tab-login" onclick="switchAuth('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm">Login</button>
+                    <button type="button" id="tab-signup" onclick="switchAuth('signup')" class="flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500">Sign Up</button>
                 </div>
 
                 <!-- Login Form -->
-                <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+                <form id="form-login" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">USN / Email / Phone</label>
-                        <input type="text" id="login-id" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+                        <label class="block text-xs font-semibold mb-1">USN / Email / Phone</label>
+                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Password</label>
-                        <input type="password" id="login-pass" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 outline-none">
+                        <label class="block text-xs font-semibold mb-1">Password</label>
+                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:opacity-90 transition">Login to Portal</button>
+                    <div class="text-right">
+                        <button type="button" onclick="showForgot()" class="text-xs text-amber-600 font-semibold hover:underline">Forgot Password?</button>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Secure Login</button>
                 </form>
 
                 <!-- Signup Form -->
-                <form id="form-signup" onsubmit="handleSignup(event)" class="space-y-3 hidden">
+                <form id="form-signup" class="space-y-4" style="display: none;">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">College USN</label>
-                        <input type="text" id="signup-usn" placeholder="e.g., MCE26CS058K13" oninput="autofillStudentDetails()" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
+                        <label class="block text-xs font-semibold mb-1">College USN</label>
+                        <input type="text" id="su-usn" placeholder="e.g. MCE26CS058K13" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm uppercase">
                     </div>
-                    <div id="autofill-card" class="bg-orange-50 dark:bg-slate-800/60 p-3 rounded-xl text-xs space-y-1 hidden border border-orange-200 dark:border-slate-700">
-                        <p class="font-bold text-orange-800 dark:text-amber-400" id="af-name"></p>
-                        <p class="text-gray-600 dark:text-gray-300" id="af-meta"></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Phone Number</label>
-                        <input type="tel" id="signup-phone" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
+                    <div id="su-autofill" class="p-3 bg-amber-50 dark:bg-neutral-800/50 rounded-xl text-xs space-y-1 border border-amber-200/50" style="display: none;">
+                        <p><strong>Name:</strong> <span id="af-name">-</span></p>
+                        <p><strong>Branch / Sec:</strong> <span id="af-branch">-</span> - <span id="af-sec">-</span></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Email</label>
-                        <input type="email" id="signup-email" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
+                        <label class="block text-xs font-semibold mb-1">Phone Number</label>
+                        <input type="tel" id="su-phone" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Create Password</label>
-                        <input type="password" id="signup-pass" required class="w-full p-3 bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 rounded-xl text-sm outline-none">
+                        <label class="block text-xs font-semibold mb-1">Email</label>
+                        <input type="email" id="su-email" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-sm rounded-xl shadow-lg hover:opacity-90 transition">Register & Enter Directly</button>
+                    <div>
+                        <label class="block text-xs font-semibold mb-1">Create Password</label>
+                        <input type="password" id="su-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Register & Login</button>
                 </form>
-            </div>
 
-            <!-- Menu Interface Page -->
-            <div id="view-menu" class="p-4 space-y-4 hidden">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-base font-bold text-gray-800 dark:text-white">Gourmet Canteen Menu</h2>
-                    <span class="text-xs bg-orange-100 dark:bg-slate-800 text-orange-600 dark:text-amber-400 font-bold px-2.5 py-1 rounded-full">Live Kitchen</span>
-                </div>
-
-                <div id="menu-grid" class="space-y-3"></div>
-            </div>
-
-            <!-- Dedicated Cart View Page -->
-            <div id="view-cart" class="p-4 space-y-4 hidden">
-                <div class="flex items-center space-x-3 border-b dark:border-slate-800 pb-3">
-                    <button type="button" onclick="showMenuPage()" class="p-2 text-gray-600 dark:text-gray-300"><i class="fa-solid fa-arrow-left"></i></button>
-                    <h2 class="text-lg font-bold">Your Selection Cart</h2>
-                </div>
-
-                <div id="cart-item-list" class="space-y-3"></div>
-
-                <div class="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl space-y-3 border dark:border-slate-700">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-500 dark:text-gray-400">Total Items:</span>
-                        <span id="cart-count-summary" class="font-bold">0</span>
+                <!-- Forgot Password Flow -->
+                <div id="form-forgot" class="space-y-4" style="display: none;">
+                    <h3 class="font-bold text-sm">Account Recovery</h3>
+                    <input type="text" id="fg-target" placeholder="Enter USN, Email or Phone" class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                    <button type="button" onclick="sendOtp()" class="w-full py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm">Send Verification OTP</button>
+                    <div id="otp-box" class="space-y-3" style="display: none;">
+                        <p class="text-xs text-green-500 font-semibold">Simulated OTP Code: <span id="otp-demo" class="font-bold underline"></span></p>
+                        <input type="text" id="fg-otp" placeholder="Enter 4-digit OTP" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                        <input type="password" id="fg-newpass" placeholder="New Password" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                        <button type="button" onclick="resetPassword()" class="w-full py-2.5 bg-green-600 text-white font-bold rounded-xl text-sm">Update Password</button>
                     </div>
-                    <div class="flex justify-between text-base font-bold border-t dark:border-slate-700 pt-2">
-                        <span>Total Payable:</span>
-                        <span id="cart-price-summary" class="text-orange-600 dark:text-amber-400 text-lg">₹0</span>
+                    <button type="button" onclick="switchAuth('login')" class="w-full text-xs text-neutral-400 underline text-center">Back to Login</button>
+                </div>
+            </div>
+
+            <!-- 2. MENU SCREEN -->
+            <div id="view-menu" class="p-4 space-y-4" style="display: none;">
+                <div class="flex justify-between items-center bg-gradient-to-r from-amber-500 to-orange-500 p-4 rounded-2xl text-neutral-950">
+                    <div>
+                        <h2 class="font-black text-lg">Canteen Menu</h2>
+                        <p class="text-xs font-medium opacity-90">Freshly prepared gourmet bites</p>
+                    </div>
+                    <button type="button" onclick="navigate('cart')" class="bg-neutral-950 text-white px-4 py-2 rounded-xl text-xs font-bold shadow flex items-center space-x-1.5">
+                        <i class="fa-solid fa-cart-shopping text-amber-400"></i>
+                        <span id="badge-cart-count">0</span>
+                    </button>
+                </div>
+
+                <div id="menu-grid" class="grid grid-cols-1 gap-3.5"></div>
+            </div>
+
+            <!-- 3. CART & CHECKOUT SCREEN -->
+            <div id="view-cart" class="p-4 space-y-4" style="display: none;">
+                <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
+                    <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-amber-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
+                    <h2 class="font-bold text-lg">Your Order Cart</h2>
+                </div>
+                <div id="cart-items-list" class="space-y-3"></div>
+                <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-3 border border-neutral-200/50 dark:border-neutral-700">
+                    <div class="flex justify-between text-sm">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal" class="font-bold">₹0</span>
+                    </div>
+                    <div class="flex justify-between text-sm border-t pt-2 dark:border-neutral-700 font-extrabold text-base">
+                        <span>Total Payable</span>
+                        <span id="cart-total" class="text-amber-500">₹0</span>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1">Payment Method</label>
-                        <select id="payment-mode" class="w-full p-2.5 bg-white dark:bg-slate-900 border dark:border-slate-700 rounded-xl text-sm font-medium">
+                        <label class="block text-xs font-semibold mb-1">Select Payment Method</label>
+                        <select id="payment-mode" class="w-full p-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                             <option value="Online UPI / QR">Online UPI / QR Code</option>
                             <option value="Cash at Counter">Cash at Counter</option>
                         </select>
                     </div>
+                    <button type="button" onclick="startCheckoutProcess()" class="w-full py-3 bg-green-600 text-white font-bold rounded-xl shadow-lg hover:bg-green-500 transition">Proceed to Checkout</button>
                 </div>
-
-                <button type="button" onclick="startPaymentFlow()" class="w-full py-3.5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl text-sm shadow-xl transition">Confirm & Proceed to Pay</button>
             </div>
 
-            <!-- 7-Second Payment Processing & Cancellation View Page -->
-            <div id="view-processing" class="p-6 text-center space-y-6 my-auto min-h-[70vh] flex flex-col justify-center hidden">
-                <div class="w-20 h-20 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <!-- 4. PROCESSING / 7-SECOND CONFIRMATION SCREEN -->
+            <div id="view-processing" class="p-6 text-center space-y-6 my-auto" style="display: none;">
+                <div class="w-24 h-24 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
                 <div class="space-y-2">
-                    <h3 class="text-xl font-bold">Confirming Order with Kitchen...</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Hold tight! You can cancel within the timeframe.</p>
-                    <div class="text-2xl font-black text-orange-600 dark:text-amber-400" id="timer-display">7s</div>
+                    <h2 class="text-2xl font-black">Processing Order...</h2>
+                    <p class="text-xs text-neutral-400 max-w-xs mx-auto">Review your selection. You can cancel within the next <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds before kitchen dispatch.</p>
                 </div>
-                <button type="button" onclick="cancelOrderProcess()" class="w-full py-3 bg-red-500/10 text-red-600 dark:text-red-400 font-bold rounded-xl border border-red-500/30 text-sm">Cancel Order</button>
+                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1.5" id="processing-summary"></div>
+                <button type="button" onclick="cancelProcessing()" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition">Cancel Order</button>
             </div>
 
-            <!-- 5-Second Invoice Downloading Screen -->
-            <div id="view-invoice" class="p-6 text-center space-y-6 my-auto min-h-[70vh] flex flex-col justify-center hidden">
-                <div class="text-5xl text-amber-400"><i class="fa-solid fa-file-invoice animate-bounce"></i></div>
+            <!-- 5. INVOICE & KITCHEN QUEUE SCREEN -->
+            <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
+                <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Order Confirmed!</h2>
+                    <p class="text-xs text-neutral-400">Order ID: <span id="inv-order-id" class="font-bold text-amber-500"></span></p>
+                </div>
+
+                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700" id="invoice-details-box"></div>
+
                 <div class="space-y-2">
-                    <h3 class="text-xl font-bold">Generating Official Invoice...</h3>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Downloading your receipt to device & submitting to kitchen panel.</p>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden max-w-xs mx-auto">
-                    <div id="invoice-progress" class="bg-amber-400 h-full w-0 transition-all duration-1000"></div>
+                    <button type="button" onclick="downloadInvoiceFile()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-500 transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download Invoice File</span>
+                    </button>
+                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
                 </div>
             </div>
 
-            <!-- Order Status & History View Page -->
-            <div id="view-orders" class="p-4 space-y-4 hidden">
-                <div class="flex items-center space-x-3 border-b dark:border-slate-800 pb-3">
-                    <button type="button" onclick="showMenuPage()" class="p-2 text-gray-600 dark:text-gray-300"><i class="fa-solid fa-arrow-left"></i></button>
-                    <h2 class="text-lg font-bold">Order History & Status</h2>
-                </div>
-                <div id="history-container" class="space-y-3"></div>
-            </div>
-        </div>
+        </main>
 
-        <!-- Floating Sticky "Go to Cart" Footer Bar -->
-        <div id="sticky-cart-bar" class="absolute bottom-0 inset-x-0 bg-gradient-to-r from-orange-600 to-amber-500 text-white p-3 px-4 flex justify-between items-center shadow-2xl z-20 hidden">
+        <!-- Floating Bottom Cart Bar -->
+        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
             <div>
-                <p id="sticky-cart-count" class="text-xs font-bold uppercase tracking-wider">0 Items Added</p>
-                <p id="sticky-cart-total" class="text-sm font-black">₹0</p>
+                <p class="text-[10px] text-neutral-400 font-medium">Cart Total</p>
+                <p id="bottom-cart-total" class="font-black text-amber-500 text-base">₹0</p>
             </div>
-            <button type="button" onclick="openCartPage()" class="py-2 px-4 bg-white text-orange-600 font-bold rounded-xl text-xs shadow-md">Go to Cart <i class="fa-solid fa-chevron-right ml-1"></i></button>
+            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:bg-amber-400 flex items-center space-x-2">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Go to Cart</span>
+            </button>
         </div>
 
-        <!-- Settings Drawer Overlay -->
-        <div id="settings-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden" onclick="toggleSettings()">
-            <div class="absolute right-0 top-0 bottom-0 w-4/5 max-w-xs bg-white dark:bg-slate-900 p-6 space-y-6 shadow-2xl flex flex-col justify-between" onclick="event.stopPropagation()">
-                <div class="space-y-6">
-                    <div class="flex justify-between items-center border-b dark:border-slate-800 pb-4">
-                        <h3 class="font-bold text-lg"><i class="fa-solid fa-sliders"></i> Settings</h3>
-                        <button type="button" onclick="toggleSettings()" class="text-gray-400 text-lg"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-
-                    <!-- Profile Details -->
-                    <div class="bg-gray-50 dark:bg-slate-800 p-4 rounded-2xl space-y-2 border dark:border-slate-700">
-                        <p class="text-xs text-gray-400 font-semibold uppercase">Logged Student</p>
-                        <p id="drawer-name" class="font-bold text-sm text-gray-800 dark:text-white">-</p>
-                        <p id="drawer-usn" class="text-xs text-orange-600 dark:text-amber-400 font-bold">-</p>
-                        <p id="drawer-meta" class="text-xs text-gray-500 dark:text-gray-400">-</p>
-                    </div>
-
-                    <div class="space-y-2">
-                        <button type="button" onclick="toggleSettings(); showOrdersPage();" class="w-full text-left p-3 rounded-xl bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 font-bold text-xs flex items-center justify-between">
-                            <span><i class="fa-solid fa-clock-rotate-left mr-2"></i> Order History</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-                        </button>
-
-                        <button type="button" onclick="toggleTheme()" class="w-full text-left p-3 rounded-xl bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 font-bold text-xs flex items-center justify-between">
-                            <span><i class="fa-solid fa-circle-half-stroke mr-2"></i> Toggle Theme Mode</span>
-                            <i class="fa-solid fa-moon text-xs text-gray-400"></i>
-                        </button>
-                    </div>
+        <!-- Settings Modal Drawer -->
+        <div id="settings-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
+            <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
+                <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
+                    <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings</h3>
+                    <button type="button" onclick="closeSettings()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <button type="button" onclick="handleLogout()" class="w-full py-3 bg-red-600 text-white font-bold text-xs rounded-xl shadow-lg">Sign Out</button>
+                <!-- Profile Summary -->
+                <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-1 text-xs">
+                    <p class="font-bold text-sm" id="set-profile-name">-</p>
+                    <p class="text-neutral-400" id="set-profile-meta">-</p>
+                    <p class="text-neutral-400" id="set-profile-contact">-</p>
+                </div>
+
+                <!-- Order History -->
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400">Order History</h4>
+                    <div id="settings-order-history" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+                </div>
+
+                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 dark:bg-red-600/20 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -6381,144 +6380,207 @@
         ];
 
         let cartMap = {};
-        let currentUser = null;
-        let processTimer = null;
-        let timerSeconds = 7;
+        let activeUser = null;
+        let pendingOrder = null;
+        let countdownInterval = null;
+        let generatedOtpCode = null;
+        let recoveryKey = null;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Theme setup
+            // Splash Screen Timer (5 Seconds)
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.classList.add('splash-hidden');
+            }, 5000);
+
+            // Persistent Session Check
+            const saved = localStorage.getItem('mce_permanent_user');
+            if (saved) {
+                activeUser = JSON.parse(saved);
+                startAppSession();
+            }
+
+            // Dark Mode Init
             if (localStorage.getItem('theme') === 'dark') {
                 document.documentElement.classList.add('dark');
                 document.getElementById('theme-icon').className = "fa-solid fa-sun";
             }
 
-            // Permanent Login Session Check
-            const permUser = localStorage.getItem('mce_permanent_student');
-            if (permUser) {
-                currentUser = JSON.parse(permUser);
-                enterPortal();
-            } else {
-                document.getElementById('view-auth').classList.remove('hidden');
-            }
-        });
-
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('theme-icon').className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
-        }
-
-        function switchAuthTab(tab) {
-            const loginForm = document.getElementById('form-login');
-            const signupForm = document.getElementById('form-signup');
-            const tabLogin = document.getElementById('tab-login');
-            const tabSignup = document.getElementById('tab-signup');
-
-            if (tab === 'login') {
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-                tabLogin.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm";
-                tabSignup.className = "flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400";
-            } else {
-                signupForm.classList.remove('hidden');
-                loginForm.classList.add('hidden');
-                tabSignup.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-700 text-gray-800 dark:text-white shadow-sm";
-                tabLogin.className = "flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400";
-            }
-        }
-
-        function autofillStudentDetails() {
-            const usn = document.getElementById('signup-usn').value.trim().toUpperCase();
-            const found = students.find(s => s.usn === usn);
-            const card = document.getElementById('autofill-card');
-
-            if (found) {
-                document.getElementById('af-name').innerText = found.name;
-                document.getElementById('af-meta').innerText = `${found.branch} - Sec ${found.sec}`;
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        }
-
-        function handleSignup(e) {
-            e.preventDefault();
-            const usn = document.getElementById('signup-usn').value.trim().toUpperCase();
-            const found = students.find(s => s.usn === usn);
-
-            if (!found) return alert("USN not registered in official college records!");
-
-            const userData = {
-                ...found,
-                phone: document.getElementById('signup-phone').value,
-                email: document.getElementById('signup-email').value,
-                pass: document.getElementById('signup-pass').value
+            // Signup USN Auto-fill
+            document.getElementById('su-usn').oninput = (e) => {
+                const val = e.target.value.trim().toUpperCase();
+                const found = students.find(s => s.usn.toUpperCase() === val);
+                const box = document.getElementById('su-autofill');
+                if (found) {
+                    document.getElementById('af-name').innerText = found.name;
+                    document.getElementById('af-branch').innerText = found.branch;
+                    document.getElementById('af-sec').innerText = found.sec;
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
             };
 
-            localStorage.setItem('user_' + usn, JSON.stringify(userData));
-            localStorage.setItem('mce_permanent_student', JSON.stringify(userData));
-            currentUser = userData;
-            enterPortal();
+            // Signup Submit Handler
+            document.getElementById('form-signup').onsubmit = (e) => {
+                e.preventDefault();
+                const usn = document.getElementById('su-usn').value.trim().toUpperCase();
+                const found = students.find(s => s.usn.toUpperCase() === usn);
+                if (!found) return alert("USN not found in Malnad official records!");
+
+                if (localStorage.getItem('usr_' + usn)) {
+                    alert("Account already exists! Please login.");
+                    switchAuth('login');
+                    return;
+                }
+
+                const newUser = {
+                    ...found,
+                    phone: document.getElementById('su-phone').value,
+                    email: document.getElementById('su-email').value,
+                    pass: document.getElementById('su-pass').value
+                };
+                localStorage.setItem('usr_' + usn, JSON.stringify(newUser));
+                
+                // Permanent direct login upon signup
+                activeUser = newUser;
+                localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
+                startAppSession();
+            };
+
+            // Login Submit Handler
+            document.getElementById('form-login').onsubmit = (e) => {
+                e.preventDefault();
+                const id = document.getElementById('login-id').value.trim().toUpperCase();
+                const pass = document.getElementById('login-pass').value;
+
+                let matched = null;
+                for (let i = 0; i < localStorage.length; i++) {
+                    let key = localStorage.key(i);
+                    if (key.startsWith('usr_')) {
+                        let u = JSON.parse(localStorage.getItem(key));
+                        if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
+                            matched = u;
+                            break;
+                        }
+                    }
+                }
+
+                if (matched) {
+                    activeUser = matched;
+                    localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
+                    startAppSession();
+                } else {
+                    alert("Invalid credentials!");
+                }
+            };
+        });
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.className = "fa-solid fa-moon";
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.className = "fa-solid fa-sun";
+            }
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const id = document.getElementById('login-id').value.trim().toUpperCase();
-            const pass = document.getElementById('login-pass').value;
+        function switchAuth(type) {
+            document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('form-signup').style.display = type === 'signup' ? 'block' : 'none';
+            document.getElementById('form-forgot').style.display = 'none';
+            document.getElementById('tab-login').className = type === 'login' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
+            document.getElementById('tab-signup').className = type === 'signup' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
+        }
 
-            let foundUser = null;
+        function showForgot() {
+            document.getElementById('form-login').style.display = 'none';
+            document.getElementById('form-signup').style.display = 'none';
+            document.getElementById('form-forgot').style.display = 'block';
+        }
+
+        function sendOtp() {
+            const target = document.getElementById('fg-target').value.trim().toUpperCase();
+            let keyMatch = null;
             for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                if (key.startsWith('user_')) {
-                    let u = JSON.parse(localStorage.getItem(key));
-                    if ((u.usn === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
-                        foundUser = u;
+                let k = localStorage.key(i);
+                if (k.startsWith('usr_')) {
+                    let u = JSON.parse(localStorage.getItem(k));
+                    if (u.usn.toUpperCase() === target || u.email.toUpperCase() === target || u.phone === target) {
+                        keyMatch = k;
                         break;
                     }
                 }
             }
+            if (!keyMatch) return alert("Account not found.");
+            recoveryKey = keyMatch;
+            generatedOtpCode = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('otp-demo').innerText = generatedOtpCode;
+            document.getElementById('otp-box').style.display = 'block';
+        }
 
-            if (foundUser) {
-                currentUser = foundUser;
-                localStorage.setItem('mce_permanent_student', JSON.stringify(currentUser));
-                enterPortal();
-            } else {
-                alert("Invalid Credentials!");
+        function resetPassword() {
+            const otp = document.getElementById('fg-otp').value.trim();
+            const newp = document.getElementById('fg-newpass').value;
+            if (otp != generatedOtpCode) return alert("Invalid OTP");
+            let u = JSON.parse(localStorage.getItem(recoveryKey));
+            u.pass = newp;
+            localStorage.setItem(recoveryKey, JSON.stringify(u));
+            alert("Password successfully updated!");
+            switchAuth('login');
+        }
+
+        function startAppSession() {
+            document.getElementById('view-auth').style.display = 'none';
+            document.getElementById('settings-nav-btn').style.display = 'flex';
+            navigate('menu');
+            renderMenu();
+        }
+
+        function logoutUser() {
+            activeUser = null;
+            localStorage.removeItem('mce_permanent_user');
+            closeSettings();
+            document.getElementById('floating-cart-bar').style.display = 'none';
+            document.getElementById('settings-nav-btn').style.display = 'none';
+            document.getElementById('view-auth').style.display = 'block';
+            ['view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
+        }
+
+        function navigate(viewName) {
+            ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
+            document.getElementById('view-' + viewName).style.display = 'block';
+            
+            if (viewName === 'menu') {
+                renderMenu();
+                checkCartBar();
+            } else if (viewName === 'cart') {
+                renderCartView();
+                document.getElementById('floating-cart-bar').style.display = 'none';
             }
         }
 
-        function enterPortal() {
-            document.getElementById('view-auth').classList.add('hidden');
-            document.getElementById('drawer-name').innerText = currentUser.name;
-            document.getElementById('drawer-usn').innerText = currentUser.usn;
-            document.getElementById('drawer-meta').innerText = `${currentUser.branch} - Sec ${currentUser.sec}`;
-            showMenuPage();
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('mce_permanent_student');
-            location.reload();
-        }
-
         function renderMenu() {
-            const grid = document.getElementById('menu-grid');
-            grid.innerHTML = menu.map(item => {
+            document.getElementById('menu-grid').innerHTML = menu.map(item => {
                 const qty = cartMap[item.id] || 0;
                 return `
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-sm border dark:border-slate-700 flex items-center space-x-3">
+                <div class="bg-neutral-50 dark:bg-neutral-800/60 rounded-2xl p-3 flex items-center space-x-3 border border-neutral-200/50 dark:border-neutral-800">
                     <img src="${item.img}" class="w-20 h-20 rounded-xl object-cover">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-sm text-gray-800 dark:text-white">${item.name}</h4>
-                        <p class="text-xs font-black text-orange-600 dark:text-amber-400 mt-1">₹${item.price}</p>
-                    </div>
-                    <div>
+                    <div class="flex-1 space-y-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <p class="text-amber-500 font-extrabold text-sm">₹${item.price}</p>
                         ${qty === 0 ? `
-                            <button type="button" onclick="increaseQty(${item.id})" class="px-3 py-1.5 bg-orange-500/10 text-orange-600 dark:text-amber-400 font-bold text-xs rounded-xl border border-orange-500/20">+ Add</button>
+                            <button type="button" onclick="modifyQty(${item.id}, 1)" class="px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-lg hover:bg-amber-500 hover:text-white transition">Add to Cart</button>
                         ` : `
-                            <div class="flex items-center bg-orange-600 text-white rounded-xl">
-                                <button type="button" onclick="decreaseQty(${item.id})" class="px-2.5 py-1 font-bold">-</button>
-                                <span class="px-2 text-xs font-bold">${qty}</span>
-                                <button type="button" onclick="increaseQty(${item.id})" class="px-2.5 py-1 font-bold">+</button>
+                            <div class="flex items-center space-x-2 bg-amber-500 text-neutral-950 rounded-lg p-1 w-fit">
+                                <button type="button" onclick="modifyQty(${item.id}, -1)" class="w-6 h-6 font-bold flex items-center justify-center bg-amber-600 text-white rounded">-</button>
+                                <span class="font-bold text-xs px-2">${qty}</span>
+                                <button type="button" onclick="modifyQty(${item.id}, 1)" class="w-6 h-6 font-bold flex items-center justify-center bg-amber-600 text-white rounded">+</button>
                             </div>
                         `}
                     </div>
@@ -6526,249 +6588,178 @@
             }).join('');
         }
 
-        function increaseQty(id) { cartMap[id] = (cartMap[id] || 0) + 1; updateCartState(); }
-        function decreaseQty(id) { if (cartMap[id]) { cartMap[id]--; if (cartMap[id] <= 0) delete cartMap[id]; } updateCartState(); }
-
-        function updateCartState() {
+        function modifyQty(id, delta) {
+            cartMap[id] = (cartMap[id] || 0) + delta;
+            if (cartMap[id] <= 0) delete cartMap[id];
             renderMenu();
-            let totalQty = 0;
-            let totalPrice = 0;
+            checkCartBar();
+        }
 
+        function getCartItemsArray() {
+            let list = [];
             for (let id in cartMap) {
-                let qty = cartMap[id];
-                let item = menu.find(m => m.id == id);
-                if (item) {
-                    totalQty += qty;
-                    totalPrice += item.price * qty;
+                let m = menu.find(x => x.id == id);
+                if (m) {
+                    for (let i = 0; i < cartMap[id]; i++) list.push({ name: m.name, price: m.price });
                 }
             }
+            return list;
+        }
 
-            const badge = document.getElementById('header-cart-badge');
-            const stickyBar = document.getElementById('sticky-cart-bar');
-
-            if (totalQty > 0) {
-                badge.innerText = totalQty;
-                badge.classList.remove('hidden');
-                document.getElementById('sticky-cart-count').innerText = `${totalQty} Items Added`;
-                document.getElementById('sticky-cart-total').innerText = `₹${totalPrice}`;
-                stickyBar.classList.remove('hidden');
+        function checkCartBar() {
+            const list = getCartItemsArray();
+            const bar = document.getElementById('floating-cart-bar');
+            if (list.length > 0) {
+                bar.style.display = 'flex';
+                let total = list.reduce((s, i) => s + i.price, 0);
+                document.getElementById('bottom-cart-total').innerText = '₹' + total;
+                document.getElementById('badge-cart-count').innerText = list.length;
             } else {
-                badge.classList.add('hidden');
-                stickyBar.classList.add('hidden');
+                bar.style.display = 'none';
             }
         }
 
-        function showMenuPage() {
-            hideAllViews();
-            document.getElementById('view-menu').classList.remove('hidden');
-            renderMenu();
-            updateCartState();
-        }
-
-        function openCartPage() {
-            hideAllViews();
-            document.getElementById('sticky-cart-bar').classList.add('hidden');
-            document.getElementById('view-cart').classList.remove('hidden');
-            renderCartList();
-        }
-
-        function renderCartList() {
-            const list = document.getElementById('cart-item-list');
-            let items = [];
-            let total = 0;
-
-            for (let id in cartMap) {
-                let qty = cartMap[id];
-                let item = menu.find(m => m.id == id);
-                if (item && qty > 0) {
-                    let sub = item.price * qty;
-                    total += sub;
-                    items.push(`
-                        <div class="flex justify-between items-center bg-gray-50 dark:bg-slate-800 p-3 rounded-xl border dark:border-slate-700">
-                            <div>
-                                <p class="font-bold text-sm">${item.name}</p>
-                                <p class="text-xs text-gray-500">₹${item.price} × ${qty}</p>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <span class="font-bold text-orange-600 dark:text-amber-400 text-sm">₹${sub}</span>
-                                <div class="flex items-center bg-gray-200 dark:bg-slate-700 rounded-lg">
-                                    <button type="button" onclick="decreaseQty(${item.id}); renderCartList();" class="px-2 py-0.5 font-bold">-</button>
-                                    <span class="px-2 text-xs font-bold">${qty}</span>
-                                    <button type="button" onclick="increaseQty(${item.id}); renderCartList();" class="px-2 py-0.5 font-bold">+</button>
-                                </div>
-                            </div>
-                        </div>
-                    `);
-                }
+        function renderCartView() {
+            const list = getCartItemsArray();
+            const container = document.getElementById('cart-items-list');
+            if (list.length === 0) {
+                container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-6">Your cart is empty.</p>`;
+                document.getElementById('cart-subtotal').innerText = '₹0';
+                document.getElementById('cart-total').innerText = '₹0';
+                return;
             }
 
-            list.innerHTML = items.length ? items.join('') : `<p class="text-gray-400 text-center py-6 text-xs">Cart is empty</p>`;
-            document.getElementById('cart-count-summary').innerText = Object.values(cartMap).reduce((a,b)=>a+b,0);
-            document.getElementById('cart-price-summary').innerText = `₹${total}`;
+            let subtotal = list.reduce((s, i) => s + i.price, 0);
+            container.innerHTML = list.map((item, idx) => `
+                <div class="flex justify-between items-center bg-neutral-50 dark:bg-neutral-800 p-3 rounded-xl text-xs">
+                    <span>${item.name}</span>
+                    <span class="font-bold text-amber-500">₹${item.price}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('cart-subtotal').innerText = '₹' + subtotal;
+            document.getElementById('cart-total').innerText = '₹' + subtotal;
         }
 
-        function startPaymentFlow() {
-            if (Object.keys(cartMap).length === 0) return alert("Your cart is empty!");
-            hideAllViews();
-            document.getElementById('view-processing').classList.remove('hidden');
+        function startCheckoutProcess() {
+            const list = getCartItemsArray();
+            if (list.length === 0) return alert("Cart is empty!");
 
-            timerSeconds = 7;
-            document.getElementById('timer-display').innerText = timerSeconds + "s";
-
-            processTimer = setInterval(() => {
-                timerSeconds--;
-                document.getElementById('timer-display').innerText = timerSeconds + "s";
-                if (timerSeconds <= 0) {
-                    clearInterval(processTimer);
-                    startInvoiceDownloadFlow();
-                }
-            }, 1000);
-        }
-
-        function cancelOrderProcess() {
-            clearInterval(processTimer);
-            openCartPage();
-        }
-
-        function startInvoiceDownloadFlow() {
-            hideAllViews();
-            document.getElementById('view-invoice').classList.remove('hidden');
-
-            const bar = document.getElementById('invoice-progress');
-            bar.style.width = '100%';
-
-            setTimeout(() => {
-                downloadInvoiceFile();
-                postOrderToKitchen();
-            }, 5000);
-        }
-
-        function downloadInvoiceFile() {
-            const orderId = 'ORD' + Math.floor(1000 + Math.random() * 9000);
-            let items = [];
-            let total = 0;
-
-            for (let id in cartMap) {
-                let qty = cartMap[id];
-                let item = menu.find(m => m.id == id);
-                if (item) {
-                    items.push(`${item.name} x ${qty} = ₹${item.price * qty}`);
-                    total += item.price * qty;
-                }
-            }
-
-            const invoiceContent = `
-========================================
-       BYTEBITES - OFFICIAL INVOICE
- co-powered by MALNAD COLLEGE CANTEEN
-========================================
-Order ID: ${orderId}
-Student: ${currentUser.name}
-USN: ${currentUser.usn}
-Branch/Sec: ${currentUser.branch} - ${currentUser.sec}
-Date: ${new Date().toLocaleString()}
-----------------------------------------
-Items Purchased:
-${items.join('\n')}
-----------------------------------------
-TOTAL PAID: ₹${total}
-Status: SENT TO KITCHEN DASHBOARD
-========================================
-            `;
-
-            const blob = new Blob([invoiceContent], { type: 'text/plain' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${orderId}_Invoice.txt`;
-            link.click();
-        }
-
-        async function postOrderToKitchen() {
-            let itemList = [];
-            let total = 0;
-
-            for (let id in cartMap) {
-                let qty = cartMap[id];
-                let item = menu.find(m => m.id == id);
-                if (item) {
-                    for (let i = 0; i < qty; i++) itemList.push({ name: item.name, price: item.price });
-                    total += item.price * qty;
-                }
-            }
-
-            const newOrder = {
+            pendingOrder = {
                 id: 'ORD' + Math.floor(1000 + Math.random() * 9000),
-                studentName: currentUser.name,
-                usn: currentUser.usn,
-                branch: currentUser.branch,
-                sec: currentUser.sec,
+                studentName: activeUser.name,
+                usn: activeUser.usn,
+                branch: activeUser.branch,
+                sec: activeUser.sec,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: itemList,
-                total: total,
+                items: list,
+                total: list.reduce((s, i) => s + i.price, 0),
                 payment: document.getElementById('payment-mode').value,
                 statusStage: 1
             };
 
+            navigate('processing');
+            
+            let secondsLeft = 7;
+            document.getElementById('countdown-timer').innerText = secondsLeft;
+            
+            document.getElementById('processing-summary').innerHTML = `
+                <p><strong>Order ID:</strong> ${pendingOrder.id}</p>
+                <p><strong>Total Amount:</strong> ₹${pendingOrder.total}</p>
+                <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
+            `;
+
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                secondsLeft--;
+                document.getElementById('countdown-timer').innerText = secondsLeft;
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    finalizeAndPushOrder();
+                }
+            }, 1000);
+        }
+
+        function cancelProcessing() {
+            clearInterval(countdownInterval);
+            pendingOrder = null;
+            navigate('cart');
+            alert("Order cancelled successfully.");
+        }
+
+        async function finalizeAndPushOrder() {
             try {
                 await fetch('/api/orders', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newOrder)
+                    body: JSON.stringify(pendingOrder)
                 });
             } catch (e) {
-                console.error("Local offline fallback");
+                console.error("Offline sync queue saved locally");
             }
+
+            // Save to local user history
+            let history = JSON.parse(localStorage.getItem('hist_' + activeUser.usn) || '[]');
+            history.unshift(pendingOrder);
+            localStorage.setItem('hist_' + activeUser.usn, JSON.stringify(history));
+
+            // Render Invoice View
+            document.getElementById('inv-order-id').innerText = pendingOrder.id;
+            document.getElementById('invoice-details-box').innerHTML = `
+                <p><strong>Student:</strong> ${activeUser.name} (${activeUser.usn})</p>
+                <p><strong>Branch/Sec:</strong> ${activeUser.branch} - ${activeUser.sec}</p>
+                <p><strong>Time:</strong> ${pendingOrder.time}</p>
+                <p><strong>Payment Mode:</strong> ${pendingOrder.payment}</p>
+                <div class="border-t pt-2 mt-2 space-y-1">
+                    ${pendingOrder.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
+                </div>
+                <div class="border-t pt-2 font-bold flex justify-between text-amber-500 text-sm">
+                    <span>Total Paid:</span>
+                    <span>₹${pendingOrder.total}</span>
+                </div>
+            `;
 
             cartMap = {};
-            showOrdersPage();
+            navigate('invoice');
         }
 
-        function showOrdersPage() {
-            hideAllViews();
-            document.getElementById('view-orders').classList.remove('hidden');
-            fetchMyOrders();
+        function downloadInvoiceFile() {
+            if (!pendingOrder) return;
+            const content = `--- MCE BYTEBITES OFFICIAL INVOICE ---\nOrder ID: ${pendingOrder.id}\nStudent: ${activeUser.name} (${activeUser.usn})\nBranch: ${activeUser.branch}-${activeUser.sec}\nTime: ${pendingOrder.time}\nPayment: ${pendingOrder.payment}\nTotal: ₹${pendingOrder.total}\n---------------------------------------\nItems:\n` + pendingOrder.items.map(i => `- ${i.name}: ₹${i.price}`).join('\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${pendingOrder.id}_Invoice.txt`;
+            a.click();
         }
 
-        async function fetchMyOrders() {
-            const container = document.getElementById('history-container');
-            try {
-                const res = await fetch('/api/orders');
-                const all = await res.json();
-                const myOrders = all.filter(o => o.usn === currentUser.usn);
+        function openSettings() {
+            document.getElementById('set-profile-name').innerText = activeUser.name;
+            document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
+            document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
 
-                if (myOrders.length === 0) {
-                    container.innerHTML = `<p class="text-gray-400 text-center py-6 text-xs">No active or previous orders found.</p>`;
-                    return;
-                }
-
-                container.innerHTML = myOrders.map(o => `
-                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border dark:border-slate-700 space-y-2">
-                        <div class="flex justify-between items-center text-xs font-bold border-b dark:border-slate-700 pb-2">
-                            <span class="text-orange-600 dark:text-amber-400">${o.id}</span>
-                            <span class="text-gray-500">${o.time}</span>
+            let history = JSON.parse(localStorage.getItem('hist_' + activeUser.usn) || '[]');
+            const hContainer = document.getElementById('settings-order-history');
+            if (history.length === 0) {
+                hContainer.innerHTML = `<p class="text-neutral-400">No past orders.</p>`;
+            } else {
+                hContainer.innerHTML = history.map(o => `
+                    <div class="bg-neutral-100 dark:bg-neutral-800 p-2.5 rounded-xl flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-amber-500">${o.id} <span class="text-neutral-400 font-normal">(${o.time})</span></p>
+                            <p class="text-[10px] text-neutral-400">${o.items.length} items • ₹${o.total}</p>
                         </div>
-                        <div class="text-xs space-y-1">
-                            ${o.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
-                        </div>
-                        <div class="flex justify-between font-bold text-sm border-t dark:border-slate-700 pt-2">
-                            <span>Total</span>
-                            <span class="text-orange-600 dark:text-amber-400">₹${o.total}</span>
-                        </div>
+                        <span class="px-2 py-0.5 bg-green-500/10 text-green-500 font-bold rounded text-[10px]">Confirmed</span>
                     </div>
                 `).join('');
-            } catch (e) {
-                container.innerHTML = `<p class="text-gray-400 text-center py-6 text-xs">Order history loaded locally.</p>`;
             }
+
+            document.getElementById('settings-modal').style.display = 'flex';
         }
 
-        function hideAllViews() {
-            ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-orders'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-        }
-
-        function toggleSettings() {
-            document.getElementById('settings-drawer').classList.toggle('hidden');
+        function closeSettings() {
+            document.getElementById('settings-modal').style.display = 'none';
         }
     </script>
 </body>
