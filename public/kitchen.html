@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#f2f0e9] text-neutral-900 font-sans min-h-screen p-4 sm:p-8">
+<body class="bg-[#fbf9f4] text-neutral-900 font-sans min-h-screen p-4 sm:p-8">
 
     <!-- Staff Login Gate Overlay -->
     <div id="login-overlay" class="fixed inset-0 bg-neutral-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
@@ -49,7 +49,7 @@
             </div>
         </header>
 
-        <!-- Summary Metrics -->
+        <!-- Metrics & Summary Bar -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm">
                 <p class="text-[11px] text-neutral-500 font-medium">Total Orders</p>
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+        <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
 
     <script>
@@ -143,51 +143,50 @@
 
             container.innerHTML = orders.map(ord => {
                 const stage = ord.statusStage || 0;
-                const isCash = ord.payment && ord.payment.toLowerCase().includes('cash');
+                const isCash = (ord.payment || '').toLowerCase().includes('cash');
 
-                // Dynamic styling for Cash (White Box) vs UPI/Online (Black Box)
-                const cardBgClass = isCash ? "bg-white text-neutral-900 border-2 border-neutral-200" : "bg-neutral-900 text-white border-2 border-neutral-800";
-                const textMutedClass = isCash ? "text-neutral-500" : "text-neutral-400";
-                const textBoldClass = isCash ? "text-neutral-900" : "text-white";
-                const borderDividerClass = isCash ? "border-neutral-200" : "border-neutral-800";
+                // Card background: Full White Box for Cash, Full Black Box for Online UPI
+                const cardBgClass = isCash 
+                    ? 'bg-white text-neutral-900 border-4 border-neutral-300 shadow-xl' 
+                    : 'bg-neutral-950 text-white border-4 border-neutral-800 shadow-2xl';
+
+                const subTextColor = isCash ? 'text-neutral-600' : 'text-neutral-400';
+                const borderDivider = isCash ? 'border-neutral-200' : 'border-neutral-800';
 
                 return `
-                <div class="${cardBgClass} rounded-3xl p-6 space-y-4 shadow-xl transition-all">
-                    <!-- Top Header: Font 40 Red Order ID -->
-                    <div class="flex justify-between items-start border-b ${borderDividerClass} pb-3">
+                <div class="${cardBgClass} rounded-3xl p-6 space-y-4">
+                    <div class="flex justify-between items-start border-b ${borderDivider} pb-3">
                         <div>
-                            <h2 class="text-[40px] leading-none font-black text-red-600 tracking-tight">${ord.id}</h2>
-                            <h3 class="font-extrabold text-base ${textBoldClass} mt-1">${ord.studentName}</h3>
-                            <p class="text-xs ${textMutedClass} font-semibold">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
+                            <!-- Broad Red Order ID (40px) -->
+                            <span class="text-[40px] leading-none font-black text-red-600 block tracking-tight">${ord.id}</span>
+                            <h3 class="font-extrabold text-base mt-2">${ord.studentName}</h3>
+                            <p class="text-xs ${subTextColor} font-semibold">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
                         </div>
-                        <span class="text-xs font-black px-3 py-1.5 rounded-xl ${stage === 2 ? 'bg-green-500/20 text-green-500' : stage === 1 ? 'bg-amber-500/20 text-amber-500' : 'bg-blue-500/20 text-blue-400'}">
+                        <span class="text-xs font-black px-3.5 py-1.5 rounded-xl ${stage === 2 ? 'bg-green-500 text-white' : stage === 1 ? 'bg-amber-500 text-neutral-950' : 'bg-blue-600 text-white'}">
                             ${stage === 2 ? 'Ready' : stage === 1 ? 'Preparing' : 'Received'}
                         </span>
                     </div>
 
-                    <!-- Items List -->
-                    <div class="space-y-1.5 text-xs font-medium">
-                        ${ord.items.map(i => `<div class="flex justify-between ${textBoldClass}"><span>• ${i.name}</span><span class="font-extrabold">₹${i.price}</span></div>`).join('')}
+                    <div class="space-y-2 text-sm font-semibold">
+                        ${ord.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span class="font-bold">₹${i.price}</span></div>`).join('')}
                     </div>
 
-                    <!-- Payment Mode & Total Highlight -->
-                    <div class="pt-3 border-t ${borderDividerClass} flex justify-between items-end">
+                    <div class="pt-3 border-t ${borderDivider} flex justify-between items-center">
                         <div>
-                            <p class="text-[10px] ${textMutedClass} font-bold uppercase tracking-wider">Payment Mode</p>
-                            <p class="text-sm font-black ${textBoldClass}">${ord.payment || 'Online UPI / QR'}</p>
+                            <p class="text-[10px] uppercase font-extrabold tracking-wider ${subTextColor}">Payment Mode</p>
+                            <p class="text-sm font-black ${isCash ? 'text-green-700' : 'text-amber-400'}">${ord.payment || 'Online UPI / QR'}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] ${textMutedClass} font-bold uppercase tracking-wider">Amount</p>
-                            <p class="text-2xl font-black text-amber-500">₹${ord.total}</p>
+                            <p class="text-[10px] uppercase font-extrabold tracking-wider ${subTextColor}">Amount</p>
+                            <p class="text-2xl font-black text-red-600">₹${ord.total}</p>
                         </div>
                     </div>
 
-                    <!-- Interactive Buttons -->
-                    <div class="flex space-x-3 pt-2">
-                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs rounded-xl transition shadow-lg">
+                    <div class="flex space-x-2 pt-2">
+                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs rounded-2xl transition shadow">
                             Mark Preparing
                         </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-black text-xs rounded-xl transition shadow-lg">
+                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-black text-xs rounded-2xl transition shadow">
                             Mark Ready
                         </button>
                     </div>
