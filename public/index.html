@@ -14,7 +14,10 @@
             background: #fbf9f4;
             transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
         }
-        .splash-hidden { opacity: 0; visibility: hidden; }
+        .splash-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
         @keyframes pulse-logo {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.04); }
@@ -44,7 +47,7 @@
             </div>
         </div>
 
-        <!-- Header -->
+        <!-- Global Header -->
         <header class="px-5 py-4 border-b border-neutral-100 dark:border-neutral-800 flex justify-between items-center sticky top-0 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md z-30">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="navigate('menu')">
                 <div class="w-8 h-8 rounded-lg bg-amber-500 text-neutral-950 flex items-center justify-center font-black">
@@ -55,42 +58,52 @@
                     <span class="text-[8px] text-neutral-400 tracking-wider">co-powered by Malnad College Canteen</span>
                 </div>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2.5">
+                <!-- Status Tracker Button -->
+                <button type="button" id="status-nav-btn" onclick="openStatusTracker()" class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xs relative transition" style="display: none;">
+                    <i class="fa-solid fa-bell"></i>
+                    <span id="status-dot" class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" style="display:none;"></span>
+                </button>
+                <!-- Theme Toggle -->
                 <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
                     <i id="theme-icon" class="fa-solid fa-moon"></i>
                 </button>
+                <!-- Settings Button -->
                 <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-xs transition" style="display: none;">
                     <i class="fa-solid fa-gear"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Main Views -->
-        <main class="flex-1 overflow-y-auto pb-28">
+        <!-- Main Dynamic View Container -->
+        <main class="flex-1 overflow-y-auto pb-24">
 
-            <!-- Auth View -->
+            <!-- 1. AUTH SCREEN -->
             <div id="view-auth" class="p-6 space-y-6">
                 <div class="text-center space-y-1 mt-4">
                     <h2 class="text-xl font-bold">Student Portal Login</h2>
                     <p class="text-xs text-neutral-400">Access Malnad Canteen Services</p>
                 </div>
+
                 <div class="flex bg-neutral-100 dark:bg-neutral-800 p-1 rounded-xl">
                     <button type="button" id="tab-login" onclick="switchAuth('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm">Login</button>
                     <button type="button" id="tab-signup" onclick="switchAuth('signup')" class="flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500">Sign Up</button>
                 </div>
 
+                <!-- Login Form -->
                 <form id="form-login" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold mb-1">USN / Email / Phone</label>
-                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                        <input type="text" id="login-id" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold mb-1">Password</label>
-                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
+                        <input type="password" id="login-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Secure Login</button>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Secure Login</button>
                 </form>
 
+                <!-- Signup Form -->
                 <form id="form-signup" class="space-y-4" style="display: none;">
                     <div>
                         <label class="block text-xs font-semibold mb-1">College USN</label>
@@ -112,11 +125,11 @@
                         <label class="block text-xs font-semibold mb-1">Create Password</label>
                         <input type="password" id="su-pass" required class="w-full p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-transparent text-sm">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Register & Login</button>
+                    <button type="submit" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:bg-amber-400 transition">Register & Direct Login</button>
                 </form>
             </div>
 
-            <!-- Menu View -->
+            <!-- 2. MENU SCREEN -->
             <div id="view-menu" class="p-4 space-y-4" style="display: none;">
                 <div class="flex justify-between items-center bg-gradient-to-r from-amber-500 to-orange-500 p-4 rounded-2xl text-neutral-950">
                     <div>
@@ -128,10 +141,11 @@
                         <span id="badge-cart-count">0</span>
                     </button>
                 </div>
+
                 <div id="menu-grid" class="grid grid-cols-1 gap-3.5"></div>
             </div>
 
-            <!-- Cart View -->
+            <!-- 3. CART & CHECKOUT SCREEN -->
             <div id="view-cart" class="p-4 space-y-4" style="display: none;">
                 <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
                     <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-amber-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
@@ -158,66 +172,86 @@
                 </div>
             </div>
 
-            <!-- 7-Second Processing View -->
+            <!-- 4. PROCESSING SCREEN -->
             <div id="view-processing" class="p-6 text-center space-y-6 my-auto" style="display: none;">
-                <div class="w-24 h-24 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
+                <div class="w-24 h-24 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-500 flex items-center justify-center mx-auto text-4xl animate-pulse">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                 </div>
                 <div class="space-y-2">
                     <h2 class="text-2xl font-black">Processing Order...</h2>
-                    <p class="text-xs text-neutral-400">Confirming payment. Cancel within <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds if needed.</p>
+                    <p class="text-xs text-neutral-400 max-w-xs mx-auto">Confirming order. You can cancel within <span id="countdown-timer" class="font-bold text-amber-500">7</span> seconds.</p>
                 </div>
-                <div id="processing-summary" class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1"></div>
+                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-1.5" id="processing-summary"></div>
                 <button type="button" onclick="cancelProcessing()" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition">Cancel Order</button>
             </div>
 
-            <!-- Invoice / Status View -->
+            <!-- 5. INVOICE SCREEN -->
             <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
                 <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold">Order Placed & Invoice Downloaded!</h2>
+                    <h2 class="text-xl font-bold">Order Confirmed!</h2>
                     <p class="text-xs text-neutral-400">Order ID: <span id="inv-order-id" class="font-bold text-amber-500"></span></p>
                 </div>
-                <div id="invoice-details-box" class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700"></div>
-                <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
+
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-file-arrow-down animate-bounce text-base"></i>
+                    <span>Official Invoice Downloaded Automatically!</span>
+                </div>
+
+                <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700" id="invoice-details-box"></div>
+
+                <div class="space-y-2">
+                    <button type="button" onclick="downloadFormattedInvoice(pendingOrder)" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Re-Download Invoice</span>
+                    </button>
+                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
+                </div>
             </div>
 
         </main>
 
-        <!-- Floating Cart & Live Tracking Bars -->
+        <!-- Floating Bottom Cart Bar -->
         <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
             <div>
                 <p class="text-[10px] text-neutral-400 font-medium">Cart Total</p>
                 <p id="bottom-cart-total" class="font-black text-amber-500 text-base">₹0</p>
             </div>
-            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-sm shadow-lg hover:bg-amber-400">Go to Cart</button>
+            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:bg-amber-400 flex items-center space-x-2">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Go to Cart</span>
+            </button>
         </div>
 
-        <div id="floating-order-status-bar" class="absolute bottom-0 inset-x-0 p-3 bg-neutral-950 text-white border-t border-amber-500/30 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
-            <div class="flex items-center space-x-3">
-                <div class="w-3 h-3 rounded-full bg-amber-500 animate-ping"></div>
-                <div>
-                    <p class="text-[10px] text-neutral-400 font-bold">ACTIVE ORDER STATUS</p>
-                    <p id="tracker-status-text" class="text-xs font-bold text-amber-400">Order Received by Kitchen</p>
+        <!-- Live Order Status Tracker Modal -->
+        <div id="status-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
+            <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
+                <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
+                    <h3 class="font-bold text-base"><i class="fa-solid fa-fire-burner text-amber-500 mr-2"></i> Active Order Progress</h3>
+                    <button type="button" onclick="closeStatusTracker()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
+
+                <div id="active-status-container" class="space-y-4"></div>
             </div>
-            <span id="tracker-order-id" class="text-[10px] bg-neutral-800 px-2 py-1 rounded text-neutral-300 font-mono"></span>
         </div>
 
-        <!-- Settings Modal -->
+        <!-- Settings Modal Drawer -->
         <div id="settings-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
             <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
                     <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings</h3>
                     <button type="button" onclick="closeSettings()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
+
                 <div class="bg-neutral-50 dark:bg-neutral-800/50 p-4 rounded-2xl space-y-1 text-xs">
                     <p class="font-bold text-sm" id="set-profile-name">-</p>
                     <p class="text-neutral-400" id="set-profile-meta">-</p>
+                    <p class="text-neutral-400" id="set-profile-contact">-</p>
                 </div>
-                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 font-bold rounded-xl text-sm">Sign Out</button>
+
+                <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 dark:bg-red-600/20 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
             </div>
         </div>
 
@@ -6337,19 +6371,22 @@
 
         const menu = [
             { id: 1, name: "The Ultimate ByteBite Burger", price: 350, img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&auto=format&fit=crop&q=80" },
-            { id: 2, name: "Crispy Peri-Peri Fries", price: 120, img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&auto=format&fit=crop&q=80" },
+            { id: 2, name: "Crispy Peri-Peri Fries", price: 120, img: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=400&auto=format&fit=crop&q=80" },
             { id: 3, name: "Classic Cold Coffee", price: 90, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&auto=format&fit=crop&q=80" },
-            { id: 4, name: "Extra Cheese Slice", price: 30, img: "https://images.unsplash.com/photo-1552767059-ce182ead8c1b?w=400&auto=format&fit=crop&q=80" }
+            { id: 4, name: "Extra Cheese Slice", price: 30, img: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=400&auto=format&fit=crop&q=80" }
         ];
 
         let cartMap = {};
         let activeUser = null;
         let pendingOrder = null;
         let countdownInterval = null;
-        let activeOrderPoll = null;
+        let statusPollInterval = null;
 
         document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => { document.getElementById('splash-screen').classList.add('splash-hidden'); }, 5000);
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.classList.add('splash-hidden');
+            }, 5000);
 
             const saved = localStorage.getItem('mce_permanent_user');
             if (saved) {
@@ -6371,7 +6408,9 @@
                     document.getElementById('af-branch').innerText = found.branch;
                     document.getElementById('af-sec').innerText = found.sec;
                     box.style.display = 'block';
-                } else { box.style.display = 'none'; }
+                } else {
+                    box.style.display = 'none';
+                }
             };
 
             document.getElementById('form-signup').onsubmit = (e) => {
@@ -6403,7 +6442,8 @@
                     if (key.startsWith('usr_')) {
                         let u = JSON.parse(localStorage.getItem(key));
                         if ((u.usn.toUpperCase() === id || u.email.toUpperCase() === id || u.phone === id) && u.pass === pass) {
-                            matched = u; break;
+                            matched = u;
+                            break;
                         }
                     }
                 }
@@ -6412,7 +6452,9 @@
                     activeUser = matched;
                     localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
                     startAppSession();
-                } else { alert("Invalid credentials!"); }
+                } else {
+                    alert("Invalid credentials!");
+                }
             };
         });
 
@@ -6433,24 +6475,30 @@
         function switchAuth(type) {
             document.getElementById('form-login').style.display = type === 'login' ? 'block' : 'none';
             document.getElementById('form-signup').style.display = type === 'signup' ? 'block' : 'none';
+            document.getElementById('tab-login').className = type === 'login' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
+            document.getElementById('tab-signup').className = type === 'signup' ? 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-neutral-700 shadow-sm' : 'flex-1 py-2 text-xs font-bold rounded-lg text-neutral-500';
         }
 
         function startAppSession() {
             document.getElementById('view-auth').style.display = 'none';
             document.getElementById('settings-nav-btn').style.display = 'flex';
+            document.getElementById('status-nav-btn').style.display = 'flex';
             navigate('menu');
             renderMenu();
-            startLiveOrderPolling();
+
+            clearInterval(statusPollInterval);
+            statusPollInterval = setInterval(checkLiveOrderStatuses, 3000);
+            checkLiveOrderStatuses();
         }
 
         function logoutUser() {
             activeUser = null;
             localStorage.removeItem('mce_permanent_user');
             closeSettings();
-            clearInterval(activeOrderPoll);
+            clearInterval(statusPollInterval);
             document.getElementById('floating-cart-bar').style.display = 'none';
-            document.getElementById('floating-order-status-bar').style.display = 'none';
             document.getElementById('settings-nav-btn').style.display = 'none';
+            document.getElementById('status-nav-btn').style.display = 'none';
             document.getElementById('view-auth').style.display = 'block';
             ['view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
         }
@@ -6458,8 +6506,14 @@
         function navigate(viewName) {
             ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById('view-' + viewName).style.display = 'block';
-            if (viewName === 'menu') { renderMenu(); checkCartBar(); }
-            else if (viewName === 'cart') { renderCartView(); document.getElementById('floating-cart-bar').style.display = 'none'; }
+            
+            if (viewName === 'menu') {
+                renderMenu();
+                checkCartBar();
+            } else if (viewName === 'cart') {
+                renderCartView();
+                document.getElementById('floating-cart-bar').style.display = 'none';
+            }
         }
 
         function renderMenu() {
@@ -6472,7 +6526,7 @@
                         <h4 class="font-bold text-sm">${item.name}</h4>
                         <p class="text-amber-500 font-extrabold text-sm">₹${item.price}</p>
                         ${qty === 0 ? `
-                            <button type="button" onclick="modifyQty(${item.id}, 1)" class="px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-lg">Add to Cart</button>
+                            <button type="button" onclick="modifyQty(${item.id}, 1)" class="px-3 py-1.5 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold text-xs rounded-lg hover:bg-amber-500 hover:text-white transition">Add to Cart</button>
                         ` : `
                             <div class="flex items-center space-x-2 bg-amber-500 text-neutral-950 rounded-lg p-1 w-fit">
                                 <button type="button" onclick="modifyQty(${item.id}, -1)" class="w-6 h-6 font-bold flex items-center justify-center bg-amber-600 text-white rounded">-</button>
@@ -6488,34 +6542,34 @@
         function modifyQty(id, delta) {
             cartMap[id] = (cartMap[id] || 0) + delta;
             if (cartMap[id] <= 0) delete cartMap[id];
-            renderMenu(); checkCartBar();
+            renderMenu();
+            checkCartBar();
         }
 
-        function getCartItemsArray() {
+        function getCartGroupedItems() {
             let list = [];
             for (let id in cartMap) {
                 let m = menu.find(x => x.id == id);
-                if (m) {
-                    let qty = cartMap[id];
-                    list.push({ name: m.name, qty: qty, price: m.price, amount: m.price * qty });
-                }
+                if (m) list.push({ ...m, qty: cartMap[id] });
             }
             return list;
         }
 
         function checkCartBar() {
-            const list = getCartItemsArray();
+            const list = getCartGroupedItems();
             const bar = document.getElementById('floating-cart-bar');
             if (list.length > 0) {
                 bar.style.display = 'flex';
-                let total = list.reduce((s, i) => s + i.amount, 0);
+                let total = list.reduce((s, i) => s + (i.price * i.qty), 0);
                 document.getElementById('bottom-cart-total').innerText = '₹' + total;
-                document.getElementById('badge-cart-count').innerText = list.length;
-            } else { bar.style.display = 'none'; }
+                document.getElementById('badge-cart-count').innerText = list.reduce((s, i) => s + i.qty, 0);
+            } else {
+                bar.style.display = 'none';
+            }
         }
 
         function renderCartView() {
-            const list = getCartItemsArray();
+            const list = getCartGroupedItems();
             const container = document.getElementById('cart-items-list');
             if (list.length === 0) {
                 container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-6">Your cart is empty.</p>`;
@@ -6523,48 +6577,47 @@
                 document.getElementById('cart-total').innerText = '₹0';
                 return;
             }
-            let subtotal = list.reduce((s, i) => s + i.amount, 0);
+
+            let subtotal = list.reduce((s, i) => s + (i.price * i.qty), 0);
             container.innerHTML = list.map(item => `
                 <div class="flex justify-between items-center bg-neutral-50 dark:bg-neutral-800 p-3 rounded-xl text-xs">
-                    <span>${item.name} (x${item.qty})</span>
-                    <span class="font-bold text-amber-500">₹${item.amount}</span>
+                    <div>
+                        <p class="font-bold">${item.name}</p>
+                        <p class="text-neutral-400">Qty: ${item.qty} x ₹${item.price}</p>
+                    </div>
+                    <span class="font-bold text-amber-500">₹${item.price * item.qty}</span>
                 </div>
             `).join('');
+
             document.getElementById('cart-subtotal').innerText = '₹' + subtotal;
             document.getElementById('cart-total').innerText = '₹' + subtotal;
         }
 
         function startCheckoutProcess() {
-            const list = getCartItemsArray();
+            const list = getCartGroupedItems();
             if (list.length === 0) return alert("Cart is empty!");
 
-            const subtotal = list.reduce((s, i) => s + i.amount, 0);
-            const cgst = parseFloat((subtotal * 0.025).toFixed(2));
-            const sgst = parseFloat((subtotal * 0.025).toFixed(2));
-            const grandTotal = parseFloat((subtotal + cgst + sgst).toFixed(2));
-
             pendingOrder = {
-                id: 'BB-' + Math.floor(1000 + Math.random() * 9000) + '-01',
+                id: 'BB-' + Math.floor(1000 + Math.random() * 9000),
                 studentName: activeUser.name,
                 usn: activeUser.usn,
-                sec: activeUser.sec,
                 branch: activeUser.branch,
+                sec: activeUser.sec,
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: list,
-                subtotal: subtotal,
-                cgst: cgst,
-                sgst: sgst,
-                total: grandTotal,
+                total: list.reduce((s, i) => s + (i.price * i.qty), 0),
                 payment: document.getElementById('payment-mode').value,
                 statusStage: 1
             };
 
             navigate('processing');
+            
             let secondsLeft = 7;
             document.getElementById('countdown-timer').innerText = secondsLeft;
+            
             document.getElementById('processing-summary').innerHTML = `
-                <p><strong>Order No:</strong> ${pendingOrder.id}</p>
-                <p><strong>Grand Total:</strong> ₹${pendingOrder.total}</p>
+                <p><strong>Order ID:</strong> ${pendingOrder.id}</p>
+                <p><strong>Total Amount:</strong> ₹${pendingOrder.total}</p>
                 <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
             `;
 
@@ -6583,7 +6636,7 @@
             clearInterval(countdownInterval);
             pendingOrder = null;
             navigate('cart');
-            alert("Order cancelled.");
+            alert("Order cancelled successfully.");
         }
 
         async function finalizeAndPushOrder() {
@@ -6593,127 +6646,176 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(pendingOrder)
                 });
-            } catch (e) { console.error("Sync error", e); }
+            } catch (e) {
+                console.error("Local sync fallback");
+            }
 
-            // Automatic Exact Template Invoice Download
-            downloadBrandedInvoice(pendingOrder);
+            // Automatic Invoice Download Trigger
+            downloadFormattedInvoice(pendingOrder);
+
+            document.getElementById('inv-order-id').innerText = pendingOrder.id;
+            document.getElementById('invoice-details-box').innerHTML = `
+                <p><strong>Name:</strong> ${pendingOrder.studentName}</p>
+                <p><strong>USN:</strong> ${pendingOrder.usn} (Sec ${pendingOrder.sec})</p>
+                <p><strong>Time:</strong> ${pendingOrder.time}</p>
+                <p><strong>Payment:</strong> ${pendingOrder.payment}</p>
+                <div class="border-t pt-2 mt-2 space-y-1">
+                    ${pendingOrder.items.map(i => `<div class="flex justify-between"><span>${i.name} (x${i.qty})</span><span>₹${i.price * i.qty}</span></div>`).join('')}
+                </div>
+                <div class="border-t pt-2 font-bold flex justify-between text-amber-500 text-sm">
+                    <span>Grand Total:</span>
+                    <span>₹${pendingOrder.total}</span>
+                </div>
+            `;
 
             cartMap = {};
             navigate('invoice');
-            startLiveOrderPolling();
+            checkLiveOrderStatuses();
         }
 
-        function downloadBrandedInvoice(ord) {
-            const invoiceHTML = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    body { font-family: 'Georgia', serif; background-color: #f7f5f0; padding: 20px; }
-                    .invoice-card { max-width: 500px; margin: auto; background: #fff; border: 2px solid #c5a059; border-radius: 12px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-                    .header { text-align: center; border-bottom: 2px solid #111; padding-bottom: 15px; }
-                    .header h2 { font-size: 14px; letter-spacing: 2px; margin: 0; color: #111; text-transform: uppercase; }
-                    .brand { font-size: 28px; font-weight: 900; color: #b8860b; margin: 10px 0 5px; font-family: sans-serif; }
-                    .subbrand { font-size: 10px; text-transform: uppercase; color: #555; font-family: sans-serif; }
-                    .title { text-align: center; font-size: 18px; font-weight: bold; margin: 15px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 5px 0; }
-                    .meta p { margin: 3px 0; font-size: 13px; color: #222; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
-                    th, td { text-align: left; padding: 8px 4px; border-bottom: 1px solid #eee; }
-                    th { font-family: sans-serif; font-size: 11px; text-transform: uppercase; border-bottom: 2px solid #111; }
-                    .totals { width: 100%; margin-top: 15px; font-size: 12px; text-align: right; }
-                    .totals td { padding: 4px 0; }
-                    .grand { font-size: 16px; font-weight: bold; color: #b8860b; border-top: 2px solid #111; padding-top: 6px; }
-                </style>
-            </head>
-            <body>
-                <div class="invoice-card">
-                    <div class="header">
-                        <h2>MALNAD COLLEGE OF ENGINEERING PRESENTS</h2>
-                        <div class="brand">BYTEBITES</div>
-                        <div class="subbrand">co-powered by MALNAD COLLEGE CANTEEN</div>
-                    </div>
-                    <div class="title">INVOICE / BILL</div>
-                    <div class="meta">
-                        <p><strong>Name:</strong> ${ord.studentName}</p>
-                        <p><strong>Order No:</strong> ${ord.id}</p>
-                        <p><strong>USN Number:</strong> ${ord.usn}</p>
-                        <p><strong>Section:</strong> ${ord.sec}</p>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Qty</th>
-                                <th>Price (INR)</th>
-                                <th>Amount (INR)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${ord.items.map(i => `
-                                <tr>
-                                    <td>${i.name}</td>
-                                    <td>${i.qty}</td>
-                                    <td>${i.price.toFixed(2)}</td>
-                                    <td>${i.amount.toFixed(2)}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                    <table class="totals">
-                        <tr><td>Subtotal:</td><td>${ord.subtotal.toFixed(2)} INR</td></tr>
-                        <tr><td>CGST (2.5%):</td><td>${ord.cgst.toFixed(2)} INR</td></tr>
-                        <tr><td>SGST (2.5%):</td><td>${ord.sgst.toFixed(2)} INR</td></tr>
-                        <tr class="grand"><td>Grand Total:</td><td>${ord.total.toFixed(2)} INR</td></tr>
-                    </table>
-                </div>
-            </body>
-            </html>
-            `;
+        function downloadFormattedInvoice(ord) {
+            if (!ord) return;
+            const subtotal = ord.total;
+            const cgst = (subtotal * 0.025).toFixed(2);
+            const sgst = (subtotal * 0.025).toFixed(2);
+            const grandTotal = (subtotal + parseFloat(cgst) + parseFloat(sgst)).toFixed(2);
 
-            const blob = new Blob([invoiceHTML], { type: 'text/html' });
+            const itemsRows = ord.items.map(i => `
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb;">${i.name}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: center;">${i.qty}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: right;">${i.price.toFixed(2)}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: right;">${(i.price * i.qty).toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const htmlContent = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BYTEBITES Invoice - ${ord.id}</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; background: #fdfbf7; padding: 30px; color: #1e293b; }
+        .card { max-width: 600px; margin: 0 auto; background: #fff8f0; border: 12px double #d97706; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .title { text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 2px; color: #0f172a; margin-bottom: 5px; }
+        .subtitle { text-align: center; font-size: 14px; color: #d97706; margin-bottom: 20px; }
+        .logo-box { text-align: center; margin-bottom: 15px; }
+        .bill-title { text-align: center; font-size: 22px; font-weight: bold; margin: 15px 0; border-top: 2px solid #d97706; border-bottom: 2px solid #d97706; padding: 5px 0; }
+        .info-table { width: 100%; margin-bottom: 20px; font-size: 14px; }
+        .items-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px; }
+        .items-table th { background: #fef3c7; padding: 10px; text-align: left; border-bottom: 2px solid #d97706; }
+        .totals-box { text-align: right; font-size: 14px; line-height: 1.8; }
+        .grand-total { font-size: 18px; font-weight: bold; color: #b45309; margin-top: 10px; border-top: 2px solid #d97706; padding-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="title">MALNAD COLLEGE OF ENGINEERING</div>
+        <div class="subtitle">PRESENTS</div>
+        <div class="logo-box">
+            <h1 style="font-size: 32px; color: #b45309; margin: 0;">BYTEBITES</h1>
+        </div>
+        <div class="bill-title">INVOICE / BILL</div>
+        <table class="info-table">
+            <tr><td><strong>Name:</strong> ${ord.studentName}</td></tr>
+            <tr><td><strong>Order No:</strong> ${ord.id}</td></tr>
+            <tr><td><strong>USN Number:</strong> ${ord.usn}</td></tr>
+            <tr><td><strong>Section:</strong> ${ord.sec} (${ord.branch})</td></tr>
+        </table>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Price (INR)</th>
+                    <th style="text-align: right;">Amount (INR)</th>
+                </tr>
+            </thead>
+            <tbody>${itemsRows}</tbody>
+        </table>
+        <div class="totals-box">
+            <div>Subtotal: ${subtotal.toFixed(2)} INR</div>
+            <div>CGST (2.5%): ${cgst} INR</div>
+            <div>SGST (2.5%): ${sgst} INR</div>
+            <div class="grand-total">Grand Total: ${grandTotal} INR</div>
+        </div>
+    </div>
+</body>
+</html>`;
+
+            const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `${ord.id}_Invoice.html`;
-            document.body.appendChild(a);
+            a.download = `BYTEBITES_Invoice_${ord.id}.html`;
             a.click();
-            document.body.removeChild(a);
         }
 
-        function startLiveOrderPolling() {
-            if (activeOrderPoll) clearInterval(activeOrderPoll);
-            activeOrderPoll = setInterval(checkActiveOrderStatus, 3000);
-            checkActiveOrderStatus();
-        }
-
-        async function checkActiveOrderStatus() {
+        async function checkLiveOrderStatuses() {
             if (!activeUser) return;
             try {
                 const res = await fetch('/api/orders');
-                const orders = await res.json();
-                const myActive = orders.find(o => o.usn.toUpperCase() === activeUser.usn.toUpperCase() && o.statusStage < 3);
-                
-                const bar = document.getElementById('floating-order-status-bar');
-                if (myActive) {
-                    bar.style.display = 'flex';
-                    document.getElementById('tracker-order-id').innerText = myActive.id;
-                    const txt = document.getElementById('tracker-status-text');
-                    if (myActive.statusStage === 1) txt.innerText = "Order Received by Kitchen";
-                    else if (myActive.statusStage === 2) txt.innerText = "🍳 Order Preparing in Kitchen...";
-                    else if (myActive.statusStage === 3) txt.innerText = "🎉 Order READY FOR PICKUP!";
-                } else {
-                    bar.style.display = 'none';
+                const allOrders = await res.json();
+                const myOrders = allOrders.filter(o => o.usn === activeUser.usn);
+
+                const dot = document.getElementById('status-dot');
+                const hasActive = myOrders.some(o => o.statusStage === 1 || o.statusStage === 2);
+                dot.style.display = hasActive ? 'block' : 'none';
+
+                const container = document.getElementById('active-status-container');
+                if (myOrders.length === 0) {
+                    container.innerHTML = `<p class="text-xs text-neutral-400 text-center py-4">No recent active orders.</p>`;
+                    return;
                 }
-            } catch (e) { console.error("Poll error", e); }
+
+                container.innerHTML = myOrders.map(o => {
+                    let statusBadge = '';
+                    if (o.statusStage === 1) {
+                        statusBadge = `<span class="px-3 py-1 bg-amber-500/10 text-amber-500 font-bold rounded-lg text-xs flex items-center space-x-1"><i class="fa-solid fa-clock"></i><span>Order Received</span></span>`;
+                    } else if (o.statusStage === 2) {
+                        statusBadge = `<span class="px-3 py-1 bg-blue-500/10 text-blue-500 font-bold rounded-lg text-xs flex items-center space-x-1 animate-pulse"><i class="fa-solid fa-fire-burner"></i><span>Preparing Order...</span></span>`;
+                    } else if (o.statusStage === 3) {
+                        statusBadge = `<span class="px-3 py-1 bg-green-500/10 text-green-500 font-bold rounded-lg text-xs flex items-center space-x-1"><i class="fa-solid fa-circle-check"></i><span>Ready for Pickup!</span></span>`;
+                    }
+
+                    return `
+                    <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl space-y-3 border border-neutral-200/50 dark:border-neutral-700">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-sm text-amber-500">${o.id}</p>
+                                <p class="text-[10px] text-neutral-400">${o.time} • ₹${o.total}</p>
+                            </div>
+                            ${statusBadge}
+                        </div>
+                        <div class="border-t pt-2 dark:border-neutral-700 text-xs text-neutral-400">
+                            ${o.items.map(i => `<div>• ${i.name} (x${i.qty})</div>`).join('')}
+                        </div>
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                console.error("Error fetching live status updates", e);
+            }
+        }
+
+        function openStatusTracker() {
+            checkLiveOrderStatuses();
+            document.getElementById('status-modal').style.display = 'flex';
+        }
+
+        function closeStatusTracker() {
+            document.getElementById('status-modal').style.display = 'none';
         }
 
         function openSettings() {
             document.getElementById('set-profile-name').innerText = activeUser.name;
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
+            document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
             document.getElementById('settings-modal').style.display = 'flex';
         }
 
-        function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+        function closeSettings() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
