@@ -72,7 +72,7 @@
         </header>
 
         <!-- Main Dynamic View Container -->
-        <main class="flex-1 overflow-y-auto pb-24">
+        <main class="flex-1 overflow-y-auto pb-28">
 
             <!-- 1. AUTH SCREEN -->
             <div id="view-auth" class="p-6 space-y-6">
@@ -198,46 +198,46 @@
                 <button type="button" onclick="cancelProcessing()" class="w-full py-3 bg-red-600 text-white font-bold rounded-xl shadow-lg hover:bg-red-500 transition">Cancel Order</button>
             </div>
 
-            <!-- 5. INVOICE & KITCHEN QUEUE SCREEN -->
+            <!-- 5. INVOICE & SUCCESS SCREEN -->
             <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
                 <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-bold">Order Confirmed!</h2>
+                    <h2 class="text-xl font-bold">Order Confirmed & Saved!</h2>
                     <p class="text-xs text-neutral-400">Order ID: <span id="inv-order-id" class="font-bold text-amber-500"></span></p>
+                    <p class="text-[11px] text-green-600 mt-1 font-semibold"><i class="fa-solid fa-download mr-1"></i> Invoice automatically downloaded to your device!</p>
                 </div>
 
                 <div class="bg-neutral-50 dark:bg-neutral-800 p-4 rounded-2xl text-left text-xs space-y-2 border border-neutral-200 dark:border-neutral-700" id="invoice-details-box"></div>
 
                 <div class="space-y-2">
-                    <button type="button" onclick="downloadInvoiceFile()" class="w-full py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-500 transition flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Download Invoice File</span>
-                    </button>
-                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-neutral-200 dark:bg-neutral-800 font-bold rounded-xl text-sm">Back to Menu</button>
+                    <button type="button" onclick="navigate('menu')" class="w-full py-3 bg-amber-500 text-neutral-950 font-bold rounded-xl shadow-lg hover:bg-amber-400 transition">Back to Menu</button>
                 </div>
             </div>
 
         </main>
 
-        <!-- Floating Bottom Cart Bar -->
-        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-4 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
-            <div>
-                <p class="text-[10px] text-neutral-400 font-medium">Cart Total</p>
-                <p id="bottom-cart-total" class="font-black text-amber-500 text-base">₹0</p>
+        <!-- Floating Bottom Cart & Live Status Bar -->
+        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-3 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
+            <div onclick="openSettings()" class="cursor-pointer">
+                <p class="text-[10px] text-neutral-400 font-medium">Live Order Status</p>
+                <p id="bottom-live-status" class="font-bold text-amber-500 text-xs flex items-center space-x-1">
+                    <i class="fa-solid fa-circle-notch animate-spin text-[10px]"></i>
+                    <span>Check tracker in settings</span>
+                </p>
             </div>
-            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-sm shadow-lg shadow-amber-500/20 hover:bg-amber-400 flex items-center space-x-2">
+            <button type="button" onclick="navigate('cart')" class="px-5 py-2.5 bg-amber-500 text-neutral-950 font-bold rounded-xl text-xs shadow-lg shadow-amber-500/20 hover:bg-amber-400 flex items-center space-x-1.5">
                 <i class="fa-solid fa-cart-shopping"></i>
-                <span>Go to Cart</span>
+                <span id="bottom-cart-label">Go to Cart (₹0)</span>
             </button>
         </div>
 
-        <!-- Settings Modal Drawer -->
+        <!-- Settings Modal Drawer (Includes Live Order Status Tracker) -->
         <div id="settings-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
             <div class="bg-white dark:bg-neutral-900 rounded-t-3xl p-6 space-y-5 border-t border-neutral-200 dark:border-neutral-800 max-h-[85vh] overflow-y-auto">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
-                    <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings</h3>
+                    <h3 class="font-bold text-base"><i class="fa-solid fa-gear text-amber-500 mr-2"></i> Student Settings & Status</h3>
                     <button type="button" onclick="closeSettings()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
@@ -248,10 +248,13 @@
                     <p class="text-neutral-400" id="set-profile-contact">-</p>
                 </div>
 
-                <!-- Order History -->
+                <!-- Real-Time Order Status Tracker -->
                 <div class="space-y-2">
-                    <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400">Order History</h4>
-                    <div id="settings-order-history" class="space-y-2 max-h-48 overflow-y-auto text-xs"></div>
+                    <h4 class="font-bold text-xs uppercase tracking-wider text-neutral-400 flex justify-between items-center">
+                        <span>Live Kitchen Tracker</span>
+                        <span class="text-[10px] text-amber-500 animate-pulse font-normal"><i class="fa-solid fa-rotate"></i> Auto-syncing</span>
+                    </h4>
+                    <div id="settings-order-history" class="space-y-2 max-h-56 overflow-y-auto text-xs"></div>
                 </div>
 
                 <button type="button" onclick="logoutUser()" class="w-full py-3 bg-red-600/10 text-red-600 dark:bg-red-600/20 font-bold rounded-xl text-sm hover:bg-red-600 hover:text-white transition">Sign Out</button>
@@ -6385,6 +6388,7 @@
         let countdownInterval = null;
         let generatedOtpCode = null;
         let recoveryKey = null;
+        let serverOrdersCache = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             // Splash Screen Timer (5 Seconds)
@@ -6442,7 +6446,6 @@
                 };
                 localStorage.setItem('usr_' + usn, JSON.stringify(newUser));
                 
-                // Permanent direct login upon signup
                 activeUser = newUser;
                 localStorage.setItem('mce_permanent_user', JSON.stringify(activeUser));
                 startAppSession();
@@ -6474,7 +6477,41 @@
                     alert("Invalid credentials!");
                 }
             };
+
+            // Poll server orders for real-time kitchen tracking sync
+            setInterval(fetchServerOrders, 3000);
         });
+
+        async function fetchServerOrders() {
+            try {
+                const res = await fetch('/api/orders');
+                serverOrdersCache = await res.json();
+                updateLiveStatusBar();
+            } catch (e) {
+                console.error("Sync error", e);
+            }
+        }
+
+        function updateLiveStatusBar() {
+            if (!activeUser) return;
+            const myOrders = serverOrdersCache.filter(o => o.usn === activeUser.usn);
+            if (myOrders.length === 0) return;
+
+            const latest = myOrders[0];
+            const statusEl = document.getElementById('bottom-live-status');
+            
+            let badgeText = "Order Placed";
+            let badgeColor = "text-amber-500";
+            if (latest.statusStage === 2) {
+                badgeText = "Preparing 👨‍🍳";
+                badgeColor = "text-blue-500";
+            } else if (latest.statusStage >= 3) {
+                badgeText = "Ready for Pickup! 🔔";
+                badgeColor = "text-green-500 font-black animate-pulse";
+            }
+            statusEl.className = `font-bold text-xs flex items-center space-x-1 ${badgeColor}`;
+            statusEl.innerHTML = `<i class="fa-solid fa-circle text-[8px]"></i><span>${latest.id}: ${badgeText}</span>`;
+        }
 
         function toggleDarkMode() {
             const html = document.documentElement;
@@ -6540,6 +6577,7 @@
             document.getElementById('settings-nav-btn').style.display = 'flex';
             navigate('menu');
             renderMenu();
+            fetchServerOrders();
         }
 
         function logoutUser() {
@@ -6612,7 +6650,7 @@
             if (list.length > 0) {
                 bar.style.display = 'flex';
                 let total = list.reduce((s, i) => s + i.price, 0);
-                document.getElementById('bottom-cart-total').innerText = '₹' + total;
+                document.getElementById('bottom-cart-label').innerText = `Go to Cart (₹${total})`;
                 document.getElementById('badge-cart-count').innerText = list.length;
             } else {
                 bar.style.display = 'none';
@@ -6655,7 +6693,7 @@
                 items: list,
                 total: list.reduce((s, i) => s + i.price, 0),
                 payment: document.getElementById('payment-mode').value,
-                statusStage: 1
+                statusStage: 1 // 1: Placed, 2: Preparing, 3: Ready
             };
 
             navigate('processing');
@@ -6695,13 +6733,8 @@
                     body: JSON.stringify(pendingOrder)
                 });
             } catch (e) {
-                console.error("Offline sync queue saved locally");
+                console.error("Server sync error");
             }
-
-            // Save to local user history
-            let history = JSON.parse(localStorage.getItem('hist_' + activeUser.usn) || '[]');
-            history.unshift(pendingOrder);
-            localStorage.setItem('hist_' + activeUser.usn, JSON.stringify(history));
 
             // Render Invoice View
             document.getElementById('inv-order-id').innerText = pendingOrder.id;
@@ -6719,11 +6752,15 @@
                 </div>
             `;
 
+            // Automatic Invoice File Download
+            triggerAutomaticDownload();
+
             cartMap = {};
             navigate('invoice');
+            fetchServerOrders();
         }
 
-        function downloadInvoiceFile() {
+        function triggerAutomaticDownload() {
             if (!pendingOrder) return;
             const content = `--- MCE BYTEBITES OFFICIAL INVOICE ---\nOrder ID: ${pendingOrder.id}\nStudent: ${activeUser.name} (${activeUser.usn})\nBranch: ${activeUser.branch}-${activeUser.sec}\nTime: ${pendingOrder.time}\nPayment: ${pendingOrder.payment}\nTotal: ₹${pendingOrder.total}\n---------------------------------------\nItems:\n` + pendingOrder.items.map(i => `- ${i.name}: ₹${i.price}`).join('\n');
             const blob = new Blob([content], { type: 'text/plain' });
@@ -6731,7 +6768,10 @@
             const a = document.createElement('a');
             a.href = url;
             a.download = `${pendingOrder.id}_Invoice.txt`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         function openSettings() {
@@ -6739,20 +6779,30 @@
             document.getElementById('set-profile-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
             document.getElementById('set-profile-contact').innerText = `${activeUser.email} | ${activeUser.phone}`;
 
-            let history = JSON.parse(localStorage.getItem('hist_' + activeUser.usn) || '[]');
+            const myOrders = serverOrdersCache.filter(o => o.usn === activeUser.usn);
             const hContainer = document.getElementById('settings-order-history');
-            if (history.length === 0) {
-                hContainer.innerHTML = `<p class="text-neutral-400">No past orders.</p>`;
+            
+            if (myOrders.length === 0) {
+                hContainer.innerHTML = `<p class="text-neutral-400 text-center py-4">No active orders found.</p>`;
             } else {
-                hContainer.innerHTML = history.map(o => `
-                    <div class="bg-neutral-100 dark:bg-neutral-800 p-2.5 rounded-xl flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-amber-500">${o.id} <span class="text-neutral-400 font-normal">(${o.time})</span></p>
-                            <p class="text-[10px] text-neutral-400">${o.items.length} items • ₹${o.total}</p>
+                hContainer.innerHTML = myOrders.map(o => {
+                    let statusLabel = '<span class="px-2 py-0.5 bg-amber-500/10 text-amber-500 font-bold rounded text-[10px]">Order Placed</span>';
+                    if (o.statusStage === 2) {
+                        statusLabel = '<span class="px-2 py-0.5 bg-blue-500/10 text-blue-500 font-bold rounded text-[10px]">Preparing 👨‍🍳</span>';
+                    } else if (o.statusStage >= 3) {
+                        statusLabel = '<span class="px-2 py-0.5 bg-green-500/20 text-green-500 font-extrabold rounded text-[10px] animate-pulse">Ready for Pickup! 🔔</span>';
+                    }
+                    return `
+                    <div class="bg-neutral-100 dark:bg-neutral-800 p-3 rounded-xl space-y-2">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-amber-500">${o.id} <span class="text-neutral-400 font-normal text-[10px]">(${o.time})</span></p>
+                                <p class="text-[10px] text-neutral-400">${o.items.length} items • ₹${o.total}</p>
+                            </div>
+                            <div>${statusLabel}</div>
                         </div>
-                        <span class="px-2 py-0.5 bg-green-500/10 text-green-500 font-bold rounded text-[10px]">Confirmed</span>
-                    </div>
-                `).join('');
+                    </div>`;
+                }).join('');
             }
 
             document.getElementById('settings-modal').style.display = 'flex';
