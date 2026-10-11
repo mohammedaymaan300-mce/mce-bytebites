@@ -1,128 +1,146 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCE ByteBites - Student Portal</title>
+    <title>MCE ByteBites - Premium Student Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { 400: '#facc15', 500: '#eab308', 600: '#ca8a04' }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- html2pdf.js for invoice downloading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Luxurious Splash Screen Styling */
+        /* Luxurious Splash Screen & Animations */
         #splash-screen {
             background: radial-gradient(circle at center, #1e1b18 0%, #0d0c0b 100%);
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .splash-hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+        .splash-hidden { opacity: 0; visibility: hidden; }
         @keyframes float-lux {
             0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 20px 30px rgba(234, 88, 12, 0.3)); }
             50% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 30px 40px rgba(234, 88, 12, 0.5)); }
         }
-        .luxury-burger {
-            animation: float-lux 3s ease-in-out infinite;
-        }
-        .gold-glow {
-            text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
-        }
+        .luxury-burger { animation: float-lux 3s ease-in-out infinite; }
+        .gold-glow { text-shadow: 0 0 30px rgba(245, 158, 11, 0.4); }
     </style>
 </head>
-<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+<body class="bg-gray-100 dark:bg-neutral-950 text-gray-900 dark:text-gray-100 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
     <!-- Luxurious Splash Screen Intro Overlay -->
     <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center text-white px-4">
         <div class="text-center space-y-6">
-            <!-- Premium Glowing Gourmet Burger Icon Box -->
             <div class="relative mx-auto w-32 h-32 rounded-3xl bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-400 p-[2px] shadow-2xl luxury-burger">
                 <div class="w-full h-full bg-neutral-900 rounded-[22px] flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 bg-orange-500/10 backdrop-blur-md"></div>
                     <i class="fa-solid fa-burger text-5xl text-amber-400 relative z-10 gold-glow"></i>
                 </div>
             </div>
-            
             <div class="space-y-2">
                 <span class="text-xs uppercase tracking-[0.3em] font-bold text-amber-500/90">Exclusive Dining Experience</span>
-                <h1 class="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-white via-orange-100 to-amber-200 bg-clip-text text-transparent">
-                    MCE ByteBites
-                </h1>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-white via-orange-100 to-amber-200 bg-clip-text text-transparent">MCE ByteBites</h1>
                 <p class="text-gray-400 text-xs md:text-sm tracking-wider font-medium">Malnad College Premium Canteen Suite</p>
             </div>
         </div>
-
-        <!-- Elegant Loader Bar -->
         <div class="absolute bottom-12 w-48 h-1 bg-neutral-800 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-orange-500 to-amber-400 animate-pulse w-full"></div>
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white dark:bg-neutral-900 rounded-3xl p-6 w-full max-w-sm space-y-6 border border-gray-200 dark:border-neutral-800 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-gray-200 dark:border-neutral-800 pb-3">
+                <h3 class="text-lg font-bold flex items-center gap-2 text-orange-600 dark:text-amber-400"><i class="fa-solid fa-gear"></i> Portal Settings</h3>
+                <button onclick="toggleSettingsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="space-y-4">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Appearance Mode</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="theme-light-btn" onclick="setTheme('light')" class="p-4 rounded-2xl border-2 flex flex-col items-center gap-2 transition border-gray-200 dark:border-neutral-800 hover:border-orange-500">
+                        <i class="fa-solid fa-sun text-2xl text-amber-500"></i>
+                        <span class="text-xs font-bold">Light Mode</span>
+                    </button>
+                    <button id="theme-dark-btn" onclick="setTheme('dark')" class="p-4 rounded-2xl border-2 flex flex-col items-center gap-2 transition border-gray-200 dark:border-neutral-800 hover:border-orange-500">
+                        <i class="fa-solid fa-moon text-2xl text-indigo-400"></i>
+                        <span class="text-xs font-bold">Dark Mode</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Auth Container -->
     <div id="auth-container" class="min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
+        <div class="bg-white dark:bg-neutral-900 p-8 rounded-3xl shadow-2xl border border-gray-200 dark:border-neutral-800 w-full max-w-md space-y-6">
             <div class="text-center space-y-1">
-                <h1 class="text-2xl font-bold text-orange-600"><i class="fa-solid fa-burger"></i> MCE ByteBites</h1>
-                <p class="text-xs text-gray-400">Student Portal Authentication</p>
+                <h1 class="text-3xl font-black text-orange-600 dark:text-amber-400"><i class="fa-solid fa-burger"></i> MCE ByteBites</h1>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Student Portal Authentication</p>
             </div>
             
-            <div id="auth-tabs" class="flex border-b">
-                <button type="button" id="btn-login" class="flex-1 pb-2 font-semibold text-orange-600 border-b-2 border-orange-600">Login</button>
+            <div id="auth-tabs" class="flex border-b border-gray-200 dark:border-neutral-800">
+                <button type="button" id="btn-login" class="flex-1 pb-2 font-semibold text-orange-600 dark:text-amber-400 border-b-2 border-orange-600 dark:border-amber-400">Login</button>
                 <button type="button" id="btn-signup" class="flex-1 pb-2 font-semibold text-gray-400">Sign Up</button>
             </div>
 
-            <!-- Login Form -->
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">USN / Email / Phone</label>
-                    <input type="text" id="login-identifier" required class="w-full mt-1 p-3 border rounded-lg focus:ring-orange-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">USN / Email / Phone</label>
+                    <input type="text" id="login-identifier" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="login-pass" required class="w-full mt-1 p-3 border rounded-lg focus:ring-orange-500">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">Password</label>
+                    <input type="password" id="login-pass" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none">
                 </div>
                 <div class="text-right">
-                    <button type="button" onclick="showForgot()" class="text-xs text-orange-600 font-semibold hover:underline">Forgot Password?</button>
+                    <button type="button" onclick="showForgot()" class="text-xs text-orange-600 dark:text-amber-400 font-semibold hover:underline">Forgot Password?</button>
                 </div>
-                <button type="submit" class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition">Login</button>
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white font-bold rounded-xl shadow-lg transition">Login</button>
             </form>
 
-            <!-- Signup Form -->
             <form id="signup-form" class="space-y-4" style="display: none;">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">College USN</label>
-                    <input type="text" id="signup-usn" placeholder="e.g., MCE26CS058K13" required class="w-full mt-1 p-3 border rounded-lg">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">College USN</label>
+                    <input type="text" id="signup-usn" placeholder="e.g., MCE26CS058K13" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl">
                 </div>
-                <div id="auto-fill-info" class="bg-gray-50 p-3 rounded-lg text-sm text-gray-600" style="display: none;">
+                <div id="auto-fill-info" class="bg-orange-50 dark:bg-neutral-800/60 p-3 rounded-xl text-sm border border-orange-200 dark:border-neutral-700" style="display: none;">
                     <p><strong>Name:</strong> <span id="af-name">-</span></p>
                     <p><strong>Branch / Sec:</strong> <span id="af-branch">-</span> - <span id="af-sec">-</span></p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
-                    <input type="tel" id="signup-phone" required class="w-full mt-1 p-3 border rounded-lg">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">Phone Number</label>
+                    <input type="tel" id="signup-phone" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="signup-email" required class="w-full mt-1 p-3 border rounded-lg">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">Email</label>
+                    <input type="email" id="signup-email" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="signup-pass" required class="w-full mt-1 p-3 border rounded-lg">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 dark:text-gray-400">Password</label>
+                    <input type="password" id="signup-pass" required class="w-full mt-1 p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl">
                 </div>
-                <button type="submit" class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition">Register</button>
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold rounded-xl shadow-lg transition">Register Account</button>
             </form>
 
-            <!-- Forgot Password Flow -->
             <div id="forgot-section" class="space-y-4" style="display: none;">
-                <h3 class="font-bold text-gray-800 text-sm">Password Recovery</h3>
-                <div>
-                    <label class="block text-xs text-gray-600">Enter Registered USN, Email or Phone</label>
-                    <input type="text" id="forgot-target" class="w-full mt-1 p-2.5 border rounded-lg text-sm">
-                </div>
-                <button type="button" onclick="sendOTP()" class="w-full py-2 bg-blue-600 text-white text-sm font-bold rounded-lg">Send Verification OTP</button>
+                <h3 class="font-bold text-sm">Password Recovery</h3>
+                <input type="text" id="forgot-target" placeholder="Enter USN / Email / Phone" class="w-full p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl text-sm">
+                <button type="button" onclick="sendOTP()" class="w-full py-2 bg-blue-600 text-white text-sm font-bold rounded-xl">Send OTP</button>
                 <div id="otp-area" class="space-y-3" style="display: none;">
-                    <p class="text-xs text-green-600 font-semibold">OTP sent! (Simulated Code: <span id="demo-otp" class="font-bold"></span>)</p>
-                    <input type="text" id="entered-otp" placeholder="Enter 4-digit OTP" class="w-full p-2 border rounded-lg text-sm">
-                    <input type="password" id="new-password" placeholder="Enter New Password" class="w-full p-2 border rounded-lg text-sm">
-                    <button type="button" onclick="verifyAndReset()" class="w-full py-2 bg-green-600 text-white text-sm font-bold rounded-lg">Reset Password</button>
+                    <p class="text-xs text-green-500 font-semibold">Simulated OTP: <span id="demo-otp" class="font-bold"></span></p>
+                    <input type="text" id="entered-otp" placeholder="Enter 4-digit OTP" class="w-full p-2 border dark:border-neutral-800 rounded-xl text-sm">
+                    <input type="password" id="new-password" placeholder="New Password" class="w-full p-2 border dark:border-neutral-800 rounded-xl text-sm">
+                    <button type="button" onclick="verifyAndReset()" class="w-full py-2 bg-green-600 text-white text-sm font-bold rounded-xl">Reset Password</button>
                 </div>
                 <button type="button" onclick="backToLogin()" class="w-full text-xs text-gray-500 underline text-center">Back to Login</button>
             </div>
@@ -131,60 +149,120 @@
 
     <!-- App Main Container -->
     <div id="app-container" class="min-h-screen flex flex-col" style="display: none;">
-        <header class="bg-white shadow-md px-6 py-4 flex flex-wrap justify-between items-center sticky top-0 z-40">
-            <span class="text-xl font-black text-orange-600 cursor-pointer" onclick="switchTab('menu')"><i class="fa-solid fa-utensils"></i> ByteBites</span>
-            <div class="flex items-center space-x-4">
-                <button type="button" onclick="switchTab('menu')" id="nav-menu-btn" class="px-3 py-1.5 text-sm font-bold text-orange-600 border-b-2 border-orange-600">Menu</button>
-                <button type="button" onclick="switchTab('orders')" id="nav-orders-btn" class="px-3 py-1.5 text-sm font-bold text-gray-500">My Orders</button>
-                <div class="text-right pl-2 border-l">
-                    <p id="user-display-name" class="font-bold text-gray-800 text-sm">Student Name</p>
+        <header class="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-gray-200 dark:border-neutral-800 px-6 py-4 flex justify-between items-center sticky top-0 z-40">
+            <span class="text-xl font-black text-orange-600 dark:text-amber-400 cursor-pointer" onclick="switchTab('menu')"><i class="fa-solid fa-utensils"></i> ByteBites</span>
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <button type="button" onclick="switchTab('menu')" id="nav-menu-btn" class="px-3 py-1.5 text-sm font-bold text-orange-600 dark:text-amber-400 border-b-2 border-orange-600 dark:border-amber-400">Menu</button>
+                <button type="button" onclick="switchTab('cart')" id="nav-cart-btn" class="px-3 py-1.5 text-sm font-bold text-gray-500 hover:text-gray-800 dark:hover:text-white flex items-center gap-1">
+                    Cart <span id="cart-badge" class="bg-orange-600 text-white text-xs px-2 py-0.5 rounded-full font-extrabold hidden">0</span>
+                </button>
+                <button type="button" onclick="switchTab('orders')" id="nav-orders-btn" class="px-3 py-1.5 text-sm font-bold text-gray-500 hover:text-gray-800 dark:hover:text-white">Orders</button>
+                
+                <button type="button" onclick="toggleSettingsModal()" class="p-2 text-gray-500 hover:text-orange-600 dark:hover:text-amber-400 text-lg transition"><i class="fa-solid fa-gear"></i></button>
+
+                <div class="text-right pl-2 border-l border-gray-300 dark:border-neutral-800 hidden sm:block">
+                    <p id="user-display-name" class="font-bold text-sm">Student</p>
                     <p id="user-display-meta" class="text-xs text-gray-500">Branch - Sec</p>
                 </div>
                 <button type="button" id="logout-btn" class="text-red-500 hover:text-red-700 text-sm font-semibold p-2"><i class="fa-solid fa-power-off"></i></button>
             </div>
         </header>
 
-        <main id="view-menu" class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 space-y-4">
-                <h2 class="text-xl font-bold text-gray-800">Canteen Menu</h2>
-                <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-            </div>
-            
-            <div class="bg-white p-6 rounded-2xl shadow-md h-fit space-y-4 sticky top-24">
-                <h3 class="text-lg font-bold border-b pb-2"><i class="fa-solid fa-cart-shopping"></i> Your Cart</h3>
-                <div id="cart-items" class="space-y-3 max-h-56 overflow-y-auto text-sm">
-                    <p class="text-gray-400">Cart is empty</p>
-                </div>
-                <div class="border-t pt-2 font-bold flex justify-between">
-                    <span>Total:</span>
-                    <span id="cart-total" class="text-orange-600 text-lg">₹0</span>
+        <!-- VIEW 1: MENU -->
+        <main id="view-menu" class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 space-y-6">
+            <h2 class="text-2xl font-black tracking-tight">Gourmet Canteen Selection</h2>
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </main>
+
+        <!-- VIEW 2: CART & CHECKOUT ROOM -->
+        <main id="view-cart" class="flex-1 max-w-3xl w-full mx-auto p-4 md:p-6 space-y-6" style="display: none;">
+            <!-- Cart Selection State -->
+            <div id="cart-selection-state" class="bg-white dark:bg-neutral-900 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-neutral-800 space-y-6">
+                <h2 class="text-xl font-bold border-b border-gray-200 dark:border-neutral-800 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-orange-600 dark:text-amber-400"></i> Review Your Order
+                </h2>
+                <div id="cart-items-list" class="space-y-3 max-h-72 overflow-y-auto"></div>
+                <div class="border-t border-gray-200 dark:border-neutral-800 pt-4 flex justify-between items-center text-lg font-black">
+                    <span>Total Amount:</span>
+                    <span id="cart-total-amount" class="text-orange-600 dark:text-amber-400 text-2xl">₹0</span>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1">Payment Method</label>
-                    <select id="payment-method" class="w-full p-2 border rounded-lg text-sm">
-                        <option value="Online UPI">Online UPI / QR Code</option>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Select Payment Method</label>
+                    <select id="payment-method" class="w-full p-3 border dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800 rounded-xl font-semibold">
+                        <option value="Online UPI / QR Code">Online UPI / QR Code</option>
                         <option value="Cash at Counter">Cash at Counter</option>
                     </select>
                 </div>
-                <button type="button" id="place-order-btn" class="w-full py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition">Place Order</button>
+                <button type="button" onclick="startOrderConfirmationTimer()" class="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 text-white font-black text-lg rounded-2xl shadow-xl transition">
+                    Proceed & Confirm Order
+                </button>
+            </div>
+
+            <!-- 7-Second Confirmation & Cancel Timer State -->
+            <div id="cart-timer-state" class="bg-white dark:bg-neutral-900 p-8 rounded-3xl shadow-2xl border border-orange-500/30 text-center space-y-6" style="display: none;">
+                <div class="w-24 h-24 mx-auto rounded-full border-4 border-orange-500 flex items-center justify-center text-3xl font-black text-orange-600 dark:text-amber-400 animate-pulse">
+                    <span id="cancel-countdown">7</span>s
+                </div>
+                <div>
+                    <h3 class="text-2xl font-black">Confirming Your Order...</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Reviewing items before sending to kitchen staff.</p>
+                </div>
+                <div id="timer-item-summary" class="bg-gray-50 dark:bg-neutral-800 p-4 rounded-2xl text-xs space-y-1 text-left max-h-40 overflow-y-auto"></div>
+                <button type="button" onclick="cancelOrderProcess()" class="w-full py-3 bg-red-600/10 hover:bg-red-600 text-red-600 hover:text-white border border-red-500/30 font-bold rounded-2xl transition">
+                    <i class="fa-solid fa-xmark"></i> Cancel Order Now
+                </button>
+            </div>
+
+            <!-- 5-Second Processing & Download Panel -->
+            <div id="cart-processing-state" class="bg-white dark:bg-neutral-900 p-8 rounded-3xl shadow-2xl border border-amber-500/30 text-center space-y-6" style="display: none;">
+                <div class="text-5xl text-amber-500 animate-spin"><i class="fa-solid fa-circle-notch"></i></div>
+                <div>
+                    <h3 class="text-2xl font-black">Generating Digital Invoice...</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Downloading official receipt and alerting kitchen staff.</p>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
+                    <div id="processing-progress" class="bg-gradient-to-r from-orange-500 to-amber-400 h-full w-0 transition-all duration-1000"></div>
+                </div>
             </div>
         </main>
 
+        <!-- VIEW 3: ORDERS HISTORY -->
         <main id="view-orders" class="flex-1 max-w-4xl w-full mx-auto p-4 md:p-6 space-y-6" style="display: none;">
-            <h2 class="text-2xl font-bold text-gray-800 border-b pb-2">Order Status & History</h2>
-            <div id="orders-list-container" class="space-y-4">
-                <p class="text-gray-500">No active or past orders found.</p>
-            </div>
+            <h2 class="text-2xl font-black tracking-tight border-b border-gray-200 dark:border-neutral-800 pb-3">Active & Past Orders</h2>
+            <div id="orders-list-container" class="space-y-4"></div>
         </main>
     </div>
 
-    <!-- Success Modal -->
-    <div id="order-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" style="display: none;">
-        <div class="bg-white p-6 rounded-2xl max-w-md w-full text-center space-y-4">
-            <div class="text-green-600 text-5xl"><i class="fa-solid fa-circle-check"></i></div>
-            <h2 class="text-2xl font-bold">Order Sent to Canteen!</h2>
-            <p class="text-gray-600">Order ID: <span id="modal-order-id" class="font-bold text-orange-600"></span></p>
-            <button type="button" id="close-modal-btn" class="w-full py-2 bg-orange-600 text-white font-semibold rounded-lg">View Live Status</button>
+    <!-- Hidden HTML Template for PDF Invoice Generation -->
+    <div id="invoice-pdf-template" class="p-8 bg-white text-gray-900 font-sans space-y-6" style="display: none; width: 600px;">
+        <div class="flex justify-between items-center border-b pb-4">
+            <div>
+                <h1 class="text-2xl font-black text-orange-600">MCE ByteBites</h1>
+                <p class="text-xs text-gray-500">Malnad College Canteen Official Receipt</p>
+            </div>
+            <div class="text-right">
+                <p class="text-lg font-bold" id="inv-id">#ORD0000</p>
+                <p class="text-xs text-gray-500" id="inv-date"></p>
+            </div>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-xl space-y-1 text-xs">
+            <p><strong>Student:</strong> <span id="inv-student"></span></p>
+            <p><strong>USN:</strong> <span id="inv-usn"></span></p>
+            <p><strong>Branch/Sec:</strong> <span id="inv-branch"></span></p>
+            <p><strong>Payment Method:</strong> <span id="inv-payment"></span></p>
+        </div>
+        <table class="w-full text-xs text-left">
+            <thead class="border-b">
+                <tr>
+                    <th class="py-2">Item</th>
+                    <th class="py-2 text-right">Price</th>
+                </tr>
+            </thead>
+            <tbody id="inv-items-table"></tbody>
+        </table>
+        <div class="border-t pt-3 flex justify-between font-bold text-base">
+            <span>Total Paid:</span>
+            <span id="inv-total" class="text-orange-600">₹0</span>
         </div>
     </div>
 
@@ -6310,43 +6388,60 @@
         let cartMap = {};
         let activeUser = null;
         let userOrders = [];
-        let generatedOTP = null;
-        let recoveryUserKey = null;
+        let confirmationTimer = null;
+        let countdownValue = 7;
+        let pendingOrderData = null;
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Luxurious Splash Screen Timer (1.8 seconds)
             setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.classList.add('splash-hidden');
+                document.getElementById('splash-screen').classList.add('splash-hidden');
             }, 1800);
 
-            const btnLogin = document.getElementById('btn-login');
-            const btnSignup = document.getElementById('btn-signup');
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const signupUsn = document.getElementById('signup-usn');
-
-            // Persistent Session Check
+            // Session check
             const savedSession = sessionStorage.getItem('mce_active_user');
             if (savedSession) {
                 activeUser = JSON.parse(savedSession);
                 startAppSession();
             }
 
+            // Theme initialization
+            const savedTheme = localStorage.getItem('mce_theme') || 'dark';
+            setTheme(savedTheme);
+
+            setupAuthListeners();
+        });
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            localStorage.setItem('mce_theme', theme);
+        }
+
+        function toggleSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function setupAuthListeners() {
+            const btnLogin = document.getElementById('btn-login');
+            const btnSignup = document.getElementById('btn-signup');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const signupUsn = document.getElementById('signup-usn');
+
             btnSignup.onclick = () => {
                 signupForm.style.display = 'block';
                 loginForm.style.display = 'none';
                 document.getElementById('forgot-section').style.display = 'none';
-                btnSignup.className = "flex-1 pb-2 font-semibold text-orange-600 border-b-2 border-orange-600";
-                btnLogin.className = "flex-1 pb-2 font-semibold text-gray-400";
             };
 
             btnLogin.onclick = () => {
                 loginForm.style.display = 'block';
                 signupForm.style.display = 'none';
                 document.getElementById('forgot-section').style.display = 'none';
-                btnLogin.className = "flex-1 pb-2 font-semibold text-orange-600 border-b-2 border-orange-600";
-                btnSignup.className = "flex-1 pb-2 font-semibold text-gray-400";
             };
 
             signupUsn.oninput = () => {
@@ -6367,14 +6462,8 @@
                 e.preventDefault();
                 const usn = signupUsn.value.trim().toUpperCase();
                 const found = students.find(s => s.usn.toUpperCase() === usn);
-                if (!found) return alert("USN not found in official college records!");
+                if (!found) return alert("USN not found in college records!");
 
-                if (localStorage.getItem('user_' + usn)) {
-                    alert("User already exists! Please login instead.");
-                    btnLogin.click();
-                    return;
-                }
-                
                 const userData = {
                     ...found,
                     phone: document.getElementById('signup-phone').value,
@@ -6382,7 +6471,7 @@
                     pass: document.getElementById('signup-pass').value
                 };
                 localStorage.setItem('user_' + usn, JSON.stringify(userData));
-                alert("Account created successfully! Please login.");
+                alert("Registration complete! Please login.");
                 btnLogin.click();
             };
 
@@ -6408,7 +6497,7 @@
                     sessionStorage.setItem('mce_active_user', JSON.stringify(activeUser));
                     startAppSession();
                 } else {
-                    alert("Invalid credentials!");
+                    alert("Invalid Login Credentials!");
                 }
             };
 
@@ -6418,50 +6507,7 @@
                 document.getElementById('app-container').style.display = 'none';
                 document.getElementById('auth-container').style.display = 'flex';
             };
-
-            document.getElementById('place-order-btn').onclick = async () => {
-                const cartItemsList = getCartItemsArray();
-                if (cartItemsList.length === 0) return alert("Your cart is empty!");
-
-                const totalBill = cartItemsList.reduce((sum, item) => sum + item.price, 0);
-
-                const newOrder = {
-                    id: 'ORD' + Math.floor(1000 + Math.random() * 9000),
-                    studentName: activeUser.name,
-                    usn: activeUser.usn,
-                    branch: activeUser.branch,
-                    sec: activeUser.sec,
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                    items: cartItemsList,
-                    total: totalBill,
-                    payment: document.getElementById('payment-method').value,
-                    statusStage: 1
-                };
-
-                try {
-                    const response = await fetch('/api/orders', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newOrder)
-                    });
-                    if (response.ok) {
-                        userOrders.unshift(newOrder);
-                        saveOrders();
-                        document.getElementById('modal-order-id').innerText = newOrder.id;
-                        document.getElementById('order-modal').style.display = 'flex';
-                        cartMap = {};
-                        updateCartAndMenu();
-                    }
-                } catch (err) {
-                    alert("Failed to place order. Server offline.");
-                }
-            };
-
-            document.getElementById('close-modal-btn').onclick = () => {
-                document.getElementById('order-modal').style.display = 'none';
-                switchTab('orders');
-            };
-        });
+        }
 
         function startAppSession() {
             document.getElementById('auth-container').style.display = 'none';
@@ -6470,86 +6516,19 @@
             document.getElementById('user-display-meta').innerText = `${activeUser.branch} - Sec ${activeUser.sec} (${activeUser.usn})`;
             loadOrders();
             renderMenu();
-        }
-
-        function showForgot() {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('signup-form').style.display = 'none';
-            document.getElementById('auth-tabs').style.display = 'none';
-            document.getElementById('forgot-section').style.display = 'block';
-        }
-
-        function backToLogin() {
-            document.getElementById('forgot-section').style.display = 'none';
-            document.getElementById('auth-tabs').style.display = 'flex';
-            document.getElementById('login-form').style.display = 'block';
-        }
-
-        function sendOTP() {
-            const target = document.getElementById('forgot-target').value.trim().toUpperCase();
-            let foundKey = null;
-            let userData = null;
-
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                if (key.startsWith('user_')) {
-                    let u = JSON.parse(localStorage.getItem(key));
-                    if (u.usn.toUpperCase() === target || u.email.toUpperCase() === target || u.phone === target) {
-                        foundKey = key;
-                        userData = u;
-                        break;
-                    }
-                }
-            }
-
-            if (!foundKey) {
-                alert("No account found matching this USN, email, or phone.");
-                return;
-            }
-
-            recoveryUserKey = foundKey;
-            generatedOTP = Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('demo-otp').innerText = generatedOTP;
-            document.getElementById('otp-area').style.display = 'block';
-            alert(`OTP dispatched to registered email/phone for ${userData.name}`);
-        }
-
-        function verifyAndReset() {
-            const entered = document.getElementById('entered-otp').value.trim();
-            const newPass = document.getElementById('new-password').value;
-
-            if (entered != generatedOTP) {
-                alert("Invalid OTP code!");
-                return;
-            }
-            if (!newPass) {
-                alert("Please enter a new password!");
-                return;
-            }
-
-            let userData = JSON.parse(localStorage.getItem(recoveryUserKey));
-            userData.pass = newPass;
-            localStorage.setItem(recoveryUserKey, JSON.stringify(userData));
-            alert("Password successfully reset! Please login.");
-            backToLogin();
+            updateCartUI();
         }
 
         function switchTab(tab) {
             const menuView = document.getElementById('view-menu');
+            const cartView = document.getElementById('view-cart');
             const ordersView = document.getElementById('view-orders');
-            const menuBtn = document.getElementById('nav-menu-btn');
-            const ordersBtn = document.getElementById('nav-orders-btn');
 
-            if (tab === 'menu') {
-                menuView.style.display = 'grid';
-                ordersView.style.display = 'none';
-                menuBtn.className = "px-3 py-1.5 text-sm font-bold text-orange-600 border-b-2 border-orange-600";
-                ordersBtn.className = "px-3 py-1.5 text-sm font-bold text-gray-500";
-            } else {
-                menuView.style.display = 'none';
-                ordersView.style.display = 'block';
-                ordersBtn.className = "px-3 py-1.5 text-sm font-bold text-orange-600 border-b-2 border-orange-600";
-                menuBtn.className = "px-3 py-1.5 text-sm font-bold text-gray-500";
+            menuView.style.display = tab === 'menu' ? 'block' : 'none';
+            cartView.style.display = tab === 'cart' ? 'block' : 'none';
+            ordersView.style.display = tab === 'orders' ? 'block' : 'none';
+
+            if (tab === 'orders') {
                 renderOrders();
                 pollMyOrders();
             }
@@ -6559,23 +6538,22 @@
             document.getElementById('menu-grid').innerHTML = menu.map(item => {
                 const qty = cartMap[item.id] || 0;
                 return `
-                <div class="bg-white rounded-xl shadow overflow-hidden flex flex-col justify-between">
-                    <img src="${item.img}" class="h-32 w-full object-cover">
-                    <div class="p-4 space-y-3">
+                <div class="bg-white dark:bg-neutral-900 rounded-3xl shadow-lg border border-gray-200 dark:border-neutral-800 overflow-hidden flex flex-col justify-between">
+                    <img src="${item.img}" class="h-44 w-full object-cover">
+                    <div class="p-5 space-y-4">
                         <div class="flex justify-between items-start">
-                            <h4 class="font-bold text-gray-800">${item.name}</h4>
-                            <p class="text-orange-600 font-extrabold text-sm">₹${item.price}</p>
+                            <h4 class="font-bold text-lg">${item.name}</h4>
+                            <p class="text-orange-600 dark:text-amber-400 font-black text-lg">₹${item.price}</p>
                         </div>
-                        
                         ${qty === 0 ? `
-                            <button type="button" onclick="increaseQty(${item.id})" class="w-full py-2 bg-orange-100 text-orange-600 font-bold text-sm rounded-lg hover:bg-orange-600 hover:text-white transition">
+                            <button type="button" onclick="increaseQty(${item.id})" class="w-full py-3 bg-orange-100 dark:bg-neutral-800 text-orange-600 dark:text-amber-400 font-bold text-sm rounded-2xl hover:bg-orange-600 hover:text-white transition flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-plus"></i> Add to Cart
                             </button>
                         ` : `
-                            <div class="flex justify-between items-center bg-orange-600 text-white rounded-lg p-1">
-                                <button type="button" onclick="decreaseQty(${item.id})" class="w-8 h-8 font-bold flex items-center justify-center bg-orange-700 hover:bg-orange-800 rounded-md transition">-</button>
-                                <span class="font-bold text-sm px-2">${qty}</span>
-                                <button type="button" onclick="increaseQty(${item.id})" class="w-8 h-8 font-bold flex items-center justify-center bg-orange-700 hover:bg-orange-800 rounded-md transition">+</button>
+                            <div class="flex justify-between items-center bg-orange-600 text-white rounded-2xl p-1.5">
+                                <button type="button" onclick="decreaseQty(${item.id})" class="w-10 h-10 font-bold flex items-center justify-center bg-orange-700 hover:bg-orange-800 rounded-xl">-</button>
+                                <span class="font-black text-base px-3">${qty}</span>
+                                <button type="button" onclick="increaseQty(${item.id})" class="w-10 h-10 font-bold flex items-center justify-center bg-orange-700 hover:bg-orange-800 rounded-xl">+</button>
                             </div>
                         `}
                     </div>
@@ -6585,17 +6563,15 @@
 
         function increaseQty(id) {
             cartMap[id] = (cartMap[id] || 0) + 1;
-            updateCartAndMenu();
+            updateCartUI();
         }
 
         function decreaseQty(id) {
             if (cartMap[id]) {
                 cartMap[id]--;
-                if (cartMap[id] <= 0) {
-                    delete cartMap[id];
-                }
+                if (cartMap[id] <= 0) delete cartMap[id];
             }
-            updateCartAndMenu();
+            updateCartUI();
         }
 
         function getCartItemsArray() {
@@ -6604,28 +6580,27 @@
                 let qty = cartMap[id];
                 let itemObj = menu.find(m => m.id == id);
                 if (itemObj) {
-                    for (let i = 0; i < qty; i++) {
-                        items.push({ name: itemObj.name, price: itemObj.price });
-                    }
+                    for (let i = 0; i < qty; i++) items.push({ name: itemObj.name, price: itemObj.price });
                 }
             }
             return items;
         }
 
-        function updateCartAndMenu() {
+        function updateCartUI() {
             renderMenu();
+            const items = getCartItemsArray();
+            const badge = document.getElementById('cart-badge');
             
-            const container = document.getElementById('cart-items');
-            const cartItems = getCartItemsArray();
-            
-            if (cartItems.length === 0) {
-                container.innerHTML = `<p class="text-gray-400">Cart is empty</p>`;
-                document.getElementById('cart-total').innerText = '₹0';
-                return;
+            if (items.length > 0) {
+                badge.innerText = items.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
             }
 
-            let cartHTML = '';
+            const listContainer = document.getElementById('cart-items-list');
             let total = 0;
+            let html = '';
 
             for (let id in cartMap) {
                 let qty = cartMap[id];
@@ -6633,26 +6608,142 @@
                 if (itemObj && qty > 0) {
                     let subtotal = itemObj.price * qty;
                     total += subtotal;
-                    cartHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg">
+                    html += `
+                    <div class="flex justify-between items-center bg-gray-50 dark:bg-neutral-800 p-3 rounded-2xl">
                         <div>
-                            <p class="font-bold text-gray-800">${itemObj.name}</p>
+                            <p class="font-bold">${itemObj.name}</p>
                             <p class="text-xs text-gray-500">₹${itemObj.price} × ${qty}</p>
                         </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-bold text-orange-600">₹${subtotal}</span>
-                            <div class="flex items-center bg-gray-200 rounded">
-                                <button type="button" onclick="decreaseQty(${itemObj.id})" class="px-2 py-0.5 font-bold hover:bg-gray-300 rounded-l">-</button>
+                        <div class="flex items-center gap-3">
+                            <span class="font-black text-orange-600 dark:text-amber-400">₹${subtotal}</span>
+                            <div class="flex items-center bg-gray-200 dark:bg-neutral-700 rounded-lg">
+                                <button onclick="decreaseQty(${itemObj.id})" class="px-2 py-1 font-bold">-</button>
                                 <span class="px-2 text-xs font-bold">${qty}</span>
-                                <button type="button" onclick="increaseQty(${itemObj.id})" class="px-2 py-0.5 font-bold hover:bg-gray-300 rounded-r">+</button>
+                                <button onclick="increaseQty(${itemObj.id})" class="px-2 py-1 font-bold">+</button>
                             </div>
                         </div>
                     </div>`;
                 }
             }
 
-            container.innerHTML = cartHTML;
-            document.getElementById('cart-total').innerText = '₹' + total;
+            listContainer.innerHTML = html || `<p class="text-gray-400 text-center py-6">Your cart is empty.</p>`;
+            document.getElementById('cart-total-amount').innerText = '₹' + total;
+        }
+
+        /* 7-Second Confirmation & Cancel Room Flow */
+        function startOrderConfirmationTimer() {
+            const items = getCartItemsArray();
+            if (items.length === 0) return alert("Your cart is empty!");
+
+            const total = items.reduce((sum, i) => sum + i.price, 0);
+            pendingOrderData = {
+                id: 'ORD' + Math.floor(1000 + Math.random() * 9000),
+                studentName: activeUser.name,
+                usn: activeUser.usn,
+                branch: activeUser.branch,
+                sec: activeUser.sec,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                items: items,
+                total: total,
+                payment: document.getElementById('payment-method').value,
+                statusStage: 1
+            };
+
+            // Switch Cart Sub-views
+            document.getElementById('cart-selection-state').style.display = 'none';
+            document.getElementById('cart-timer-state').style.display = 'block';
+
+            // Summary list in timer room
+            document.getElementById('timer-item-summary').innerHTML = items.map(i => `<div class="flex justify-between"><span>${i.name}</span><span>₹${i.price}</span></div>`).join('');
+
+            countdownValue = 7;
+            document.getElementById('cancel-countdown').innerText = countdownValue;
+
+            confirmationTimer = setInterval(() => {
+                countdownValue--;
+                document.getElementById('cancel-countdown').innerText = countdownValue;
+                if (countdownValue <= 0) {
+                    clearInterval(confirmationTimer);
+                    processAndConfirmOrder();
+                }
+            }, 1000);
+        }
+
+        function cancelOrderProcess() {
+            clearInterval(confirmationTimer);
+            document.getElementById('cart-timer-state').style.display = 'none';
+            document.getElementById('cart-selection-state').style.display = 'block';
+            alert("Order cancelled!");
+        }
+
+        /* 5-Second Processing & PDF Download */
+        async function processAndConfirmOrder() {
+            document.getElementById('cart-timer-state').style.display = 'none';
+            document.getElementById('cart-processing-state').style.display = 'block';
+
+            const progress = document.getElementById('processing-progress');
+            progress.style.width = '0%';
+            setTimeout(() => progress.style.width = '100%', 100);
+
+            // Generate Downloadable PDF Receipt
+            downloadInvoicePDF(pendingOrderData);
+
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(pendingOrderData)
+                    });
+
+                    if (response.ok) {
+                        userOrders.unshift(pendingOrderData);
+                        saveOrders();
+                        cartMap = {};
+                        updateCartUI();
+
+                        document.getElementById('cart-processing-state').style.display = 'none';
+                        document.getElementById('cart-selection-state').style.display = 'block';
+                        
+                        switchTab('orders');
+                    }
+                } catch (e) {
+                    alert("Failed to send order to kitchen server.");
+                    cancelOrderProcess();
+                }
+            }, 5000);
+        }
+
+        function downloadInvoicePDF(order) {
+            document.getElementById('inv-id').innerText = '#' + order.id;
+            document.getElementById('inv-date').innerText = new Date().toLocaleDateString() + ' ' + order.time;
+            document.getElementById('inv-student').innerText = order.studentName;
+            document.getElementById('inv-usn').innerText = order.usn;
+            document.getElementById('inv-branch').innerText = `${order.branch} - Sec ${order.sec}`;
+            document.getElementById('inv-payment').innerText = order.payment;
+            document.getElementById('inv-total').innerText = '₹' + order.total;
+
+            document.getElementById('inv-items-table').innerHTML = order.items.map(i => `
+                <tr class="border-b">
+                    <td class="py-2">${i.name}</td>
+                    <td class="py-2 text-right">₹${i.price}</td>
+                </tr>
+            `).join('');
+
+            const element = document.getElementById('invoice-pdf-template');
+            element.style.display = 'block';
+
+            const opt = {
+                margin:       0.5,
+                filename:     `MCE_ByteBites_Invoice_${order.id}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                element.style.display = 'none';
+            });
         }
 
         function saveOrders() {
@@ -6673,42 +6764,40 @@
                 userOrders = allOrders.filter(o => o.usn === activeUser.usn);
                 saveOrders();
                 renderOrders();
-            } catch (e) {
-                console.error("Polling error");
-            }
+            } catch (e) {}
         }
 
         function renderOrders() {
             const container = document.getElementById('orders-list-container');
             if (userOrders.length === 0) {
-                container.innerHTML = `<div class="bg-white p-6 rounded-xl text-center text-gray-400">No active or previous orders found.</div>`;
+                container.innerHTML = `<div class="bg-white dark:bg-neutral-900 p-8 rounded-3xl text-center text-gray-400">No active or past orders found.</div>`;
                 return;
             }
 
             container.innerHTML = userOrders.map(order => {
                 const step = order.statusStage || 1;
                 return `
-                <div class="bg-white p-6 rounded-xl shadow space-y-4 border">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <span class="font-bold text-orange-600 text-lg">${order.id}</span>
-                        <span class="text-sm font-bold px-3 py-1 bg-gray-100 rounded-full text-gray-700">${order.payment}</span>
+                <div class="bg-white dark:bg-neutral-900 p-6 rounded-3xl shadow-xl border border-gray-200 dark:border-neutral-800 space-y-4">
+                    <div class="flex justify-between items-center border-b border-gray-200 dark:border-neutral-800 pb-3">
+                        <span class="font-black text-orange-600 dark:text-amber-400 text-lg">${order.id}</span>
+                        <span class="text-xs font-bold px-3 py-1 bg-gray-100 dark:bg-neutral-800 rounded-full">${order.payment}</span>
                     </div>
                     <div class="py-2">
                         <div class="flex justify-between text-xs font-bold mb-1">
-                            <span class="${step >= 1 ? 'text-green-600' : 'text-gray-400'}">Placed</span>
-                            <span class="${step >= 2 ? 'text-orange-600' : 'text-gray-400'}">Preparing</span>
-                            <span class="${step >= 3 ? 'text-green-600' : 'text-gray-400'}">Ready</span>
+                            <span class="${step >= 1 ? 'text-green-500' : 'text-gray-400'}">Placed</span>
+                            <span class="${step >= 2 ? 'text-orange-500' : 'text-gray-400'}">Preparing</span>
+                            <span class="${step >= 3 ? 'text-green-500' : 'text-gray-400'}">Ready</span>
                         </div>
-                        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+                        <div class="w-full bg-gray-200 dark:bg-neutral-800 h-2 rounded-full overflow-hidden">
                             <div class="bg-green-500 h-full transition-all duration-500" style="width: ${step === 1 ? '33%' : step === 2 ? '66%' : '100%'}"></div>
                         </div>
                     </div>
-                    <div class="text-sm space-y-1 text-gray-600">
+                    <div class="text-sm space-y-1 text-gray-500 dark:text-gray-400">
                         ${order.items.map(i => `<div class="flex justify-between"><span>• ${i.name}</span><span>₹${i.price}</span></div>`).join('')}
                     </div>
-                    <div class="border-t pt-2 flex justify-between font-bold text-gray-800">
+                    <div class="border-t border-gray-200 dark:border-neutral-800 pt-3 flex justify-between font-black">
                         <span>Total Paid:</span>
-                        <span class="text-lg text-orange-600">₹${order.total}</span>
+                        <span class="text-lg text-orange-600 dark:text-amber-400">₹${order.total}</span>
                     </div>
                 </div>`;
             }).join('');
