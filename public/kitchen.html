@@ -41,9 +41,11 @@
                 <p class="text-xs text-neutral-500">Staff ID: <span id="display-staff-id" class="font-bold text-neutral-800"></span></p>
             </div>
             <div class="flex items-center space-x-3">
-                <button onclick="switchTab('active')" id="tab-active-btn" class="px-4 py-2 bg-amber-500 text-neutral-950 text-xs font-extrabold rounded-xl shadow">Active Queue</button>
-                <button onclick="switchTab('delivered')" id="tab-delivered-btn" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl transition">Delivered History</button>
-                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-1.5 transition">
+                <div class="flex bg-neutral-200 p-1 rounded-xl">
+                    <button id="tab-active" onclick="switchKitchenTab('active')" class="px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm">Active Queue</button>
+                    <button id="tab-delivered" onclick="switchKitchenTab('delivered')" class="px-4 py-2 text-xs font-bold rounded-lg text-neutral-600">Delivered History</button>
+                </div>
+                <button onclick="fetchOrders()" class="px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl flex items-center space-x-2 transition">
                     <i class="fa-solid fa-rotate"></i>
                     <span>Refresh</span>
                 </button>
@@ -54,7 +56,7 @@
         <!-- Metrics & Summary Bar -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm text-neutral-900">
-                <p class="text-[11px] text-neutral-500 font-medium">Total Orders</p>
+                <p class="text-[11px] text-neutral-500 font-medium">Active Orders</p>
                 <p id="metric-total-orders" class="text-xl font-black">0</p>
             </div>
             <div class="bg-white p-4 rounded-2xl border border-neutral-200 shadow-sm text-neutral-900">
@@ -78,7 +80,7 @@
         const validStaffIDs = ["MCEBB001", "MCEBB002", "MCEBB003", "MCEBB004"];
         const staffPassword = "MCEBB@1960";
         let pollInterval = null;
-        let currentTab = 'active'; // 'active' or 'delivered'
+        let currentTab = 'active';
 
         document.addEventListener("DOMContentLoaded", () => {
             const loggedIn = localStorage.getItem('kitchen_logged_in');
@@ -122,15 +124,10 @@
             document.getElementById('login-overlay').style.display = 'flex';
         }
 
-        function switchTab(tab) {
+        function switchKitchenTab(tab) {
             currentTab = tab;
-            if(tab === 'active') {
-                document.getElementById('tab-active-btn').className = "px-4 py-2 bg-amber-500 text-neutral-950 text-xs font-extrabold rounded-xl shadow";
-                document.getElementById('tab-delivered-btn').className = "px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl transition";
-            } else {
-                document.getElementById('tab-delivered-btn').className = "px-4 py-2 bg-amber-500 text-neutral-950 text-xs font-extrabold rounded-xl shadow";
-                document.getElementById('tab-active-btn').className = "px-4 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-800 text-xs font-bold rounded-xl transition";
-            }
+            document.getElementById('tab-active').className = tab === 'active' ? 'px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-neutral-900' : 'px-4 py-2 text-xs font-bold rounded-lg text-neutral-600';
+            document.getElementById('tab-delivered').className = tab === 'delivered' ? 'px-4 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-neutral-900' : 'px-4 py-2 text-xs font-bold rounded-lg text-neutral-600';
             fetchOrders();
         }
 
@@ -143,82 +140,76 @@
         }
 
         function renderKitchenDashboard(orders) {
+            const activeOrders = orders.filter(o => o.statusStage !== 3);
+            const deliveredOrders = orders.filter(o => o.statusStage === 3);
+
             // Update Metrics
-            document.getElementById('metric-total-orders').innerText = orders.length;
-            document.getElementById('metric-preparing').innerText = orders.filter(o => o.statusStage === 1).length;
-            document.getElementById('metric-ready').innerText = orders.filter(o => o.statusStage === 2).length;
+            document.getElementById('metric-total-orders').innerText = activeOrders.length;
+            document.getElementById('metric-preparing').innerText = activeOrders.filter(o => o.statusStage === 1).length;
+            document.getElementById('metric-ready').innerText = activeOrders.filter(o => o.statusStage === 2).length;
             
             const totalIncome = orders.reduce((sum, ord) => sum + (ord.total || 0), 0);
             document.getElementById('metric-income').innerText = '₹' + totalIncome;
 
-            // Filter orders based on active tab (Delivered orders have statusStage === 3)
-            const filteredOrders = orders.filter(o => {
-                const stage = o.statusStage || 0;
-                if(currentTab === 'delivered') return stage === 3;
-                return stage < 3; // Active orders
-            });
-
+            const displayList = currentTab === 'active' ? activeOrders : deliveredOrders;
             const container = document.getElementById('kitchen-orders-list');
-            if (filteredOrders.length === 0) {
+
+            if (displayList.length === 0) {
                 container.innerHTML = `<p class="col-span-full text-center py-12 text-neutral-400 text-sm font-medium">No ${currentTab} orders in queue.</p>`;
                 return;
             }
 
-            container.innerHTML = filteredOrders.map(ord => {
+            container.innerHTML = displayList.map(ord => {
                 const stage = ord.statusStage || 0;
-                const isUPI = (ord.payment || "").toLowerCase().includes('upi') || (ord.payment || "").toLowerCase().includes('qr');
+                const isUpi = (ord.payment || '').toLowerCase().includes('upi') || (ord.payment || '').toLowerCase().includes('qr');
                 
-                // Dynamic card background based on payment method requested
-                const cardBgClass = isUPI ? "bg-neutral-900 text-white border-neutral-800" : "bg-white text-neutral-900 border-neutral-200";
-                const subTextClass = isUPI ? "text-neutral-400" : "text-neutral-500";
-                const itemTextClass = isUPI ? "text-neutral-200" : "text-neutral-700";
-                const dividerClass = isUPI ? "border-neutral-800" : "border-neutral-100";
+                // Box background styling based on payment method
+                const cardBg = isUpi ? 'bg-neutral-950 text-white border-neutral-800' : 'bg-white text-neutral-900 border-neutral-200';
+                const subText = isUpi ? 'text-neutral-400' : 'text-neutral-500';
+                const itemText = isUpi ? 'text-neutral-200' : 'text-neutral-800';
 
                 return `
-                <div class="${cardBgClass} border rounded-2xl p-5 space-y-4 shadow-xl transition-all">
-                    <div class="flex justify-between items-start border-b ${dividerClass} pb-3">
+                <div class="${cardBg} border rounded-2xl p-5 space-y-4 shadow-xl">
+                    <div class="flex justify-between items-start border-b ${isUpi ? 'border-neutral-800' : 'border-neutral-100'} pb-3">
                         <div>
-                            <!-- Order ID Styled Red with Font Size 40 equivalent (text-4xl font-black) -->
-                            <h2 class="text-4xl font-black text-red-600 tracking-tight leading-none mb-1">${ord.id}</h2>
+                            <span class="text-4xl font-black text-red-600 tracking-tight">${ord.id}</span>
                             <h3 class="font-extrabold text-base mt-1">${ord.studentName}</h3>
-                            <p class="text-xs ${subTextClass} font-medium mt-0.5">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
+                            <p class="text-xs ${subText} font-medium">${ord.usn} • Sec ${ord.sec} • ${ord.time}</p>
                         </div>
-                        <span class="text-xs font-bold px-3 py-1 rounded-xl ${stage === 3 ? 'bg-purple-100 text-purple-700' : stage === 2 ? 'bg-green-100 text-green-700' : stage === 1 ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-700'}">
+                        <span class="text-xs font-bold px-3 py-1 rounded-xl ${stage === 3 ? 'bg-purple-500/20 text-purple-400' : stage === 2 ? 'bg-green-500/20 text-green-400' : stage === 1 ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'}">
                             ${stage === 3 ? 'Delivered' : stage === 2 ? 'Ready' : stage === 1 ? 'Preparing' : 'Received'}
                         </span>
                     </div>
 
-                    <!-- Food items text made big -->
                     <div class="space-y-2 text-sm">
-                        ${ord.items.map(i => `<div class="flex justify-between ${itemTextClass} font-semibold"><span>• ${i.name}</span><span class="font-bold">₹${i.price}</span></div>`).join('')}
+                        ${ord.items.map(i => `<div class="flex justify-between ${itemText} font-semibold"><span>• ${i.name}</span><span class="font-bold">₹${i.price}</span></div>`).join('')}
                     </div>
 
-                    <div class="pt-3 border-t ${dividerClass} flex justify-between items-center">
+                    <div class="pt-3 border-t ${isUpi ? 'border-neutral-800' : 'border-neutral-100'} flex justify-between items-center">
                         <div>
-                            <p class="text-[10px] ${subTextClass} font-bold uppercase tracking-wider">Payment Mode</p>
-                            <p class="text-sm font-extrabold">${ord.payment || 'Online UPI / QR'}</p>
+                            <p class="text-[10px] ${subText} font-bold uppercase tracking-wider">Payment Mode</p>
+                            <p class="text-xs font-bold">${ord.payment || 'Online UPI'}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] ${subTextClass} font-bold uppercase tracking-wider">Amount</p>
+                            <p class="text-[10px] ${subText} font-bold uppercase tracking-wider">Amount</p>
                             <p class="text-xl font-black text-amber-500">₹${ord.total}</p>
                         </div>
                     </div>
 
-                    ${stage < 3 ? `
-                    <div class="grid grid-cols-3 gap-2 pt-2">
-                        <button onclick="updateOrderStatus('${ord.id}', 1)" class="py-2.5 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-extrabold text-xs rounded-xl transition shadow">
-                            Preparing
+                    ${stage !== 3 ? `
+                    <div class="space-y-2 pt-1">
+                        <div class="flex space-x-2">
+                            <button onclick="updateOrderStatus('${ord.id}', 1)" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-neutral-950 font-extrabold text-xs rounded-xl transition shadow">
+                                Mark Preparing
+                            </button>
+                            <button onclick="updateOrderStatus('${ord.id}', 2)" class="flex-1 py-2.5 bg-green-600 hover:bg-green-500 text-white font-extrabold text-xs rounded-xl transition shadow">
+                                Mark Ready
+                            </button>
+                        </div>
+                        <button onclick="updateOrderStatus('${ord.id}', 3)" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs rounded-xl transition shadow">
+                            Mark Delivered
                         </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 2)" class="py-2.5 bg-green-600 hover:bg-green-500 text-white font-extrabold text-xs rounded-xl transition shadow">
-                            Ready
-                        </button>
-                        <button onclick="updateOrderStatus('${ord.id}', 3)" class="py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl transition shadow">
-                            Delivered
-                        </button>
-                    </div>` : `
-                    <div class="pt-2 text-center text-xs text-neutral-400 font-semibold italic">
-                        Order completed and archived to delivered history.
-                    </div>`}
+                    </div>` : ''}
                 </div>`;
             }).join('');
         }
