@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCE ByteBites - Kitchen Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+
+    <!-- Kitchen Security Gate -->
+    <div id="kitchen-auth" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm space-y-6">
+            <div class="text-center space-y-2">
+                <h1 class="text-2xl font-black text-orange-600"><i class="fa-solid fa-shield-halved"></i> Kitchen Gate</h1>
+                <p class="text-xs text-gray-500">Authorized Canteen Staff Only</p>
+            </div>
+            <form id="kitchen-login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700">Staff ID (MCEBB001 - 004)</label>
+                    <input type="text" id="staff-id" placeholder="e.g. MCEBB001" required class="w-full mt-1 p-3 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700">Kitchen Password</label>
+                    <input type="password" id="staff-pass" placeholder="Enter secure password" required class="w-full mt-1 p-3 border rounded-lg text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 bg-orange-600 text-white font-bold rounded-lg text-sm hover:bg-orange-700 transition">Access Kitchen Portal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Kitchen Command Interface -->
+    <div id="kitchen-app" class="min-h-screen flex flex-col" style="display: none;">
+        <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-40">
+            <div class="flex items-center space-x-3">
+                <span class="text-xl font-black text-orange-600"><i class="fa-solid fa-fire-burner"></i> MCE ByteBites Kitchen</span>
+                <span class="text-xs bg-orange-100 text-orange-700 font-bold px-2.5 py-1 rounded-full">Live Canteen Portal</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p id="logged-staff-name" class="font-bold text-gray-800 text-sm">Staff</p>
+                    <p class="text-xs text-gray-500">Main Counter Dispatch</p>
+                </div>
+                <div id="conn-badge" class="px-3 py-1 bg-green-100 text-green-700 font-bold text-xs rounded-full flex items-center space-x-1">
+                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                    <span>Connected</span>
+                </div>
+                <button onclick="logoutStaff()" class="text-red-500 hover:text-red-700 text-sm font-semibold p-1.5"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 space-y-6">
+            
+            <!-- Dashboard Stats Row + Daily Income Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-500 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">New Orders</p>
+                        <h3 id="stat-placed" class="text-2xl font-black text-gray-800">0</h3>
+                    </div>
+                    <div class="text-blue-500 text-2xl"><i class="fa-solid fa-receipt"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Preparing</p>
+                        <h3 id="stat-preparing" class="text-2xl font-black text-gray-800">0</h3>
+                    </div>
+                    <div class="text-orange-500 text-2xl"><i class="fa-solid fa-fire"></i></div>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-green-500 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-gray-500 font-bold uppercase">Ready</p>
+                        <h3 id="stat-ready" class="text-2xl font-black text-gray-800">0</h3>
+                    </div>
+                    <div class="text-green-500 text-2xl"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+                <!-- Daily Income Summary Card -->
+                <div class="bg-white p-4 rounded-xl shadow border-l-4 border-emerald-600 flex justify-between items-center bg-emerald-50/40">
+                    <div>
+                        <p class="text-xs text-emerald-800 font-bold uppercase">Daily Income</p>
+                        <h3 id="stat-revenue" class="text-2xl font-black text-emerald-700">₹0</h3>
+                    </div>
+                    <div class="text-emerald-600 text-2xl"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center border-b pb-3">
+                <h2 class="text-xl font-bold text-gray-800"><i class="fa-solid fa-list-check"></i> Incoming Live Orders</h2>
+                <button onclick="fetchKitchenOrders()" class="px-3 py-1.5 bg-gray-200 text-gray-700 font-semibold text-xs rounded-lg hover:bg-gray-300 transition">
+                    <i class="fa-solid fa-rotate"></i> Refresh Dashboard
+                </button>
+            </div>
+
+            <div id="kitchen-orders-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-full bg-white p-12 rounded-2xl shadow text-center text-gray-400 space-y-2">
+                    <i class="fa-solid fa-utensils text-4xl text-gray-300"></i>
+                    <p class="text-base font-semibold">Waiting for student orders...</p>
+                    <p class="text-xs text-gray-400">Orders placed via the student link will appear here instantly.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const validStaffIDs = ["MCEBB001", "MCEBB002", "MCEBB003", "MCEBB004"];
+        const correctPassword = "MCEBB@1960";
+        let liveOrders = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedStaff = sessionStorage.getItem('mce_staff_session');
+            if (savedStaff) {
+                document.getElementById('logged-staff-name').innerText = savedStaff;
+                document.getElementById('kitchen-auth').style.display = 'none';
+                document.getElementById('kitchen-app').style.display = 'flex';
+                setInterval(fetchKitchenOrders, 2000);
+                fetchKitchenOrders();
+            }
+
+            document.getElementById('kitchen-login-form').onsubmit = (e) => {
+                e.preventDefault();
+                const id = document.getElementById('staff-id').value.trim().toUpperCase();
+                const pass = document.getElementById('staff-pass').value;
+
+                if (validStaffIDs.includes(id) && pass === correctPassword) {
+                    sessionStorage.setItem('mce_staff_session', id);
+                    document.getElementById('logged-staff-name').innerText = id;
+                    document.getElementById('kitchen-auth').style.display = 'none';
+                    document.getElementById('kitchen-app').style.display = 'flex';
+                    setInterval(fetchKitchenOrders, 2000);
+                    fetchKitchenOrders();
+                } else {
+                    alert("Access Denied! Incorrect Staff ID or secure password.");
+                }
+            };
+        });
+
+        function logoutStaff() {
+            sessionStorage.removeItem('mce_staff_session');
+            document.getElementById('kitchen-app').style.display = 'none';
+            document.getElementById('kitchen-auth').style.display = 'flex';
+        }
+
+        async function fetchKitchenOrders() {
+            try {
+                const res = await fetch('/api/orders');
+                liveOrders = await res.json();
+                renderKitchenOrders();
+            } catch (err) {
+                console.error("Error polling kitchen orders");
+            }
+        }
+
+        async function updateStatus(orderId, stage) {
+            try {
+                const res = await fetch('/api/orders/status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: orderId, statusStage: stage })
+                });
+                if (res.ok) fetchKitchenOrders();
+            } catch (err) {
+                console.error("Failed status update");
+            }
+        }
+
+        function renderKitchenOrders() {
+            const container = document.getElementById('kitchen-orders-list');
+            
+            let placed = liveOrders.filter(o => o.statusStage === 1).length;
+            let prep = liveOrders.filter(o => o.statusStage === 2).length;
+            let ready = liveOrders.filter(o => o.statusStage === 3).length;
+            let totalRevenue = liveOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+            document.getElementById('stat-placed').innerText = placed;
+            document.getElementById('stat-preparing').innerText = prep;
+            document.getElementById('stat-ready').innerText = ready;
+            document.getElementById('stat-revenue').innerText = '₹' + totalRevenue;
+
+            if (liveOrders.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full bg-white p-12 rounded-2xl shadow text-center text-gray-400 space-y-2">
+                        <i class="fa-solid fa-utensils text-4xl text-gray-300"></i>
+                        <p class="text-base font-semibold">Waiting for student orders...</p>
+                        <p class="text-xs text-gray-400">Orders placed via student links will appear here instantly.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = liveOrders.map(order => {
+                const stage = order.statusStage || 1;
+                const borderClass = stage === 3 ? 'border-green-500' : stage === 2 ? 'border-orange-500' : 'border-blue-500';
+                const badgeBg = stage === 3 ? 'bg-green-100 text-green-700' : stage === 2 ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700';
+                const stageText = stage === 1 ? 'Placed' : stage === 2 ? 'Preparing' : 'Ready for Pickup';
+
+                return `
+                <div class="bg-white p-6 rounded-2xl shadow-md space-y-4 border-l-8 ${borderClass} flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start border-b pb-3">
+                            <div>
+                                <span class="font-black text-orange-600 text-2xl">${order.id}</span>
+                                <div class="mt-1">
+                                    <span class="text-sm font-bold text-gray-800">${order.studentName}</span>
+                                    <span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-0.5 rounded ml-2">${order.branch}-${order.sec}</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-0.5">USN: <span class="font-mono font-semibold">${order.usn}</span> • ${order.time}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${badgeBg}">${stageText}</span>
+                                <p class="text-xs text-gray-500 mt-2 font-semibold">${order.payment}</p>
+                            </div>
+                        </div>
+
+                        <div class="py-3 text-sm space-y-1.5 text-gray-700">
+                            <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Items Ordered:</p>
+                            ${order.items.map(i => `
+                                <div class="flex justify-between bg-gray-50 px-3 py-1.5 rounded-lg">
+                                    <span class="font-medium text-gray-800">• ${i.name}</span>
+                                    <span class="font-bold text-orange-600">₹${i.price}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-3 border-t bg-gray-50 -mx-6 -mb-6 p-4 rounded-b-2xl">
+                        <span class="text-xs font-bold text-gray-600">Total Bill: <span class="text-base text-orange-600 font-black">₹${order.total}</span></span>
+                        <div class="space-x-2">
+                            <button onclick="updateStatus('${order.id}', 2)" class="px-3.5 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl hover:bg-orange-700 shadow transition">Preparing</button>
+                            <button onclick="updateStatus('${order.id}', 3)" class="px-3.5 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 shadow transition">Mark Ready</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
