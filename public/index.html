@@ -33,28 +33,28 @@
                     </div>
                 </div>
             </div>
-            <div class="absolute bottom-10 flex items-center space-x-2 text-xs text-neutral-500 font-medium">
+            <div class="absolute bottom-16 flex items-center space-x-2 text-xs text-neutral-500 font-medium">
                 <i class="fa-solid fa-circle-notch animate-spin text-amber-600"></i>
                 <span>Loading secure dining portal...</span>
             </div>
         </div>
 
-        <!-- Zomato-Style Premium Header -->
+        <!-- Zomato-Style Header (Location & Profile Pill) -->
         <header class="px-4 py-3 border-b border-neutral-100 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md z-30 shrink-0 space-y-2.5">
             <div class="flex justify-between items-center">
-                <!-- Location Pill -->
+                <!-- Location -->
                 <div class="flex items-center space-x-1.5 cursor-pointer">
                     <i class="fa-solid fa-location-dot text-red-500 text-sm"></i>
                     <div>
                         <div class="flex items-center space-x-1">
-                            <span class="text-xs font-black tracking-tight text-neutral-900 dark:text-neutral-100">Malnad Canteen</span>
+                            <span class="text-xs font-black tracking-tight text-neutral-900 dark:text-neutral-100">Tippu Nagar</span>
                             <i class="fa-solid fa-chevron-down text-[9px] text-neutral-400"></i>
                         </div>
-                        <p class="text-[9px] text-neutral-400 leading-none">CSE Block, Campus Hub</p>
+                        <p class="text-[9px] text-neutral-400 leading-none">Hassan, Karnataka, India</p>
                     </div>
                 </div>
 
-                <!-- Right Actions (Profile/Bell/Theme) -->
+                <!-- Right Action Buttons (Profile Name Pill & Bell & Theme) -->
                 <div class="flex items-center space-x-2">
                     <button type="button" id="status-nav-btn" onclick="navigate('status')" class="relative w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs transition" style="display: none;" title="Order Status">
                         <i class="fa-solid fa-bell animate-bounce"></i>
@@ -63,28 +63,22 @@
                     <button type="button" onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-amber-400 flex items-center justify-center text-xs transition">
                         <i id="theme-icon" class="fa-solid fa-moon"></i>
                     </button>
-                    <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-red-500 text-white font-bold flex items-center justify-center text-xs shadow" style="display: none;">
+                    <button type="button" onclick="openSettings()" id="settings-nav-btn" class="w-8 h-8 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 font-black flex items-center justify-center text-xs shadow-sm" style="display: none;">
                         <span id="profile-initial">M</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Search Bar with Mic & AI Assistant Trigger -->
-            <div class="flex items-center space-x-2">
-                <div class="flex-1 flex items-center bg-neutral-100 dark:bg-neutral-800 px-3.5 py-2.5 rounded-2xl border border-neutral-200 dark:border-neutral-700 space-x-2.5">
-                    <i class="fa-solid fa-magnifying-glass text-red-500 text-sm"></i>
-                    <input type="text" id="menu-search" oninput="filterMenuSearch(this.value)" placeholder="Search 'burger', 'coffee', 'fries'..." class="w-full bg-transparent text-xs outline-none text-neutral-800 dark:text-neutral-100 placeholder-neutral-400">
-                    <i class="fa-solid fa-microphone text-neutral-400 text-xs cursor-pointer hover:text-red-500"></i>
-                </div>
-                <!-- AI Assistant Floating Pill Trigger -->
-                <button onclick="openAIAssistant()" class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/30 shrink-0 hover:scale-105 transition">
-                    <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
-                </button>
+            <!-- Search Bar -->
+            <div class="flex items-center bg-neutral-100 dark:bg-neutral-800 px-3.5 py-2.5 rounded-2xl border border-neutral-200 dark:border-neutral-700 space-x-2.5">
+                <i class="fa-solid fa-magnifying-glass text-red-500 text-sm"></i>
+                <input type="text" id="menu-search" oninput="filterMenuSearch(this.value)" placeholder="Search 'rolls', 'burger', 'coffee'..." class="w-full bg-transparent text-xs outline-none text-neutral-800 dark:text-neutral-100 placeholder-neutral-400">
+                <i class="fa-solid fa-microphone text-neutral-400 text-xs cursor-pointer hover:text-red-500"></i>
             </div>
         </header>
 
         <!-- Main Dynamic View Container -->
-        <main class="flex-1 overflow-y-auto relative flex flex-col bg-neutral-50/50 dark:bg-neutral-950">
+        <main class="flex-1 overflow-y-auto relative flex flex-col bg-neutral-50/50 dark:bg-neutral-950 pb-20">
 
             <!-- 1. AUTH SCREEN -->
             <div id="view-auth" class="p-6 space-y-6 my-auto">
@@ -135,18 +129,8 @@
                 </form>
             </div>
 
-            <!-- 2. PREMIUM MENU SCREEN -->
-            <div id="view-menu" class="p-4 space-y-4 pb-24" style="display: none;">
-                <!-- Zomato Promo Banner -->
-                <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 p-4 rounded-2xl text-white shadow-lg relative overflow-hidden flex justify-between items-center">
-                    <div class="space-y-1 z-10">
-                        <span class="bg-white/20 px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase">FREE DELIVERY</span>
-                        <h2 class="font-black text-lg">On Orders Above ₹199</h2>
-                        <p class="text-[11px] opacity-90">Freshly prepared at Malnad Canteen</p>
-                    </div>
-                    <i class="fa-solid fa-burger text-5xl opacity-20 absolute right-4"></i>
-                </div>
-
+            <!-- 2. MENU SCREEN -->
+            <div id="view-menu" class="p-4 space-y-4" style="display: none;">
                 <!-- Quick Category Pills -->
                 <div class="flex space-x-2 overflow-x-auto hide-scroll pb-1">
                     <button onclick="filterCategory('All')" class="px-4 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-sm shrink-0">All Items</button>
@@ -156,18 +140,16 @@
                     <button onclick="filterCategory('South Indian')" class="px-4 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-full shrink-0">South Indian</button>
                 </div>
 
-                <!-- Recommended Section Header -->
                 <div class="flex justify-between items-center pt-2">
                     <h3 class="font-extrabold text-base tracking-tight">Recommended For You</h3>
                     <span class="text-xs text-red-500 font-bold">See all</span>
                 </div>
 
-                <!-- Menu Cards Grid -->
                 <div id="menu-grid" class="grid grid-cols-1 gap-3.5"></div>
             </div>
 
             <!-- 3. CART SCREEN -->
-            <div id="view-cart" class="p-4 space-y-4 pb-24" style="display: none;">
+            <div id="view-cart" class="p-4 space-y-4" style="display: none;">
                 <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
                     <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-red-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
                     <h2 class="font-bold text-lg">Your Order Cart</h2>
@@ -201,7 +183,7 @@
             </div>
 
             <!-- 5. INVOICE DISPLAY SCREEN -->
-            <div id="view-invoice" class="p-4 space-y-4 text-center pb-24" style="display: none;">
+            <div id="view-invoice" class="p-4 space-y-4 text-center" style="display: none;">
                 <div class="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
@@ -217,7 +199,7 @@
             </div>
 
             <!-- 6. LIVE STATUS PAGE -->
-            <div id="view-status" class="p-5 space-y-6 pb-24" style="display: none;">
+            <div id="view-status" class="p-5 space-y-6" style="display: none;">
                 <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
                     <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-red-500"><i class="fa-solid fa-arrow-left"></i> Menu</button>
                     <h2 class="font-bold text-lg">Live Order Status</h2>
@@ -230,18 +212,42 @@
         </main>
 
         <!-- Floating Bottom Cart Bar -->
-        <div id="floating-cart-bar" class="absolute bottom-0 inset-x-0 p-4 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-2xl" style="display: none;">
+        <div id="floating-cart-bar" class="absolute bottom-16 inset-x-0 p-3 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-t border-neutral-100 dark:border-neutral-800 flex justify-between items-center z-20 shadow-xl" style="display: none;">
             <div>
                 <p class="text-[10px] text-neutral-400 font-medium">Cart Total</p>
-                <p id="bottom-cart-total" class="font-black text-red-500 text-base">₹0</p>
+                <p id="bottom-cart-total" class="font-black text-red-500 text-sm">₹0</p>
             </div>
-            <button type="button" onclick="navigate('cart')" class="px-6 py-2.5 bg-red-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-red-500/20 hover:bg-red-600 flex items-center space-x-2">
+            <button type="button" onclick="navigate('cart')" class="px-5 py-2 bg-red-500 text-white font-bold rounded-xl text-xs shadow-lg hover:bg-red-600 flex items-center space-x-1.5">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span>View Cart</span>
             </button>
         </div>
 
-        <!-- AI Food Assistant Modal (Zomato-Style) -->
+        <!-- Zomato Exact Bottom Navigation Bar -->
+        <nav class="absolute bottom-0 inset-x-0 h-14 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 flex justify-around items-center z-30 px-2">
+            <button onclick="navigate('menu')" class="flex flex-col items-center text-red-500 space-y-0.5">
+                <i class="fa-solid fa-utensils text-base"></i>
+                <span class="text-[10px] font-bold">Delivery</span>
+            </button>
+            <button onclick="alert('Dining feature coming soon!')" class="flex flex-col items-center text-neutral-400 hover:text-neutral-600 space-y-0.5">
+                <i class="fa-solid fa-chair text-base"></i>
+                <span class="text-[10px] font-medium">Dining</span>
+            </button>
+            <!-- Central Sparkle / AI Button exactly like video -->
+            <button onclick="openAIAssistant()" class="relative -top-3 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/40 hover:scale-105 transition">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+            </button>
+            <button onclick="navigate('status')" class="flex flex-col items-center text-neutral-400 hover:text-neutral-600 space-y-0.5">
+                <i class="fa-solid fa-clock-rotate-left text-base"></i>
+                <span class="text-[10px] font-medium">History</span>
+            </button>
+            <button onclick="openSettings()" class="flex flex-col items-center text-neutral-400 hover:text-neutral-600 space-y-0.5">
+                <i class="fa-solid fa-user text-base"></i>
+                <span class="text-[10px] font-medium">Profile</span>
+            </button>
+        </nav>
+
+        <!-- AI Food Assistant Modal -->
         <div id="ai-assistant-modal" class="absolute inset-0 bg-neutral-950/80 backdrop-blur-md z-50 flex flex-col justify-end p-4" style="display: none;">
             <div class="bg-white dark:bg-neutral-900 rounded-3xl p-6 space-y-4 border border-neutral-200 dark:border-neutral-800 shadow-2xl">
                 <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
@@ -495,7 +501,6 @@
                 bar.style.display = 'flex';
                 let total = list.reduce((s, i) => s + i.price, 0);
                 document.getElementById('bottom-cart-total').innerText = '₹' + total;
-                document.getElementById('badge-cart-count').innerText = list.length;
             } else { bar.style.display = 'none'; }
         }
 
@@ -731,8 +736,8 @@
         function closeAIAssistant() { document.getElementById('ai-assistant-modal').style.display = 'none'; }
         
         function addAIComboToCart() {
-            cartMap[1] = 1; // Burger
-            cartMap[3] = 1; // Cold Coffee
+            cartMap[1] = 1;
+            cartMap[3] = 1;
             closeAIAssistant();
             navigate('cart');
         }
