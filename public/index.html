@@ -39,22 +39,16 @@
             </div>
         </div>
 
-        <!-- Zomato-Style Header (Location & Profile Pill) -->
+        <!-- Clean Header (No Address) -->
         <header class="px-4 py-3 border-b border-neutral-100 dark:border-neutral-800 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md z-30 shrink-0 space-y-2.5">
             <div class="flex justify-between items-center">
-                <!-- Location -->
-                <div class="flex items-center space-x-1.5 cursor-pointer">
-                    <i class="fa-solid fa-location-dot text-red-500 text-sm"></i>
-                    <div>
-                        <div class="flex items-center space-x-1">
-                            <span class="text-xs font-black tracking-tight text-neutral-900 dark:text-neutral-100">Tippu Nagar</span>
-                            <i class="fa-solid fa-chevron-down text-[9px] text-neutral-400"></i>
-                        </div>
-                        <p class="text-[9px] text-neutral-400 leading-none">Hassan, Karnataka, India</p>
+                <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 rounded-lg bg-red-500 text-white flex items-center justify-center font-black text-xs">
+                        <i class="fa-solid fa-burger"></i>
                     </div>
+                    <h1 class="text-sm font-black tracking-tight text-red-500">BYTEBITES</h1>
                 </div>
 
-                <!-- Right Action Buttons (Profile Name Pill & Bell & Theme) -->
                 <div class="flex items-center space-x-2">
                     <button type="button" id="status-nav-btn" onclick="navigate('status')" class="relative w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs transition" style="display: none;" title="Order Status">
                         <i class="fa-solid fa-bell animate-bounce"></i>
@@ -131,7 +125,6 @@
 
             <!-- 2. MENU SCREEN -->
             <div id="view-menu" class="p-4 space-y-4" style="display: none;">
-                <!-- Quick Category Pills -->
                 <div class="flex space-x-2 overflow-x-auto hide-scroll pb-1">
                     <button onclick="filterCategory('All')" class="px-4 py-1.5 bg-red-500 text-white text-xs font-bold rounded-full shadow-sm shrink-0">All Items</button>
                     <button onclick="filterCategory('Burger')" class="px-4 py-1.5 bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-full shrink-0">Burgers</button>
@@ -209,6 +202,60 @@
                 </div>
             </div>
 
+            <!-- 7. SEPARATE AI ASSISTANT PAGE (Zomato Video Style with Swipe Feed) -->
+            <div id="view-ai" class="p-4 space-y-5" style="display: none;">
+                <div class="flex items-center space-x-3 border-b pb-3 dark:border-neutral-800">
+                    <button type="button" onclick="navigate('menu')" class="text-sm font-bold text-purple-600"><i class="fa-solid fa-arrow-left"></i> Menu</button>
+                    <h2 class="font-bold text-lg flex items-center"><i class="fa-solid fa-wand-magic-sparkles text-purple-600 mr-2"></i> ByteBites AI Feed</h2>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 id="ai-greeting-title" class="text-xl font-black text-neutral-900 dark:text-neutral-100">Hi Mohammed!</h3>
+                    <p class="text-xs text-neutral-500">What do you feel like eating?</p>
+                </div>
+
+                <!-- Swipeable / Scrollable AI Feed Cards -->
+                <div class="space-y-4 pb-12">
+                    <!-- AI Card 1 -->
+                    <div class="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden space-y-3 p-4">
+                        <div class="flex justify-between items-center text-xs text-neutral-400 font-semibold">
+                            <span>🔥 Your Perfect Dinner Match</span>
+                            <span>15 mins</span>
+                        </div>
+                        <div class="rounded-2xl overflow-hidden h-40 bg-neutral-100 dark:bg-neutral-800 relative">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-black text-sm">The Ultimate ByteBite Burger & Cold Coffee Combo</h4>
+                            <p class="text-[11px] text-neutral-400">1 x Burger (₹150) + 1 x Cold Coffee (₹90)</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t dark:border-neutral-800">
+                            <span class="font-black text-base text-red-500">Total ₹240</span>
+                            <button onclick="addAIComboToCart(1, 3)" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-black text-xs rounded-2xl shadow-lg shadow-purple-500/30 hover:scale-105 transition">SWIPE TO ORDER</button>
+                        </div>
+                    </div>
+
+                    <!-- AI Card 2 -->
+                    <div class="bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 shadow-xl overflow-hidden space-y-3 p-4">
+                        <div class="flex justify-between items-center text-xs text-neutral-400 font-semibold">
+                            <span>⚡ Quick Snack Attack Match</span>
+                            <span>10 mins</span>
+                        </div>
+                        <div class="rounded-2xl overflow-hidden h-40 bg-neutral-100 dark:bg-neutral-800 relative">
+                            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-black text-sm">Crispy Peri-Peri Fries & Extra Cheese</h4>
+                            <p class="text-[11px] text-neutral-400">1 x Peri-Peri Fries (₹80) + 1 x Cheese Slice (₹30)</p>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t dark:border-neutral-800">
+                            <span class="font-black text-base text-red-500">Total ₹110</span>
+                            <button onclick="addAIComboToCart(2, 4)" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-black text-xs rounded-2xl shadow-lg shadow-purple-500/30 hover:scale-105 transition">SWIPE TO ORDER</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
         <!-- Floating Bottom Cart Bar -->
@@ -233,8 +280,8 @@
                 <i class="fa-solid fa-chair text-base"></i>
                 <span class="text-[10px] font-medium">Dining</span>
             </button>
-            <!-- Central Sparkle / AI Button exactly like video -->
-            <button onclick="openAIAssistant()" class="relative -top-3 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/40 hover:scale-105 transition">
+            <!-- Central Sparkle / AI Button -> Opens Separate AI Page -->
+            <button onclick="openAIPage()" class="relative -top-3 w-12 h-12 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-purple-500/40 hover:scale-105 transition">
                 <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
             </button>
             <button onclick="navigate('status')" class="flex flex-col items-center text-neutral-400 hover:text-neutral-600 space-y-0.5">
@@ -246,29 +293,6 @@
                 <span class="text-[10px] font-medium">Profile</span>
             </button>
         </nav>
-
-        <!-- AI Food Assistant Modal -->
-        <div id="ai-assistant-modal" class="absolute inset-0 bg-neutral-950/80 backdrop-blur-md z-50 flex flex-col justify-end p-4" style="display: none;">
-            <div class="bg-white dark:bg-neutral-900 rounded-3xl p-6 space-y-4 border border-neutral-200 dark:border-neutral-800 shadow-2xl">
-                <div class="flex justify-between items-center border-b pb-3 dark:border-neutral-800">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center text-xs">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        </div>
-                        <h3 class="font-black text-base">ByteBites AI Assistant</h3>
-                    </div>
-                    <button onclick="closeAIAssistant()" class="w-7 h-7 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="space-y-2">
-                    <p class="text-xs text-neutral-500 font-medium">Hi Mohammed! What do you feel like eating today?</p>
-                    <div class="p-3 bg-purple-50 dark:bg-purple-950/30 rounded-2xl border border-purple-200/50 dark:border-purple-800/50 space-y-2">
-                        <p class="text-[11px] font-bold text-purple-600 dark:text-purple-400">💡 AI Recommendation</p>
-                        <p id="ai-recommendation-text" class="text-xs font-semibold">The Ultimate ByteBite Burger + Classic Cold Coffee (Combo)</p>
-                    </div>
-                </div>
-                <button onclick="addAIComboToCart()" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-purple-500/30">Swipe to Order Combo</button>
-            </div>
-        </div>
 
         <!-- Settings Modal Drawer -->
         <div id="settings-modal" class="absolute inset-0 bg-neutral-950/70 z-50 flex flex-col justify-end backdrop-blur-sm" style="display: none;">
@@ -6520,16 +6544,27 @@
             document.getElementById('settings-nav-btn').style.display = 'none';
             document.getElementById('status-nav-btn').style.display = 'none';
             document.getElementById('view-auth').style.display = 'block';
-            ['view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-status'].forEach(id => document.getElementById(id).style.display = 'none');
+            ['view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-status', 'view-ai'].forEach(id => document.getElementById(id).style.display = 'none');
         }
 
         function navigate(viewName) {
             currentView = viewName;
-            ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-status'].forEach(id => document.getElementById(id).style.display = 'none');
+            ['view-auth', 'view-menu', 'view-cart', 'view-processing', 'view-invoice', 'view-status', 'view-ai'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById('view-' + viewName).style.display = 'block';
             if (viewName === 'menu') { renderMenu(); checkCartBar(); }
             else if (viewName === 'cart') { renderCartView(); document.getElementById('floating-cart-bar').style.display = 'none'; }
             else if (viewName === 'status') { renderLiveStatusTimeline(); document.getElementById('floating-cart-bar').style.display = 'none'; }
+            else if (viewName === 'ai') { document.getElementById('floating-cart-bar').style.display = 'none'; }
+        }
+
+        function openAIPage() {
+            if(activeUser) {
+                // Extract first name dynamically from full name
+                const firstName = activeUser.name.split(' ')[0];
+                const capitalized = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+                document.getElementById('ai-greeting-title').innerText = `Hi ${capitalized}!`;
+            }
+            navigate('ai');
         }
 
         function filterCategory(cat) {
@@ -6836,13 +6871,9 @@
             }).join('');
         }
 
-        function openAIAssistant() { document.getElementById('ai-assistant-modal').style.display = 'flex'; }
-        function closeAIAssistant() { document.getElementById('ai-assistant-modal').style.display = 'none'; }
-        
-        function addAIComboToCart() {
-            cartMap[1] = 1;
-            cartMap[3] = 1;
-            closeAIAssistant();
+        function addAIComboToCart(id1, id2) {
+            cartMap[id1] = 1;
+            cartMap[id2] = 1;
             navigate('cart');
         }
 
